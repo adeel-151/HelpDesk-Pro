@@ -53,23 +53,29 @@ export const createTicket = async (ticketData, customerId) => {
 };
 
 /**
- * Fetch tickets for a specific user (customer) or all tickets (agent/admin)
+ * Fetch tickets for a specific user (customer) or queues (agent/admin)
  */
-export const getTickets = async (userRole, userId) => {
+export const getTickets = async (userRole, userId, queueType = "all") => {
   try {
     let q;
+    const ticketsRef = collection(db, TICKETS_COLLECTION);
+    
     if (userRole === "customer") {
       q = query(
-        collection(db, TICKETS_COLLECTION),
+        ticketsRef,
         where("customerId", "==", userId),
         orderBy("createdAt", "desc")
       );
     } else {
-      // Agents and Admins see all tickets for now
-      q = query(
-        collection(db, TICKETS_COLLECTION),
-        orderBy("createdAt", "desc")
-      );
+      // Agents and Admins
+      if (queueType === "unassigned") {
+        q = query(ticketsRef, where("assignedAgentId", "==", null), orderBy("createdAt", "desc"));
+      } else if (queueType === "mine") {
+        q = query(ticketsRef, where("assignedAgentId", "==", userId), orderBy("createdAt", "desc"));
+      } else {
+        // all
+        q = query(ticketsRef, orderBy("createdAt", "desc"));
+      }
     }
 
     const querySnapshot = await getDocs(q);
@@ -137,6 +143,21 @@ export const addTicketMessage = async (ticketId, senderId, senderRole, body, isI
     
   } catch (error) {
     console.error("Error adding message:", error);
+    throw error;
+  }
+};
+
+/**
+ * Assign ticket to agent
+ */
+export const assignTicket = async (ticketId, agentId) => {
+  try {
+    await updateTicket(ticketId, {
+      assignedAgentId: agentId,
+      status: "open"
+    });
+  } catch (error) {
+    console.error("Error assigning ticket:", error);
     throw error;
   }
 };

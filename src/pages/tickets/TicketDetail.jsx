@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "@/features/auth/AuthProvider";
-import { getTicketById, addTicketMessage } from "@/features/tickets/services/ticketService";
+import { getTicketById, addTicketMessage, assignTicket, updateTicket } from "@/features/tickets/services/ticketService";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import { db } from "@/lib/firebase/config";
 import { format } from "date-fns";
@@ -11,9 +11,16 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuTrigger 
+} from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
-import { ArrowLeft, Send } from "lucide-react";
+import { ArrowLeft, Send, ChevronDown } from "lucide-react";
 
 export default function TicketDetail() {
   const { ticketId } = useParams();
@@ -24,6 +31,7 @@ export default function TicketDetail() {
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [replyBody, setReplyBody] = useState("");
+  const [isInternal, setIsInternal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
@@ -59,14 +67,34 @@ export default function TicketDetail() {
 
     setIsSubmitting(true);
     try {
-      // Agents can optionally send internal notes, but keeping it simple for MVP: all public
-      await addTicketMessage(ticketId, user.uid, role, replyBody, false);
+      await addTicketMessage(ticketId, user.uid, role, replyBody, isInternal);
       setReplyBody("");
-      toast.success("Reply sent");
+      setIsInternal(false);
+      toast.success(isInternal ? "Internal note added" : "Reply sent");
     } catch (error) {
       toast.error("Failed to send reply");
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleClaimTicket = async () => {
+    try {
+      await assignTicket(ticketId, user.uid);
+      setTicket({ ...ticket, assignedAgentId: user.uid, status: "open" });
+      toast.success("Ticket claimed");
+    } catch (error) {
+      toast.error("Failed to claim ticket");
+    }
+  };
+
+  const handleStatusChange = async (newStatus) => {
+    try {
+      await updateTicket(ticketId, { status: newStatus });
+      setTicket({ ...ticket, status: newStatus });
+      toast.success(`Status changed to ${newStatus}`);
+    } catch (error) {
+      toast.error("Failed to change status");
     }
   };
 
@@ -98,9 +126,30 @@ export default function TicketDetail() {
                 <CardDescription>Ticket {ticket.ticketNumber}</CardDescription>
                 <CardTitle className="text-2xl mt-1">{ticket.subject}</CardTitle>
               </div>
-              <div className="flex gap-2">
-                <Badge variant="outline" className="capitalize">{ticket.status}</Badge>
+              <div className="flex gap-2 items-center">
+                {role !== "customer" && (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="outline" size="sm" className="h-7 text-xs">
+                        <span className="capitalize">{ticket.status}</span>
+                        <ChevronDown className="ml-1 h-3 w-3" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuItem onClick={() => handleStatusChange("open")}>Open</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleStatusChange("pending customer")}>Pending Customer</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleStatusChange("resolved")}>Resolved</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleStatusChange("closed")}>Closed</DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                )}
+                {role === "customer" && (
+                  <Badge variant="outline" className="capitalize">{ticket.status}</Badge>
+                )}
                 <Badge variant="secondary" className="capitalize">{ticket.priority}</Badge>
+                {role !== "customer" && !ticket.assignedAgentId && (
+                  <Button size="sm" className="h-7 text-xs" onClick={handleClaimTicket}>Claim</Button>
+                )}
               </div>
             </div>
           </CardHeader>
@@ -128,39 +177,39 @@ export default function TicketDetail() {
           </CardContent>
         </Card>
 
-        {/* Messages Timeline */}
-        <div className="space-y-4">
-          <h3 className="text-lg font-semibold">Conversation</h3>
-          
-          <div className="space-y-4 mb-8">
-            {messages.length === 0 ? (
-              <p className="text-center text-muted-foreground py-8 italic">No replies yet.</p>
-            ) : (
-              messages.map((msg) => {
-                const isCustomer = msg.senderRole === "customer";
-                return (
-                  <Card key={msg.id} className={`${isCustomer ? 'bg-background' : 'bg-primary/5 border-primary/20'}`}>
-                    <CardHeader className="py-3 px-4 flex flex-row items-center justify-between space-y-0 border-b">
-                      <div className="flex items-center gap-2">
-                        <span className="font-semibold text-sm capitalize">
-                          {msg.senderRole}
+          {/* Messages Timeline */}
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold">Conversation</h3>
+            
+            <div className="space-y-4 mb-8">
+              {messages.length === 0 ? (
+                <p className="text-center text-muted-foreground py-8 italic">No replies yet.</p>
+              ) : (
+                messages.filter(msg => msg.visibility !== 'internal' || role !== 'customer').map((msg) => {
+                  const isCustomer = msg.senderRole === "customer";
+                  return (
+                    <Card key={msg.id} className={`${isCustomer ? 'bg-background' : 'bg-primary/5 border-primary/20'}`}>
+                      <CardHeader className="py-3 px-4 flex flex-row items-center justify-between space-y-0 border-b">
+                        <div className="flex items-center gap-2">
+                          <span className="font-semibold text-sm capitalize">
+                            {msg.senderRole}
+                          </span>
+                          {msg.visibility === "internal" && (
+                            <Badge variant="destructive" className="text-[10px] h-4">Internal Note</Badge>
+                          )}
+                        </div>
+                        <span className="text-xs text-muted-foreground">
+                          {msg.createdAt?.toDate() ? format(msg.createdAt.toDate(), 'MMM d, h:mm a') : "Just now"}
                         </span>
-                        {msg.visibility === "internal" && (
-                          <Badge variant="destructive" className="text-[10px] h-4">Internal Note</Badge>
-                        )}
-                      </div>
-                      <span className="text-xs text-muted-foreground">
-                        {msg.createdAt?.toDate() ? format(msg.createdAt.toDate(), 'MMM d, h:mm a') : "Just now"}
-                      </span>
-                    </CardHeader>
-                    <CardContent className="py-4 px-4">
-                      <p className="whitespace-pre-wrap text-sm">{msg.body}</p>
-                    </CardContent>
-                  </Card>
-                );
-              })
-            )}
-          </div>
+                      </CardHeader>
+                      <CardContent className="py-4 px-4">
+                        <p className="whitespace-pre-wrap text-sm">{msg.body}</p>
+                      </CardContent>
+                    </Card>
+                  );
+                })
+              )}
+            </div>
 
           {/* Reply Composer */}
           <Card>
@@ -177,14 +226,28 @@ export default function TicketDetail() {
                   disabled={ticket.status === 'closed'}
                 />
               </CardContent>
-              <CardFooter className="flex justify-between border-t py-4">
-                <p className="text-xs text-muted-foreground">
-                  {ticket.status === 'closed' ? "This ticket is closed." : "Replies are visible to the customer."}
-                </p>
+              <CardFooter className="flex justify-between items-center border-t py-4">
+                <div className="flex items-center space-x-2">
+                  {role !== "customer" && (
+                    <div className="flex items-center space-x-2 mr-4">
+                      <Checkbox 
+                        id="internal-note" 
+                        checked={isInternal}
+                        onCheckedChange={setIsInternal}
+                      />
+                      <Label htmlFor="internal-note" className="text-sm cursor-pointer">
+                        Internal Note
+                      </Label>
+                    </div>
+                  )}
+                  <p className="text-xs text-muted-foreground">
+                    {ticket.status === 'closed' ? "This ticket is closed." : "Replies are visible to the customer."}
+                  </p>
+                </div>
                 <Button type="submit" disabled={isSubmitting || !replyBody.trim() || ticket.status === 'closed'}>
                   {isSubmitting ? "Sending..." : (
                     <>
-                      <Send className="mr-2 h-4 w-4" /> Send Reply
+                      <Send className="mr-2 h-4 w-4" /> {isInternal ? "Add Note" : "Send Reply"}
                     </>
                   )}
                 </Button>
