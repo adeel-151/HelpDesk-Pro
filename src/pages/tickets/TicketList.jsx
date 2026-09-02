@@ -10,13 +10,20 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { PlusCircle } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { PlusCircle, Search, FilterX } from "lucide-react";
 
 export default function TicketList() {
   const { user, role } = useAuth();
   const [tickets, setTickets] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("all");
+  
+  // Search & Filter State
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [priorityFilter, setPriorityFilter] = useState("all");
 
   useEffect(() => {
     const fetchTickets = async () => {
@@ -61,6 +68,25 @@ export default function TicketList() {
     }
   };
 
+  const filteredTickets = tickets.filter(t => {
+    const matchesSearch = 
+      t.title?.toLowerCase().includes(searchQuery.toLowerCase()) || 
+      t.subject?.toLowerCase().includes(searchQuery.toLowerCase()) || 
+      t.ticketNumber?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      t.description?.toLowerCase().includes(searchQuery.toLowerCase());
+      
+    const matchesStatus = statusFilter === "all" || t.status === statusFilter;
+    const matchesPriority = priorityFilter === "all" || t.priority === priorityFilter;
+
+    return matchesSearch && matchesStatus && matchesPriority;
+  });
+
+  const clearFilters = () => {
+    setSearchQuery("");
+    setStatusFilter("all");
+    setPriorityFilter("all");
+  };
+
   const TicketTable = () => (
     <Card>
       <CardHeader>
@@ -76,13 +102,27 @@ export default function TicketList() {
             <Skeleton className="h-12 w-full" />
             <Skeleton className="h-12 w-full" />
           </div>
-        ) : tickets.length === 0 ? (
-          <div className="text-center py-12 text-muted-foreground">
-            <p>No tickets found.</p>
-            {role === "customer" && (
-              <Link to="/tickets/new" className="text-primary hover:underline mt-2 inline-block">
-                Create your first ticket
-              </Link>
+        ) : filteredTickets.length === 0 ? (
+          <div className="text-center py-12 text-muted-foreground border border-dashed rounded-lg">
+            <div className="flex justify-center mb-4">
+              <Search className="h-10 w-10 text-muted-foreground/30" />
+            </div>
+            {tickets.length === 0 ? (
+              <>
+                <p>No tickets found in this view.</p>
+                {role === "customer" && (
+                  <Link to="/tickets/new" className="text-primary hover:underline mt-2 inline-block">
+                    Create your first ticket
+                  </Link>
+                )}
+              </>
+            ) : (
+              <>
+                <p>No tickets match your search criteria.</p>
+                <Button variant="link" onClick={clearFilters} className="mt-2">
+                  Clear Filters
+                </Button>
+              </>
             )}
           </div>
         ) : (
@@ -97,7 +137,7 @@ export default function TicketList() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {tickets.map((ticket) => (
+              {filteredTickets.map((ticket) => (
                 <TableRow key={ticket.id}>
                   <TableCell className="font-medium">
                     <Link to={`/tickets/${ticket.id}`} className="text-primary hover:underline">
@@ -135,6 +175,52 @@ export default function TicketList() {
               </Button>
             </Link>
           )}
+        </div>
+
+        <div className="flex flex-col md:flex-row gap-4 bg-background p-4 rounded-lg shadow-sm border">
+          <div className="relative flex-1">
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Search by ticket number, subject, or description..."
+              className="pl-9"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+          <div className="flex items-center gap-2">
+            <Select value={statusFilter} onValueChange={setStatusFilter}>
+              <SelectTrigger className="w-[140px]">
+                <SelectValue placeholder="Status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Statuses</SelectItem>
+                <SelectItem value="new">New</SelectItem>
+                <SelectItem value="open">Open</SelectItem>
+                <SelectItem value="pending customer">Pending Customer</SelectItem>
+                <SelectItem value="resolved">Resolved</SelectItem>
+                <SelectItem value="closed">Closed</SelectItem>
+              </SelectContent>
+            </Select>
+
+            <Select value={priorityFilter} onValueChange={setPriorityFilter}>
+              <SelectTrigger className="w-[140px]">
+                <SelectValue placeholder="Priority" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Priorities</SelectItem>
+                <SelectItem value="low">Low</SelectItem>
+                <SelectItem value="medium">Medium</SelectItem>
+                <SelectItem value="high">High</SelectItem>
+                <SelectItem value="urgent">Urgent</SelectItem>
+              </SelectContent>
+            </Select>
+            
+            {(searchQuery || statusFilter !== "all" || priorityFilter !== "all") && (
+              <Button variant="ghost" size="icon" onClick={clearFilters} title="Clear Filters">
+                <FilterX className="h-4 w-4 text-muted-foreground" />
+              </Button>
+            )}
+          </div>
         </div>
 
         {role === "customer" ? (
