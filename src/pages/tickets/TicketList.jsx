@@ -68,6 +68,21 @@ export default function TicketList() {
     }
   };
 
+  const getSLAIndicator = (slaDate) => {
+    if (!slaDate) return <span className="text-muted-foreground">-</span>;
+    const now = new Date();
+    const date = slaDate.toDate();
+    const diffHours = (date - now) / (1000 * 60 * 60);
+    
+    if (diffHours < 0) {
+      return <span className="text-red-500 font-bold flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span> Breached</span>;
+    }
+    if (diffHours < 24) {
+      return <span className="text-amber-500 font-medium">Due in {Math.floor(diffHours)}h</span>;
+    }
+    return <span className="text-emerald-500">{Math.floor(diffHours/24)}d left</span>;
+  };
+
   const filteredTickets = tickets.filter(t => {
     const matchesSearch = 
       t.title?.toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -133,6 +148,7 @@ export default function TicketList() {
                 <TableHead>Subject</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Priority</TableHead>
+                <TableHead>SLA</TableHead>
                 <TableHead className="text-right">Created</TableHead>
               </TableRow>
             </TableHeader>
@@ -147,6 +163,7 @@ export default function TicketList() {
                   <TableCell>{ticket.subject}</TableCell>
                   <TableCell>{getStatusBadge(ticket.status)}</TableCell>
                   <TableCell>{getPriorityBadge(ticket.priority)}</TableCell>
+                  <TableCell className="text-xs">{getSLAIndicator(ticket.slaDueDate)}</TableCell>
                   <TableCell className="text-right text-muted-foreground">
                     {ticket.createdAt?.toDate() ? format(ticket.createdAt.toDate(), 'MMM d, yyyy') : "Just now"}
                   </TableCell>

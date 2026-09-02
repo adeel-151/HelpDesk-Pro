@@ -30,20 +30,33 @@ const generateTicketNumber = () => {
 export const createTicket = async (ticketData, customerId, attachments = []) => {
   try {
     const ticketRef = doc(collection(db, TICKETS_COLLECTION));
+    const ticketNumber = `TKT-${Math.floor(Math.random() * 1000000).toString().padStart(6, '0')}`;
     
+    // Calculate SLA Due Date
+    const now = new Date();
+    let hoursToAdd = 72; // default low
+    const priority = ticketData.priority || "normal";
+    
+    if (priority === 'urgent') hoursToAdd = 2;
+    else if (priority === 'high') hoursToAdd = 24;
+    else if (priority === 'medium') hoursToAdd = 48;
+    
+    const slaDueDate = new Date(now.getTime() + hoursToAdd * 60 * 60 * 1000);
+
     const newTicket = {
       id: ticketRef.id,
-      ticketNumber: generateTicketNumber(),
+      ticketNumber,
       subject: ticketData.subject,
       description: ticketData.description,
       categoryId: ticketData.categoryId,
-      priority: ticketData.priority || "normal",
+      priority: priority,
       status: "new",
       customerId: customerId,
       assignedAgentId: null,
       attachments: attachments,
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
+      slaDueDate: slaDueDate
     };
 
     await setDoc(ticketRef, newTicket);

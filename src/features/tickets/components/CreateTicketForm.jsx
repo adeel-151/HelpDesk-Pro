@@ -141,15 +141,18 @@ export function CreateTicketForm() {
               name="description"
               render={({ field }) => (
                 <FormItem>
+                <FormItem>
                   <FormLabel>Description</FormLabel>
                   <FormControl>
                     <Textarea 
                       placeholder="Please describe your issue in detail..." 
-                      className="min-h-[120px]"
+                      className="min-h-[150px] font-mono text-sm"
                       {...field} 
                     />
                   </FormControl>
+                  <p className="text-xs text-muted-foreground mt-1">Markdown formatting is supported (e.g. **bold**, *italics*, - lists)</p>
                   <FormMessage />
+                </FormItem>
                 </FormItem>
               )}
             />

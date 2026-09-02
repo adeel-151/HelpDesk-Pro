@@ -12,6 +12,8 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Textarea } from "@/components/ui/textarea";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
@@ -182,8 +184,13 @@ export default function TicketDetail() {
               </div>
             </div>
             
-            <div className="prose prose-sm max-w-none">
-              <p className="whitespace-pre-wrap">{ticket.description}</p>
+            <CardContent className="pt-6">
+              <div className="prose prose-sm dark:prose-invert max-w-none break-words">
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                  {ticket.description}
+                </ReactMarkdown>
+              </div>
+              
               {ticket.attachments && ticket.attachments.length > 0 && (
                 <div className="mt-4 pt-4 border-t">
                   <p className="font-semibold mb-2">Attachments:</p>
@@ -198,7 +205,15 @@ export default function TicketDetail() {
                   </ul>
                 </div>
               )}
-            </div>
+            </CardContent>
+            {ticket.slaDueDate && (
+              <div className="mt-4 pt-4 border-t flex items-center justify-between">
+                <span className="text-sm font-medium">SLA Deadline:</span>
+                <span className={`text-sm font-medium ${new Date(ticket.slaDueDate.toDate()) < new Date() ? 'text-red-600' : 'text-emerald-600'}`}>
+                  {format(ticket.slaDueDate.toDate(), 'PPP p')}
+                </span>
+              </div>
+            )}
           </CardContent>
         </Card>
 
