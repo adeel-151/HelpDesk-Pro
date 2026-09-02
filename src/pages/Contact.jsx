@@ -37,6 +37,9 @@ export default function Contact() {
             <Link to="/pricing">
               <Button variant="ghost" className="hidden sm:flex">Pricing</Button>
             </Link>
+            <Link to="/contact">
+              <Button variant="ghost" className="hidden sm:flex text-primary bg-primary/5 font-semibold">Contact</Button>
+            </Link>
             <Link to="/login">
               <Button variant="outline" className="hidden sm:flex mr-2">Log in</Button>
             </Link>

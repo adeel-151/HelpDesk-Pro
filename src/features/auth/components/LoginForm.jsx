@@ -42,12 +42,12 @@ export function LoginForm() {
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto">
-      <CardHeader>
+    <Card className="w-full max-w-md mx-auto border-0 shadow-none bg-transparent">
+      <CardHeader className="px-0">
         <CardTitle className="text-2xl font-bold">Sign In</CardTitle>
         <CardDescription>Enter your email and password to access your account.</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="px-0">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
@@ -82,7 +82,7 @@ export function LoginForm() {
           </form>
         </Form>
       </CardContent>
-      <CardFooter className="flex flex-col space-y-2 text-sm text-center">
+      <CardFooter className="flex flex-col space-y-2 text-sm text-center px-0">
         <Link to="/forgot-password" className="text-primary hover:underline">
           Forgot your password?
         </Link>

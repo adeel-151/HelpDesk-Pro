@@ -23,6 +23,9 @@ export default function Landing() {
             <Link to="/pricing">
               <Button variant="ghost" className="hidden sm:flex">Pricing</Button>
             </Link>
+            <Link to="/contact">
+              <Button variant="ghost" className="hidden sm:flex">Contact</Button>
+            </Link>
             <Link to="/login">
               <Button variant="outline" className="hidden sm:flex mr-2">Log in</Button>
             </Link>

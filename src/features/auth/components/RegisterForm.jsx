@@ -49,12 +49,12 @@ export function RegisterForm() {
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto">
-      <CardHeader>
+    <Card className="w-full max-w-md mx-auto border-0 shadow-none bg-transparent">
+      <CardHeader className="px-0">
         <CardTitle className="text-2xl font-bold">Create an account</CardTitle>
-        <CardDescription>Enter your details below to create your account.</CardDescription>
+        <CardDescription>Enter your details to create an account.</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="px-0">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
@@ -115,7 +115,7 @@ export function RegisterForm() {
           </form>
         </Form>
       </CardContent>
-      <CardFooter className="flex justify-center text-sm">
+      <CardFooter className="flex flex-col space-y-2 text-sm text-center px-0">
         <div className="text-muted-foreground">
           Already have an account?{" "}
           <Link to="/login" className="text-primary hover:underline font-medium">
