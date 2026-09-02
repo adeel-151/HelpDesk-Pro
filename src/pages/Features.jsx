@@ -274,7 +274,7 @@ export default function Features() {
             <ul className="space-y-4 text-muted-foreground">
               <li><a href="#" className="hover:text-primary transition-colors">About Us</a></li>
               <li><a href="#" className="hover:text-primary transition-colors">Careers</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Contact Support</a></li>
+              <li><Link to="/contact" className="hover:text-primary transition-colors">Contact Support</Link></li>
               <li><a href="#" className="hover:text-primary transition-colors">Partners</a></li>
             </ul>
           </div>
