@@ -42,7 +42,7 @@ export default function Landing() {
             <div className="absolute inset-0 bg-slate-950/70 dark:bg-slate-950/80 backdrop-blur-[2px]"></div>
           </div>
           
-          <div className="container mx-auto px-4 relative z-10 text-center animate-in fade-in zoom-in-95 duration-1000">
+          <div className="container mx-auto px-4 relative z-10 text-center animate-in fade-in zoom-in-95 duration-1000 -mt-24">
             
             
             <h1 className="text-5xl md:text-6xl lg:text-8xl font-extrabold tracking-tight mb-8 text-white drop-shadow-2xl leading-[1.1]">

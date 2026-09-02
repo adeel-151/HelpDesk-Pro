@@ -18,6 +18,15 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [minLoadingTimePassed, setMinLoadingTimePassed] = useState(false);
+
+  // Ensure loader shows for at least 1 second for a smooth experience
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMinLoadingTimePassed(true);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -44,9 +53,11 @@ export const AuthProvider = ({ children }) => {
     role: profile?.role || null,
   };
 
+  const isAppLoading = loading || !minLoadingTimePassed;
+
   return (
     <AuthContext.Provider value={value}>
-      {loading ? <InitialLoader /> : children}
+      {isAppLoading ? <InitialLoader /> : children}
     </AuthContext.Provider>
   );
 };
