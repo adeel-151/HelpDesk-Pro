@@ -1,8 +1,15 @@
 import { LoginForm } from "@/features/auth/components/LoginForm";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { LifeBuoy, CheckCircle } from "lucide-react";
+import { useAuth } from "@/features/auth/AuthProvider";
 
 export default function Login() {
+  const { user, loading } = useAuth();
+
+  if (!loading && user) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
   return (
     <div className="min-h-screen flex w-full font-sans selection:bg-primary/20 selection:text-primary">
       {/* Form Side */}

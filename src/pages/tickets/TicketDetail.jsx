@@ -113,7 +113,7 @@ export default function TicketDetail() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-muted/20 p-8 max-w-4xl mx-auto space-y-6">
+      <div className="w-full h-full p-4 sm:p-8 animate-in fade-in duration-500 flex justify-center items-center">
         <Skeleton className="h-8 w-24" />
         <Skeleton className="h-32 w-full" />
         <Skeleton className="h-64 w-full" />
@@ -124,7 +124,7 @@ export default function TicketDetail() {
   if (!ticket) return null;
 
   return (
-    <div className="min-h-screen bg-muted/20 p-4 md:p-8">
+    <div className="w-full h-full p-4 sm:p-8 animate-in fade-in duration-500">
       <div className="max-w-4xl mx-auto space-y-6">
         
         <Button variant="ghost" onClick={() => navigate("/tickets")} className="mb-4">

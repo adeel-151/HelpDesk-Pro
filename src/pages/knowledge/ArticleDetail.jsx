@@ -45,7 +45,7 @@ export default function ArticleDetail() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background p-8 max-w-3xl mx-auto space-y-6">
+      <div className="w-full h-full p-4 sm:p-8 animate-in fade-in duration-500 flex justify-center items-center">
         <Skeleton className="h-8 w-24" />
         <Skeleton className="h-12 w-3/4" />
         <Skeleton className="h-64 w-full" />
@@ -56,7 +56,7 @@ export default function ArticleDetail() {
   if (!article) return null;
 
   return (
-    <div className="min-h-screen bg-background p-8">
+    <div className="w-full h-full p-4 sm:p-8 animate-in fade-in duration-500 bg-background/50">
       <div className="max-w-3xl mx-auto space-y-8">
         
         <div className="flex justify-between items-center">

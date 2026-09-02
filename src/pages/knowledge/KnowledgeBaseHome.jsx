@@ -35,7 +35,7 @@ export default function KnowledgeBaseHome() {
   );
 
   return (
-    <div className="min-h-screen bg-muted/20 p-8">
+    <div className="w-full h-full p-4 sm:p-8 animate-in fade-in duration-500">
       <div className="max-w-4xl mx-auto space-y-8">
         
         <div className="text-center space-y-4 py-8">
