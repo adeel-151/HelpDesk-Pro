@@ -1,7 +1,7 @@
 import { useAuth } from "@/features/auth/AuthProvider";
 import { logoutUser } from "@/features/auth/services/authService";
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { toast } from "sonner";
 
 export default function Dashboard() {
@@ -42,14 +42,17 @@ export default function Dashboard() {
           <div className="bg-card p-6 rounded-lg border shadow-sm">
             <h2 className="text-lg font-semibold mb-4">Role-Specific Actions</h2>
             {role === "customer" && (
-              <p className="text-muted-foreground text-sm">You can create and manage your own tickets.</p>
+              <p className="text-muted-foreground text-sm mb-4">You can create and manage your own tickets.</p>
             )}
             {role === "agent" && (
-              <p className="text-muted-foreground text-sm">You can view and reply to assigned tickets.</p>
+              <p className="text-muted-foreground text-sm mb-4">You can view and reply to assigned tickets.</p>
             )}
             {role === "admin" && (
-              <p className="text-muted-foreground text-sm">You have full access to manage users, roles, and all tickets.</p>
+              <p className="text-muted-foreground text-sm mb-4">You have full access to manage users, roles, and all tickets.</p>
             )}
+            <Link to="/tickets">
+              <Button>View Tickets</Button>
+            </Link>
           </div>
         </main>
       </div>
