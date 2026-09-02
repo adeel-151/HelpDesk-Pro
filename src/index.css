@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 @plugin "tailwindcss-animate";
 @plugin "@tailwindcss/typography";
@@ -5,6 +6,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
+  --font-sans: "Plus Jakarta Sans", sans-serif;
+
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
@@ -73,35 +76,38 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Sleek Slate Background */
+    --background: 210 40% 98%; 
+    --foreground: 222 47% 11%;
 
-    /* Deep Navy / Indigo */
-    --primary: 230 40% 25%;
+    /* Vibrant Indigo Primary */
+    --primary: 238 84% 67%; /* Indigo 500 */
     --primary-foreground: 210 40% 98%;
 
-    /* Emerald / Leaf Green Accent */
-    --accent: 142 71% 45%;
-    --accent-foreground: 144 100% 95%;
+    /* Soft Violet/Emerald Accent */
+    --accent: 250 84% 67%; 
+    --accent-foreground: 210 40% 98%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 222 47% 11%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 222 47% 11%;
     
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 214 32% 91%; /* Slate 200 */
+    --secondary-foreground: 222 47% 11%;
     
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 214 32% 91%;
+    --muted-foreground: 215 16% 47%;
     
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 348 83% 47%; /* Crimson */
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 230 40% 25%;
-    --radius: 0.5rem;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 238 84% 67%;
+    
+    /* Modern, slightly larger border radius */
+    --radius: 0.75rem;
   }
 
   .dark {
@@ -139,6 +145,6 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
   }
 }
