@@ -20,7 +20,9 @@ export default function Landing() {
             <Link to="/features">
               <Button variant="ghost" className="hidden sm:flex">Features</Button>
             </Link>
-            <Button variant="ghost" className="hidden sm:flex">Pricing</Button>
+            <Link to="/pricing">
+              <Button variant="ghost" className="hidden sm:flex">Pricing</Button>
+            </Link>
             <Link to="/login">
               <Button variant="outline" className="hidden sm:flex mr-2">Log in</Button>
             </Link>
@@ -207,7 +209,7 @@ export default function Landing() {
             <h4 className="font-bold mb-6 text-foreground tracking-tight">Product</h4>
             <ul className="space-y-4 text-muted-foreground">
               <li><Link to="/features" className="hover:text-primary transition-colors">Features</Link></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Pricing</a></li>
+              <li><Link to="/pricing" className="hover:text-primary transition-colors">Pricing</Link></li>
               <li><a href="#" className="hover:text-primary transition-colors">Security</a></li>
               <li><a href="#" className="hover:text-primary transition-colors">Changelog</a></li>
             </ul>
