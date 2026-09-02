@@ -31,53 +31,45 @@ export default function Landing() {
 
       <main className="flex-1 flex flex-col">
         {/* Hero Section */}
-        <section className="relative overflow-hidden pt-24 pb-32 lg:pt-36 lg:pb-40">
-          <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center gap-12">
-            <div className="flex-1 text-center lg:text-left z-10 animate-in fade-in slide-in-from-bottom-8 duration-1000">
-              <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-primary/10 text-primary mb-6">
-                ✨ v2.0 Now Live
-              </div>
-              <h1 className="text-5xl lg:text-7xl font-extrabold tracking-tight mb-6 leading-[1.1]">
-                Customer support, <br/>
-                <span className="bg-gradient-to-r from-primary via-indigo-500 to-accent bg-clip-text text-transparent">
-                  beautifully organized.
-                </span>
-              </h1>
-              <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto lg:mx-0">
-                Resolve faster. Serve better. A modern, AI-ready workspace for your entire support team. Stop managing tickets and start building relationships.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                <Link to="/register">
-                  <Button size="lg" className="h-12 px-8 text-base group">
-                    Start for free
-                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  </Button>
-                </Link>
-                <Link to="/login">
-                  <Button size="lg" variant="outline" className="h-12 px-8 text-base">
-                    View Demo
-                  </Button>
-                </Link>
-              </div>
+        <section className="relative w-full h-[90vh] min-h-[600px] flex items-center justify-center overflow-hidden">
+          {/* Background Image with Overlay */}
+          <div className="absolute inset-0 z-0">
+            <img 
+              src="https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=2850&auto=format&fit=crop" 
+              alt="HelpDesk Background" 
+              className="w-full h-full object-cover object-center"
+            />
+            <div className="absolute inset-0 bg-slate-950/70 dark:bg-slate-950/80 backdrop-blur-[2px]"></div>
+          </div>
+          
+          <div className="container mx-auto px-4 relative z-10 text-center animate-in fade-in zoom-in-95 duration-1000">
+            <div className="inline-flex items-center rounded-full border border-white/20 px-3 py-1 text-xs font-semibold bg-white/10 text-white mb-8 backdrop-blur-md">
+              ✨ HelpDesk Pro v2.0 Now Live
             </div>
             
-            <div className="flex-1 w-full max-w-2xl lg:max-w-none relative z-10 animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-150">
-              <div className="relative rounded-2xl border bg-background/50 shadow-2xl overflow-hidden backdrop-blur-sm ring-1 ring-border/50">
-                <div className="absolute top-0 w-full h-12 bg-muted/50 border-b flex items-center px-4 gap-2">
-                  <div className="w-3 h-3 rounded-full bg-red-400"></div>
-                  <div className="w-3 h-3 rounded-full bg-amber-400"></div>
-                  <div className="w-3 h-3 rounded-full bg-emerald-400"></div>
-                </div>
-                <img 
-                  src="https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=2850&auto=format&fit=crop" 
-                  alt="Dashboard Preview" 
-                  className="w-full h-auto object-cover mt-12 border-t opacity-90 hover:opacity-100 transition-opacity"
-                />
-              </div>
-              
-              {/* Decorative blur elements */}
-              <div className="absolute -top-24 -right-24 w-96 h-96 bg-primary/20 blur-[100px] rounded-full z-[-1]"></div>
-              <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-accent/20 blur-[100px] rounded-full z-[-1]"></div>
+            <h1 className="text-5xl md:text-6xl lg:text-8xl font-extrabold tracking-tight mb-8 text-white drop-shadow-2xl leading-[1.1]">
+              Customer support, <br/>
+              <span className="bg-gradient-to-r from-blue-400 via-indigo-300 to-emerald-300 bg-clip-text text-transparent">
+                beautifully organized.
+              </span>
+            </h1>
+            
+            <p className="text-xl md:text-2xl text-slate-200 mb-10 max-w-3xl mx-auto font-light drop-shadow-md">
+              Resolve faster. Serve better. A modern, AI-ready workspace for your entire support team. Stop managing tickets and start building relationships.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link to="/register">
+                <Button size="lg" className="h-14 px-10 text-lg group bg-primary text-white hover:bg-primary/90 border-0">
+                  Start for free
+                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </Link>
+              <Link to="/login">
+                <Button size="lg" variant="outline" className="h-14 px-10 text-lg bg-white/10 text-white border-white/30 hover:bg-white/20 hover:text-white backdrop-blur-md">
+                  View Demo
+                </Button>
+              </Link>
             </div>
           </div>
         </section>
