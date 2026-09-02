@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { User, Headset } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -11,6 +12,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 
 const registerSchema = z.object({
+  role: z.enum(["customer", "agent"]),
   name: z.string().min(2, { message: "Name must be at least 2 characters" }),
   email: z.string().email({ message: "Invalid email address" }),
   password: z.string().min(6, { message: "Password must be at least 6 characters" }),
@@ -27,6 +29,7 @@ export function RegisterForm() {
   const form = useForm({
     resolver: zodResolver(registerSchema),
     defaultValues: {
+      role: "customer",
       name: "",
       email: "",
       password: "",
@@ -37,7 +40,7 @@ export function RegisterForm() {
   const onSubmit = async (values) => {
     setIsLoading(true);
     try {
-      await registerUser(values.email, values.password, values.name);
+      await registerUser(values.email, values.password, values.name, values.role);
       toast.success("Account created successfully!");
       navigate("/dashboard");
     } catch (error) {
@@ -57,6 +60,37 @@ export function RegisterForm() {
       <CardContent className="px-0">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            
+            {/* Role Selection UI */}
+            <FormField
+              control={form.control}
+              name="role"
+              render={({ field }) => (
+                <FormItem className="space-y-3 mb-6">
+                  <FormLabel>I am a...</FormLabel>
+                  <FormControl>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div 
+                        className={`cursor-pointer rounded-xl border p-4 flex flex-col items-center justify-center gap-2 transition-all ${field.value === 'customer' ? 'border-primary bg-primary/10 text-primary' : 'border-border/50 bg-muted/20 text-muted-foreground hover:bg-muted/50'}`}
+                        onClick={() => field.onChange('customer')}
+                      >
+                        <User className="h-6 w-6" />
+                        <span className="font-medium text-sm">Customer</span>
+                      </div>
+                      <div 
+                        className={`cursor-pointer rounded-xl border p-4 flex flex-col items-center justify-center gap-2 transition-all ${field.value === 'agent' ? 'border-primary bg-primary/10 text-primary' : 'border-border/50 bg-muted/20 text-muted-foreground hover:bg-muted/50'}`}
+                        onClick={() => field.onChange('agent')}
+                      >
+                        <Headset className="h-6 w-6" />
+                        <span className="font-medium text-sm">Support Agent</span>
+                      </div>
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <FormField
               control={form.control}
               name="name"

@@ -11,7 +11,7 @@ import { auth, db } from "@/lib/firebase/config";
 /**
  * Register a new user and create their profile in Firestore.
  */
-export const registerUser = async (email, password, displayName) => {
+export const registerUser = async (email, password, displayName, role = "customer") => {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
@@ -25,7 +25,7 @@ export const registerUser = async (email, password, displayName) => {
       uid: user.uid,
       name: displayName,
       email: email,
-      role: "customer", // Default role
+      role: role,
       active: true,
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
