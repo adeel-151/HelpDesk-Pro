@@ -22,7 +22,11 @@ export default function Dashboard() {
 
   const handleToggleRole = async () => {
     if (!user) return;
-    const newRole = role === "customer" ? "agent" : "customer";
+    
+    let newRole = "customer";
+    if (role === "customer") newRole = "agent";
+    if (role === "agent") newRole = "admin";
+    
     try {
       const userRef = doc(db, "users", user.uid);
       await updateDoc(userRef, { role: newRole });
