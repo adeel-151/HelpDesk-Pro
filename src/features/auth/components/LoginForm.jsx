@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "sonner";
-import { loginUser } from "../services/authService";
+import { loginUser, registerUser } from "../services/authService";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -36,6 +36,32 @@ export function LoginForm() {
     } catch (error) {
       console.error(error);
       toast.error(error.message || "Failed to login. Please check your credentials.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleDemoLogin = async (role) => {
+    setIsLoading(true);
+    const email = `${role}@demo.com`;
+    const password = "password123";
+    const displayName = `${role.charAt(0).toUpperCase() + role.slice(1)} Demo`;
+
+    try {
+      // First try to login
+      await loginUser(email, password);
+      toast.success(`Logged in as ${role}`);
+      navigate("/dashboard");
+    } catch (error) {
+      // If login fails (likely user not found), try registering
+      try {
+        await registerUser(email, password, displayName, role);
+        toast.success(`Demo ${role} account created and logged in`);
+        navigate("/dashboard");
+      } catch (regError) {
+        console.error("Demo registration failed:", regError);
+        toast.error("Failed to setup demo account.");
+      }
     } finally {
       setIsLoading(false);
     }
@@ -76,11 +102,45 @@ export function LoginForm() {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full" disabled={isLoading}>
+            <Button type="submit" className="w-full h-12" disabled={isLoading}>
               {isLoading ? "Signing in..." : "Sign In"}
             </Button>
           </form>
         </Form>
+
+        {/* Demo Accounts Section */}
+        <div className="mt-8 pt-6 border-t">
+          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider text-center mb-4">1-Click Demo Logins</p>
+          <div className="grid grid-cols-3 gap-2">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="text-xs h-9 bg-background hover:bg-primary/5 hover:text-primary border-primary/20"
+              onClick={() => handleDemoLogin('customer')}
+              disabled={isLoading}
+            >
+              Customer
+            </Button>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="text-xs h-9 bg-background hover:bg-emerald-500/10 hover:text-emerald-600 border-emerald-500/20"
+              onClick={() => handleDemoLogin('agent')}
+              disabled={isLoading}
+            >
+              Agent
+            </Button>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="text-xs h-9 bg-background hover:bg-violet-500/10 hover:text-violet-600 border-violet-500/20"
+              onClick={() => handleDemoLogin('admin')}
+              disabled={isLoading}
+            >
+              Admin
+            </Button>
+          </div>
+        </div>
       </CardContent>
       <CardFooter className="flex flex-col space-y-2 text-sm text-center px-0">
         <Link to="/forgot-password" className="text-primary hover:underline">

@@ -24,22 +24,6 @@ export default function Dashboard() {
     }
   };
 
-  const handleToggleRole = async () => {
-    if (!user) return;
-    
-    let newRole = "customer";
-    if (role === "customer") newRole = "agent";
-    if (role === "agent") newRole = "admin";
-    
-    try {
-      const userRef = doc(db, "users", user.uid);
-      await updateDoc(userRef, { role: newRole });
-      toast.success(`Role updated to ${newRole}. Please refresh the page to see changes.`);
-    } catch (error) {
-      toast.error("Failed to update role");
-    }
-  };
-
   // If role is still loading (should be handled by AuthProvider, but just in case)
   if (!role) {
     return (
@@ -79,14 +63,6 @@ export default function Dashboard() {
         ) : (
           <AgentDashboard />
         )}
-
-        {/* Development Tool - Keep for testing */}
-        <div className="mt-20 pt-8 border-t text-center">
-          <p className="text-xs text-muted-foreground mb-3">Development Testing Tool</p>
-          <Button variant="outline" size="sm" onClick={handleToggleRole} className="text-xs h-8">
-            Toggle Role (Current: {role})
-          </Button>
-        </div>
 
       </main>
     </div>
