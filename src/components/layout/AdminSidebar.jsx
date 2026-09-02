@@ -4,6 +4,8 @@ import { logoutUser } from "@/features/auth/services/authService";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { LayoutDashboard, Users, Ticket, FileText, LogOut, Settings } from "lucide-react";
+import { ModeToggle } from "@/components/mode-toggle";
+import { NotificationCenter } from "@/features/notifications/components/NotificationCenter";
 
 export function AdminSidebar() {
   const { profile, role } = useAuth();
@@ -80,6 +82,13 @@ export function AdminSidebar() {
 
       {/* Footer / Logout */}
       <div className="p-4 border-t space-y-2">
+        <div className="flex items-center justify-between px-3 mb-4 pb-2 border-b border-border/50">
+          <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Preferences</span>
+          <div className="flex items-center gap-1">
+            <ModeToggle />
+            <NotificationCenter />
+          </div>
+        </div>
         <Link to="/profile">
           <div className="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors text-muted-foreground hover:bg-muted hover:text-foreground cursor-pointer">
             <Settings className="w-5 h-5" />
