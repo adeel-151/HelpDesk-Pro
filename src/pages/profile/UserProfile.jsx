@@ -61,8 +61,8 @@ export default function UserProfile() {
           <p className="text-muted-foreground">Manage your account settings and preferences.</p>
         </div>
 
-        <Card>
-          <CardHeader>
+        <Card className="border-border/50 shadow-sm overflow-hidden bg-card/40 backdrop-blur-md">
+          <CardHeader className="bg-card/50 border-b">
             <CardTitle>Personal Information</CardTitle>
             <CardDescription>Update your display name and profile picture.</CardDescription>
           </CardHeader>

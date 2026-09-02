@@ -103,14 +103,14 @@ export default function TicketList() {
   };
 
   const TicketTable = () => (
-    <Card>
-      <CardHeader>
+    <Card className="border-border/50 shadow-sm overflow-hidden bg-card/40 backdrop-blur-md">
+      <CardHeader className="bg-card/50 border-b">
         <CardTitle>{role === "customer" ? "All Tickets" : `Tickets (${activeTab})`}</CardTitle>
         <CardDescription>
           {role === "customer" ? "A list of all your submitted tickets." : "Manage support requests."}
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-0">
         {isLoading ? (
           <div className="space-y-2">
             <Skeleton className="h-10 w-full" />
@@ -194,7 +194,7 @@ export default function TicketList() {
           )}
         </div>
 
-        <div className="flex flex-col md:flex-row gap-4 bg-background p-4 rounded-lg shadow-sm border">
+        <div className="flex flex-col md:flex-row gap-4 bg-card/40 backdrop-blur-md p-4 rounded-xl shadow-sm border border-border/50">
           <div className="relative flex-1">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input

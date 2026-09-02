@@ -132,8 +132,8 @@ export default function TicketDetail() {
         </Button>
 
         {/* Ticket Header Card */}
-        <Card>
-          <CardHeader>
+        <Card className="border-border/50 shadow-sm overflow-hidden bg-card/40 backdrop-blur-md">
+          <CardHeader className="bg-card/50 border-b">
             <div className="flex justify-between items-start">
               <div>
                 <CardDescription>Ticket {ticket.ticketNumber}</CardDescription>
@@ -228,8 +228,8 @@ export default function TicketDetail() {
                 messages.filter(msg => msg.visibility !== 'internal' || role !== 'customer').map((msg) => {
                   const isCustomer = msg.senderRole === "customer";
                   return (
-                    <Card key={msg.id} className={msg.isInternal ? "border-amber-200 bg-amber-50" : ""}>
-                      <CardHeader className="py-4 px-4 pb-2 flex flex-row space-y-0 items-start justify-between">
+                    <Card key={msg.id} className={`border-border/50 shadow-sm ${msg.isInternal ? "border-amber-500/30 bg-amber-500/10 backdrop-blur-md" : "bg-card/60 backdrop-blur-md"}`}>
+                      <CardHeader className="py-4 px-4 pb-2 flex flex-row space-y-0 items-start justify-between border-b border-border/5">
                         <div className="flex items-center gap-3">
                           <Avatar className="h-8 w-8">
                             <AvatarFallback className="text-xs">
@@ -277,9 +277,9 @@ export default function TicketDetail() {
             </div>
 
           {/* Reply Composer */}
-          <Card>
+          <Card className="border-border/50 shadow-sm overflow-hidden bg-card/40 backdrop-blur-md mt-6">
             <form onSubmit={handleReplySubmit}>
-              <CardHeader className="py-4">
+              <CardHeader className="py-4 bg-card/50 border-b">
                 <CardTitle className="text-lg">Add a Reply</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">

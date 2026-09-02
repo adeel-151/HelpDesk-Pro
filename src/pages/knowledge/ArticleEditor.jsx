@@ -89,8 +89,8 @@ export default function ArticleEditor() {
           <ArrowLeft className="mr-2 h-4 w-4" /> Back
         </Button>
 
-        <Card>
-          <CardHeader>
+        <Card className="border-border/50 shadow-sm overflow-hidden bg-card/40 backdrop-blur-md">
+          <CardHeader className="bg-card/50 border-b">
             <CardTitle>{isEditing ? "Edit Article" : "Create New Article"}</CardTitle>
             <CardDescription>
               Write helpful content for your users using Markdown format.

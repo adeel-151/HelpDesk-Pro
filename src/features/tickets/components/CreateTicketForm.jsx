@@ -62,8 +62,8 @@ export function CreateTicketForm() {
   };
 
   return (
-    <Card className="max-w-2xl mx-auto mt-8">
-      <CardHeader>
+    <Card className="max-w-2xl mx-auto mt-8 border-border/50 shadow-sm overflow-hidden bg-card/40 backdrop-blur-md">
+      <CardHeader className="bg-card/50 border-b">
         <CardTitle className="text-2xl">Submit a Support Ticket</CardTitle>
         <CardDescription>
           Please provide as much detail as possible so we can best assist you.

@@ -78,7 +78,7 @@ export default function KnowledgeBaseHome() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {filteredArticles.map((article) => (
               <Link to={`/kb/${article.id}`} key={article.id}>
-                <Card className="hover:shadow-md transition-shadow h-full cursor-pointer group">
+                <Card className="hover:shadow-md transition-shadow h-full cursor-pointer group border-border/50 bg-card/40 backdrop-blur-md overflow-hidden">
                   <CardHeader>
                     <div className="text-xs font-semibold text-primary uppercase tracking-wider mb-2">
                       {article.category}

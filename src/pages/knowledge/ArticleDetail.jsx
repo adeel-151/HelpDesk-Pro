@@ -78,7 +78,7 @@ export default function ArticleDetail() {
           )}
         </div>
 
-        <article className="prose prose-slate dark:prose-invert max-w-none lg:prose-lg">
+        <article className="prose prose-slate dark:prose-invert max-w-none lg:prose-lg bg-card/40 backdrop-blur-md border border-border/50 rounded-3xl p-8 md:p-12 shadow-sm mt-4">
           <div className="mb-8 border-b pb-8">
             <div className="text-sm font-semibold text-primary uppercase tracking-wider mb-3">
               {article.category}
