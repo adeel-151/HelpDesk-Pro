@@ -60,7 +60,7 @@ export default function AdminDashboard() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-muted/20 p-8">
+      <div className="w-full h-full p-4 sm:p-8 animate-in fade-in duration-500">
         <div className="max-w-6xl mx-auto space-y-6">
           <Skeleton className="h-10 w-48" />
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -76,15 +76,21 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-muted/20 p-8">
-      <div className="max-w-6xl mx-auto space-y-8">
+    <div className="w-full h-full p-4 sm:p-8 animate-in fade-in duration-500">
+      <div className="max-w-6xl mx-auto space-y-8 pb-12">
         
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Admin Dashboard</h1>
-          <p className="text-muted-foreground">Manage platform users and view system metrics.</p>
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div>
+            <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 mb-3 bg-red-500/10 text-red-500 border-red-500/20 uppercase tracking-wider">
+              System Admin
+            </div>
+            <h1 className="text-3xl font-bold tracking-tight">User Management</h1>
+            <p className="text-muted-foreground mt-1">Control platform access, assign roles, and monitor high-level system metrics.</p>
+          </div>
         </div>
 
-        {/* Metrics Grid */}
+        {/* Premium Metrics Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -128,12 +134,12 @@ export default function AdminDashboard() {
         </div>
 
         {/* User Management Table */}
-        <Card>
-          <CardHeader>
-            <CardTitle>User Management</CardTitle>
-            <CardDescription>View all registered users and assign roles.</CardDescription>
+        <Card className="border-border/50 shadow-sm overflow-hidden">
+          <CardHeader className="bg-card/50 border-b">
+            <CardTitle>Registered Users</CardTitle>
+            <CardDescription>A complete directory of all users on the platform.</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-0">
             <Table>
               <TableHeader>
                 <TableRow>

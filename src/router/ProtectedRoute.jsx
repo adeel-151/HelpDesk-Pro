@@ -1,8 +1,9 @@
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/features/auth/AuthProvider";
 import { Navbar } from "@/components/layout/Navbar";
+import { AdminSidebar } from "@/components/layout/AdminSidebar";
 
-export const ProtectedRoute = ({ children, allowedRoles }) => {
+export const ProtectedRoute = ({ children, allowedRoles, layout = "auto" }) => {
   const { user, role, loading } = useAuth();
   const location = useLocation();
 
@@ -24,8 +25,28 @@ export const ProtectedRoute = ({ children, allowedRoles }) => {
     return <Navigate to="/dashboard" replace />;
   }
 
+  const isAgentOrAdmin = role === 'admin' || role === 'agent';
+  const showSidebar = layout === 'sidebar' || (layout === 'auto' && isAgentOrAdmin);
+
+  if (showSidebar) {
+    return (
+      <div className="min-h-screen flex bg-muted/20 selection:bg-primary/20 selection:text-primary">
+        <AdminSidebar />
+        <main className="flex-1 flex flex-col h-screen overflow-y-auto w-full">
+          {/* Mobile Header (since sidebar is hidden on small screens) */}
+          <div className="md:hidden h-16 border-b bg-card flex items-center px-4 shrink-0 sticky top-0 z-40">
+            <span className="font-extrabold text-xl tracking-tight bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              HelpDesk Pro
+            </span>
+          </div>
+          {children}
+        </main>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col selection:bg-primary/20 selection:text-primary">
       <Navbar />
       <main className="flex-1 flex flex-col">
         {children}
