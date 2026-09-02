@@ -2,6 +2,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/features/auth/AuthProvider";
 import { logoutUser } from "@/features/auth/services/authService";
 import { NotificationCenter } from "@/features/notifications/components/NotificationCenter";
+import { ModeToggle } from "@/components/mode-toggle";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { 
@@ -79,6 +80,7 @@ export function Navbar() {
           )}
           <div className="h-6 w-px bg-border/60 mx-1 hidden md:block"></div>
           
+          <ModeToggle />
           <NotificationCenter />
           
           <div className="hidden md:flex items-center gap-2 border-l pl-4 ml-2">
