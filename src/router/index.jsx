@@ -15,11 +15,16 @@ import { ProtectedRoute } from "./ProtectedRoute";
 
 // A basic layout wrapper for public landing page
 import Landing from "@/pages/Landing";
+import Features from "@/pages/Features";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <Landing />,
+  },
+  {
+    path: "/features",
+    element: <Features />,
   },
   {
     path: "/login",
