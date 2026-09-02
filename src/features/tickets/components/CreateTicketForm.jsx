@@ -5,6 +5,7 @@ import * as z from "zod";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { createTicket } from "../services/ticketService";
+import { uploadAttachment } from "../services/storageService";
 import { useAuth } from "@/features/auth/AuthProvider";
 
 import { Button } from "@/components/ui/button";
@@ -23,6 +24,7 @@ const ticketSchema = z.object({
 
 export function CreateTicketForm() {
   const [isLoading, setIsLoading] = useState(false);
+  const [file, setFile] = useState(null);
   const { user } = useAuth();
   const navigate = useNavigate();
 
@@ -39,7 +41,16 @@ export function CreateTicketForm() {
   const onSubmit = async (values) => {
     setIsLoading(true);
     try {
-      await createTicket(values, user.uid);
+      let attachments = [];
+      
+      // Temporary ID or we can just pass a temp ID to storage since the ticket isn't created yet,
+      // Or better, we upload first with user ID and timestamp to guarantee uniqueness.
+      if (file) {
+        const attachmentData = await uploadAttachment(`temp_${user.uid}`, file);
+        if (attachmentData) attachments.push(attachmentData);
+      }
+
+      await createTicket(values, user.uid, attachments);
       toast.success("Ticket created successfully!");
       navigate("/tickets");
     } catch (error) {
@@ -142,6 +153,19 @@ export function CreateTicketForm() {
                 </FormItem>
               )}
             />
+
+            <FormItem>
+              <FormLabel>Attachment (Optional)</FormLabel>
+              <FormControl>
+                <Input 
+                  type="file" 
+                  onChange={(e) => setFile(e.target.files?.[0] || null)}
+                  disabled={isLoading}
+                  className="cursor-pointer"
+                />
+              </FormControl>
+              <p className="text-xs text-muted-foreground mt-1">Upload a screenshot or document (Max 1 file)</p>
+            </FormItem>
             
             <div className="flex justify-end space-x-4">
               <Button type="button" variant="outline" onClick={() => navigate(-1)}>

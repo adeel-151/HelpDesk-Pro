@@ -12,6 +12,7 @@ import {
   updateDoc
 } from "firebase/firestore";
 import { db } from "@/lib/firebase/config";
+import { createNotification } from "@/features/notifications/services/notificationService";
 
 // Ticket Collections
 const TICKETS_COLLECTION = "tickets";
@@ -26,7 +27,7 @@ const generateTicketNumber = () => {
 /**
  * Create a new ticket
  */
-export const createTicket = async (ticketData, customerId) => {
+export const createTicket = async (ticketData, customerId, attachments = []) => {
   try {
     const ticketRef = doc(collection(db, TICKETS_COLLECTION));
     
@@ -40,6 +41,7 @@ export const createTicket = async (ticketData, customerId) => {
       status: "new",
       customerId: customerId,
       assignedAgentId: null,
+      attachments: attachments,
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
     };
@@ -124,7 +126,7 @@ export const updateTicket = async (ticketId, updates) => {
 /**
  * Add a message to a ticket
  */
-export const addTicketMessage = async (ticketId, senderId, senderRole, body, isInternal = false) => {
+export const addTicketMessage = async (ticketId, senderId, senderRole, body, isInternal = false, attachments = []) => {
   try {
     const messagesRef = collection(db, `${TICKETS_COLLECTION}/${ticketId}/messages`);
     
@@ -133,6 +135,7 @@ export const addTicketMessage = async (ticketId, senderId, senderRole, body, isI
       senderRole,
       body,
       visibility: isInternal ? "internal" : "public",
+      attachments: attachments,
       createdAt: serverTimestamp()
     };
 
@@ -140,6 +143,34 @@ export const addTicketMessage = async (ticketId, senderId, senderRole, body, isI
     
     // Also update the ticket's updatedAt
     await updateTicket(ticketId, { updatedAt: serverTimestamp() });
+
+    // Notification Logic
+    // If agent replies, notify customer. If customer replies, we could notify the assigned agent.
+    if (!isInternal) {
+      // Need ticket info to know who to notify
+      const docRef = doc(db, TICKETS_COLLECTION, ticketId);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const ticketData = docSnap.data();
+        if (senderRole === "agent" || senderRole === "admin") {
+          await createNotification({
+            userId: ticketData.customerId,
+            type: 'new_reply',
+            title: `New reply on ticket ${ticketData.ticketNumber}`,
+            body: body.substring(0, 50) + (body.length > 50 ? '...' : ''),
+            ticketId: ticketId
+          });
+        } else if (senderRole === "customer" && ticketData.assignedAgentId) {
+          await createNotification({
+            userId: ticketData.assignedAgentId,
+            type: 'new_reply',
+            title: `Customer replied to ticket ${ticketData.ticketNumber}`,
+            body: body.substring(0, 50) + (body.length > 50 ? '...' : ''),
+            ticketId: ticketId
+          });
+        }
+      }
+    }
     
   } catch (error) {
     console.error("Error adding message:", error);
@@ -156,6 +187,21 @@ export const assignTicket = async (ticketId, agentId) => {
       assignedAgentId: agentId,
       status: "open"
     });
+    
+    // Notify customer
+    const docRef = doc(db, TICKETS_COLLECTION, ticketId);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      const ticketData = docSnap.data();
+      await createNotification({
+        userId: ticketData.customerId,
+        type: 'assigned',
+        title: `Your ticket has been assigned`,
+        body: `Ticket ${ticketData.ticketNumber} is now being processed.`,
+        ticketId: ticketId
+      });
+    }
+
   } catch (error) {
     console.error("Error assigning ticket:", error);
     throw error;

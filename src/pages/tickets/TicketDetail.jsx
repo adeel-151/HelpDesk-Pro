@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "@/features/auth/AuthProvider";
 import { getTicketById, addTicketMessage, assignTicket, updateTicket } from "@/features/tickets/services/ticketService";
+import { uploadAttachment } from "@/features/tickets/services/storageService";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import { db } from "@/lib/firebase/config";
 import { format } from "date-fns";
@@ -13,6 +14,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import { 
   DropdownMenu, 
   DropdownMenuContent, 
@@ -32,6 +34,7 @@ export default function TicketDetail() {
   const [isLoading, setIsLoading] = useState(true);
   const [replyBody, setReplyBody] = useState("");
   const [isInternal, setIsInternal] = useState(false);
+  const [file, setFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
@@ -63,12 +66,19 @@ export default function TicketDetail() {
 
   const handleReplySubmit = async (e) => {
     e.preventDefault();
-    if (!replyBody.trim()) return;
+    if (!replyBody.trim() && !file) return;
 
     setIsSubmitting(true);
     try {
-      await addTicketMessage(ticketId, user.uid, role, replyBody, isInternal);
+      let attachments = [];
+      if (file) {
+        const attachmentData = await uploadAttachment(ticketId, file);
+        if (attachmentData) attachments.push(attachmentData);
+      }
+
+      await addTicketMessage(ticketId, user.uid, role, replyBody, isInternal, attachments);
       setReplyBody("");
+      setFile(null);
       setIsInternal(false);
       toast.success(isInternal ? "Internal note added" : "Reply sent");
     } catch (error) {
@@ -173,6 +183,20 @@ export default function TicketDetail() {
             
             <div className="prose prose-sm max-w-none">
               <p className="whitespace-pre-wrap">{ticket.description}</p>
+              {ticket.attachments && ticket.attachments.length > 0 && (
+                <div className="mt-4 pt-4 border-t">
+                  <p className="font-semibold mb-2">Attachments:</p>
+                  <ul className="list-disc pl-5">
+                    {ticket.attachments.map((att, idx) => (
+                      <li key={idx}>
+                        <a href={att.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+                          {att.name}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           </CardContent>
         </Card>
@@ -204,6 +228,24 @@ export default function TicketDetail() {
                       </CardHeader>
                       <CardContent className="py-4 px-4">
                         <p className="whitespace-pre-wrap text-sm">{msg.body}</p>
+                        {msg.attachments && msg.attachments.length > 0 && (
+                          <div className="mt-3 pt-3 border-t border-muted">
+                            <p className="text-xs text-muted-foreground mb-1">Attachments:</p>
+                            <div className="flex flex-wrap gap-2">
+                              {msg.attachments.map((att, idx) => (
+                                <a 
+                                  key={idx} 
+                                  href={att.url} 
+                                  target="_blank" 
+                                  rel="noopener noreferrer"
+                                  className="text-xs text-blue-500 hover:underline bg-blue-50 px-2 py-1 rounded border"
+                                >
+                                  📎 {att.name}
+                                </a>
+                              ))}
+                            </div>
+                          </div>
+                        )}
                       </CardContent>
                     </Card>
                   );
@@ -217,7 +259,7 @@ export default function TicketDetail() {
               <CardHeader className="py-4">
                 <CardTitle className="text-lg">Add a Reply</CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="space-y-4">
                 <Textarea 
                   placeholder="Type your message here..." 
                   className="min-h-[100px]"
@@ -225,6 +267,15 @@ export default function TicketDetail() {
                   onChange={(e) => setReplyBody(e.target.value)}
                   disabled={ticket.status === 'closed'}
                 />
+                <div className="flex items-center gap-2">
+                  <Input 
+                    type="file" 
+                    onChange={(e) => setFile(e.target.files?.[0] || null)}
+                    disabled={ticket.status === 'closed' || isLoading}
+                    className="max-w-[250px] cursor-pointer text-xs h-8"
+                  />
+                  {file && <span className="text-xs text-muted-foreground">{file.name}</span>}
+                </div>
               </CardContent>
               <CardFooter className="flex justify-between items-center border-t py-4">
                 <div className="flex items-center space-x-2">

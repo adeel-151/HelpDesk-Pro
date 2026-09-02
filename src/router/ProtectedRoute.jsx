@@ -1,5 +1,6 @@
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/features/auth/AuthProvider";
+import { Navbar } from "@/components/layout/Navbar";
 
 export const ProtectedRoute = ({ children, allowedRoles }) => {
   const { user, role, loading } = useAuth();
@@ -23,5 +24,12 @@ export const ProtectedRoute = ({ children, allowedRoles }) => {
     return <Navigate to="/dashboard" replace />;
   }
 
-  return children;
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Navbar />
+      <main className="flex-1 flex flex-col">
+        {children}
+      </main>
+    </div>
+  );
 };
