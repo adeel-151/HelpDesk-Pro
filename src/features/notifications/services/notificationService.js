@@ -6,7 +6,8 @@ import {
   orderBy, 
   serverTimestamp,
   updateDoc,
-  doc
+  doc,
+  writeBatch
 } from "firebase/firestore";
 import { db } from "@/lib/firebase/config";
 
@@ -48,12 +49,21 @@ export const markNotificationRead = async (notificationId) => {
 };
 
 /**
- * Mark all unread notifications for a user as read
+ * Mark all unread notifications for a user as read (batch write)
  */
-export const markAllNotificationsRead = async (userId) => {
-  // In a real production app with thousands of notifications, 
-  // you might want a Cloud Function or batch write.
-  // For MVP, if we handle it client side we'd need to fetch and update.
-  // We will leave this for individual clicks in MVP to keep it simple,
-  // or just implement a simple map locally if needed.
+export const markAllNotificationsRead = async (userId, notificationIds = []) => {
+  if (notificationIds.length === 0) return;
+  
+  try {
+    const batch = writeBatch(db);
+    
+    notificationIds.forEach((notifId) => {
+      const docRef = doc(db, NOTIFICATIONS_COLLECTION, notifId);
+      batch.update(docRef, { read: true });
+    });
+    
+    await batch.commit();
+  } catch (error) {
+    console.error("Error marking all notifications read:", error);
+  }
 };

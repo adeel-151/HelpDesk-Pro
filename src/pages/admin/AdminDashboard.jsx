@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { getAllUsers, updateUserRole, getSystemMetrics } from "@/features/admin/services/adminService";
 import { toast } from "sonner";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -15,35 +16,29 @@ import {
 import { Button } from "@/components/ui/button";
 import { ChevronDown, Users, Ticket, CheckCircle2, AlertCircle } from "lucide-react";
 
+const fetchAdminData = async () => {
+  const [usersData, metricsData] = await Promise.all([
+    getAllUsers(),
+    getSystemMetrics()
+  ]);
+  return { users: usersData, metrics: metricsData };
+};
+
 export default function AdminDashboard() {
-  const [users, setUsers] = useState([]);
-  const [metrics, setMetrics] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const queryClient = useQueryClient();
 
-  const fetchData = async () => {
-    setIsLoading(true);
-    try {
-      const [usersData, metricsData] = await Promise.all([
-        getAllUsers(),
-        getSystemMetrics()
-      ]);
-      setUsers(usersData);
-      setMetrics(metricsData);
-    } catch (error) {
-      toast.error("Failed to load admin data");
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const { data, isLoading } = useQuery({
+    queryKey: ["adminDashboard"],
+    queryFn: fetchAdminData,
+  });
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const users = data?.users || [];
+  const metrics = data?.metrics || null;
 
   const handleRoleChange = async (userId, newRole) => {
     try {
       await updateUserRole(userId, newRole);
-      setUsers(users.map(u => u.uid === userId ? { ...u, role: newRole } : u));
+      queryClient.invalidateQueries({ queryKey: ["adminDashboard"] });
       toast.success("Role updated successfully");
     } catch (error) {
       toast.error("Failed to update role");

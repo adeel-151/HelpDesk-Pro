@@ -3,55 +3,48 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { PlusCircle, Search, Clock, CheckCircle2, Ticket } from "lucide-react";
-import { useEffect, useState } from "react";
-import { collection, query, where, getDocs, limit, orderBy } from "firebase/firestore";
+import { useQuery } from "@tanstack/react-query";
+import { collection, query, where, getDocs, orderBy } from "firebase/firestore";
 import { db } from "@/lib/firebase/config";
+
+const fetchCustomerData = async (userId) => {
+  const q = query(
+    collection(db, "tickets"),
+    where("createdBy", "==", userId),
+    orderBy("createdAt", "desc")
+  );
+  const querySnapshot = await getDocs(q);
+  
+  let openCount = 0;
+  let resolvedCount = 0;
+  const tickets = [];
+
+  querySnapshot.forEach((doc) => {
+    const data = doc.data();
+    if (data.status === "open" || data.status === "in_progress") {
+      openCount++;
+    } else if (data.status === "resolved" || data.status === "closed") {
+      resolvedCount++;
+    }
+    if (tickets.length < 5) {
+      tickets.push({ id: doc.id, ...data });
+    }
+  });
+
+  return { stats: { open: openCount, resolved: resolvedCount }, recentTickets: tickets };
+};
 
 export default function CustomerDashboard() {
   const { user, profile } = useAuth();
-  const [stats, setStats] = useState({ open: 0, resolved: 0 });
-  const [recentTickets, setRecentTickets] = useState([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (!user) return;
+  const { data, isLoading: loading } = useQuery({
+    queryKey: ["customerDashboard", user?.uid],
+    queryFn: () => fetchCustomerData(user.uid),
+    enabled: !!user,
+  });
 
-    const fetchCustomerData = async () => {
-      try {
-        const q = query(
-          collection(db, "tickets"),
-          where("createdBy", "==", user.uid),
-          orderBy("createdAt", "desc")
-        );
-        const querySnapshot = await getDocs(q);
-        
-        let openCount = 0;
-        let resolvedCount = 0;
-        const tickets = [];
-
-        querySnapshot.forEach((doc) => {
-          const data = doc.data();
-          if (data.status === "open" || data.status === "in_progress") {
-            openCount++;
-          } else if (data.status === "resolved" || data.status === "closed") {
-            resolvedCount++;
-          }
-          if (tickets.length < 5) {
-            tickets.push({ id: doc.id, ...data });
-          }
-        });
-
-        setStats({ open: openCount, resolved: resolvedCount });
-        setRecentTickets(tickets);
-      } catch (error) {
-        console.error("Error fetching customer dashboard data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCustomerData();
-  }, [user]);
+  const stats = data?.stats || { open: 0, resolved: 0 };
+  const recentTickets = data?.recentTickets || [];
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500">

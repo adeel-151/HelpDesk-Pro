@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/features/auth/AuthProvider";
-import { markNotificationRead } from "../services/notificationService";
+import { markNotificationRead, markAllNotificationsRead } from "../services/notificationService";
 import { collection, query, where, orderBy, onSnapshot, limit } from "firebase/firestore";
 import { db } from "@/lib/firebase/config";
 import { format } from "date-fns";
@@ -69,6 +69,14 @@ export function NotificationCenter() {
       <PopoverContent className="w-80 p-0" align="end">
         <div className="p-4 flex items-center justify-between border-b">
           <h4 className="font-semibold">Notifications</h4>
+          {unreadCount > 0 && (
+            <button 
+              onClick={() => markAllNotificationsRead(user.uid, notifications.filter(n => !n.read).map(n => n.id))}
+              className="text-xs text-primary hover:underline font-medium cursor-pointer"
+            >
+              Mark all read
+            </button>
+          )}
         </div>
         <ScrollArea className="h-80">
           {notifications.length === 0 ? (

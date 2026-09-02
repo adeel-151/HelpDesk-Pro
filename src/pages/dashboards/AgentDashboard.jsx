@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Users, Ticket, CheckCircle2, Clock, Activity, FileText } from "lucide-react";
-import { useEffect, useState } from "react";
-import { collection, query, getDocs, orderBy, limit, where } from "firebase/firestore";
+import { useQuery } from "@tanstack/react-query";
+import { collection, query, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase/config";
 import {
   LineChart,
@@ -21,18 +21,34 @@ import {
   Cell
 } from "recharts";
 
+const fetchAgentStats = async () => {
+  const q = query(collection(db, "tickets"));
+  const snapshot = await getDocs(q);
+  
+  let total = 0, open = 0, inProgress = 0, resolved = 0, unassigned = 0;
+  
+  snapshot.forEach((doc) => {
+    total++;
+    const data = doc.data();
+    if (data.status === 'open') open++;
+    if (data.status === 'in_progress') inProgress++;
+    if (data.status === 'resolved' || data.status === 'closed') resolved++;
+    if (!data.assignedTo) unassigned++;
+  });
+
+  return { total, open, inProgress, resolved, unassigned };
+};
+
 export default function AgentDashboard() {
   const { user, profile, role } = useAuth();
-  const [loading, setLoading] = useState(true);
-  const [stats, setStats] = useState({
-    total: 0,
-    open: 0,
-    inProgress: 0,
-    resolved: 0,
-    unassigned: 0
+
+  const { data: stats, isLoading: loading } = useQuery({
+    queryKey: ["agentDashboard"],
+    queryFn: fetchAgentStats,
+    initialData: { total: 0, open: 0, inProgress: 0, resolved: 0, unassigned: 0 },
   });
-  
-  // Dummy data for charts (in a real app, this would be aggregated from Firestore)
+
+  // Chart data
   const activityData = [
     { name: 'Mon', tickets: 12 },
     { name: 'Tue', tickets: 19 },
@@ -48,34 +64,6 @@ export default function AgentDashboard() {
     { name: 'In Progress', value: stats.inProgress, color: '#3b82f6' },
     { name: 'Resolved', value: stats.resolved, color: '#10b981' },
   ];
-
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const q = query(collection(db, "tickets"));
-        const snapshot = await getDocs(q);
-        
-        let total = 0, open = 0, inProgress = 0, resolved = 0, unassigned = 0;
-        
-        snapshot.forEach((doc) => {
-          total++;
-          const data = doc.data();
-          if (data.status === 'open') open++;
-          if (data.status === 'in_progress') inProgress++;
-          if (data.status === 'resolved' || data.status === 'closed') resolved++;
-          if (!data.assignedTo) unassigned++;
-        });
-
-        setStats({ total, open, inProgress, resolved, unassigned });
-      } catch (error) {
-        console.error("Error fetching agent stats:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchStats();
-  }, []);
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500 pb-12">

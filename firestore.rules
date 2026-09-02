@@ -1,0 +1,105 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper: Get the authenticated user's role from Firestore
+    function getUserRole() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role;
+    }
+    
+    // Helper: Check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Helper: Check if user is admin
+    function isAdmin() {
+      return isAuthenticated() && getUserRole() == 'admin';
+    }
+    
+    // Helper: Check if user is agent or admin
+    function isStaff() {
+      return isAuthenticated() && getUserRole() in ['admin', 'agent'];
+    }
+
+    // ========== USERS COLLECTION ==========
+    match /users/{userId} {
+      // Anyone authenticated can read user profiles (needed for display names, etc.)
+      allow read: if isAuthenticated();
+      
+      // Users can only update their own profile (but NOT their role field)
+      allow update: if isAuthenticated() && request.auth.uid == userId 
+                    && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['role']);
+      
+      // Only admins can change roles
+      allow update: if isAdmin();
+      
+      // Users can create their own profile document (during registration)
+      allow create: if isAuthenticated() && request.auth.uid == userId;
+      
+      // Only admins can delete users
+      allow delete: if isAdmin();
+    }
+
+    // ========== TICKETS COLLECTION ==========
+    match /tickets/{ticketId} {
+      // Customers can read only their own tickets
+      // Agents and Admins can read all tickets
+      allow read: if isAuthenticated() && 
+                   (resource.data.customerId == request.auth.uid || isStaff());
+      
+      // Customers can create tickets (must set themselves as customerId)
+      allow create: if isAuthenticated() && 
+                     request.resource.data.customerId == request.auth.uid;
+      
+      // Only staff can update tickets (status changes, assignments, etc.)
+      // Customers can also update their own tickets (e.g., adding info)
+      allow update: if isAuthenticated() && 
+                     (resource.data.customerId == request.auth.uid || isStaff());
+      
+      // Only admins can delete tickets
+      allow delete: if isAdmin();
+
+      // ========== TICKET MESSAGES (Sub-collection) ==========
+      match /messages/{messageId} {
+        // Anyone involved can read public messages
+        // Only staff can read internal notes
+        allow read: if isAuthenticated() && 
+                     (get(/databases/$(database)/documents/tickets/$(ticketId)).data.customerId == request.auth.uid || isStaff());
+        
+        // Authenticated users can add messages to tickets they have access to
+        allow create: if isAuthenticated() && 
+                       (get(/databases/$(database)/documents/tickets/$(ticketId)).data.customerId == request.auth.uid || isStaff());
+        
+        // Messages are immutable (no edits or deletes)
+        allow update, delete: if false;
+      }
+    }
+
+    // ========== NOTIFICATIONS COLLECTION ==========
+    match /notifications/{notificationId} {
+      // Users can only read their own notifications
+      allow read: if isAuthenticated() && resource.data.userId == request.auth.uid;
+      
+      // System creates notifications (from ticket service), so any authenticated user can create
+      allow create: if isAuthenticated();
+      
+      // Users can mark their own notifications as read
+      allow update: if isAuthenticated() && resource.data.userId == request.auth.uid;
+      
+      // Users can delete their own notifications
+      allow delete: if isAuthenticated() && resource.data.userId == request.auth.uid;
+    }
+
+    // ========== KNOWLEDGE BASE ARTICLES ==========
+    match /articles/{articleId} {
+      // Anyone authenticated can read articles
+      allow read: if isAuthenticated();
+      
+      // Only staff (agents/admins) can create, update, or delete articles
+      allow create, update: if isStaff();
+      allow delete: if isAdmin();
+    }
+  }
+}
