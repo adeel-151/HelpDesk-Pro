@@ -1,10 +1,14 @@
 import { useAuth } from "@/features/auth/AuthProvider";
 import { logoutUser } from "@/features/auth/services/authService";
 import { Button } from "@/components/ui/button";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase/config";
+
+// Import the specific dashboards
+import CustomerDashboard from "./dashboards/CustomerDashboard";
+import AgentDashboard from "./dashboards/AgentDashboard";
 
 export default function Dashboard() {
   const { user, profile, role } = useAuth();
@@ -36,53 +40,55 @@ export default function Dashboard() {
     }
   };
 
-  return (
-    <div className="min-h-screen p-8 bg-muted/20">
-      <div className="max-w-4xl mx-auto space-y-6">
-        <header className="flex justify-between items-center bg-card p-6 rounded-lg border shadow-sm">
-          <div>
-            <h1 className="text-2xl font-bold">Dashboard</h1>
-            <p className="text-muted-foreground">Welcome back, {profile?.name || user?.email}</p>
-          </div>
-          <Button variant="outline" onClick={handleLogout}>Log out</Button>
-        </header>
-
-        <main className="grid gap-6 md:grid-cols-2">
-          <div className="bg-card p-6 rounded-lg border shadow-sm">
-            <h2 className="text-lg font-semibold mb-4">Your Profile</h2>
-            <div className="space-y-2 text-sm">
-              <p><span className="font-medium">Email:</span> {user?.email}</p>
-              <p><span className="font-medium">Role:</span> <span className="capitalize">{role || "Loading..."}</span></p>
-              <p><span className="font-medium">User ID:</span> {user?.uid}</p>
-            </div>
-          </div>
-          
-          <div className="bg-card p-6 rounded-lg border shadow-sm flex flex-col justify-between">
-            <div>
-              <h2 className="text-lg font-semibold mb-4">Role-Specific Actions</h2>
-              {role === "customer" && (
-                <p className="text-muted-foreground text-sm mb-4">You can create and manage your own tickets.</p>
-              )}
-              {role === "agent" && (
-                <p className="text-muted-foreground text-sm mb-4">You can view and reply to assigned tickets.</p>
-              )}
-              {role === "admin" && (
-                <p className="text-muted-foreground text-sm mb-4">You have full access to manage users, roles, and all tickets.</p>
-              )}
-              <Link to="/tickets">
-                <Button>View Tickets</Button>
-              </Link>
-            </div>
-            
-            <div className="mt-8 pt-4 border-t">
-              <p className="text-xs text-muted-foreground mb-2">Development Testing Tool:</p>
-              <Button variant="outline" size="sm" onClick={handleToggleRole}>
-                Toggle Role (Current: {role})
-              </Button>
-            </div>
-          </div>
-        </main>
+  // If role is still loading (should be handled by AuthProvider, but just in case)
+  if (!role) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
       </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-muted/20 flex flex-col font-sans selection:bg-primary/20 selection:text-primary">
+      
+      {/* Global Topbar for Authenticated Users */}
+      <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="container mx-auto flex h-16 items-center justify-between px-4 sm:px-8">
+          <div className="flex items-center gap-4">
+            <span className="font-extrabold text-xl tracking-tight bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              HelpDesk Pro
+            </span>
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="hidden sm:block text-sm text-muted-foreground text-right mr-2">
+              <div className="font-medium text-foreground">{profile?.name || user?.email}</div>
+              <div className="capitalize text-xs">{role}</div>
+            </div>
+            <Button variant="outline" size="sm" onClick={handleLogout}>Log out</Button>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Content Area - Role Based Routing */}
+      <main className="flex-1 container mx-auto p-4 sm:p-8">
+        
+        {/* Render appropriate dashboard based on role */}
+        {role === "customer" ? (
+          <CustomerDashboard />
+        ) : (
+          <AgentDashboard />
+        )}
+
+        {/* Development Tool - Keep for testing */}
+        <div className="mt-20 pt-8 border-t text-center">
+          <p className="text-xs text-muted-foreground mb-3">Development Testing Tool</p>
+          <Button variant="outline" size="sm" onClick={handleToggleRole} className="text-xs h-8">
+            Toggle Role (Current: {role})
+          </Button>
+        </div>
+
+      </main>
     </div>
   );
 }
