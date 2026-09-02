@@ -7,6 +7,9 @@ import TicketList from "@/pages/tickets/TicketList";
 import CreateTicket from "@/pages/tickets/CreateTicket";
 import TicketDetail from "@/pages/tickets/TicketDetail";
 import AdminDashboard from "@/pages/admin/AdminDashboard";
+import KnowledgeBaseHome from "@/pages/knowledge/KnowledgeBaseHome";
+import ArticleDetail from "@/pages/knowledge/ArticleDetail";
+import ArticleEditor from "@/pages/knowledge/ArticleEditor";
 import { ProtectedRoute } from "./ProtectedRoute";
 
 // A basic layout wrapper for public landing page
@@ -62,6 +65,38 @@ export const router = createBrowserRouter([
     element: (
       <ProtectedRoute allowedRoles={["admin"]}>
         <AdminDashboard />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/kb",
+    element: (
+      <ProtectedRoute>
+        <KnowledgeBaseHome />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/kb/new",
+    element: (
+      <ProtectedRoute allowedRoles={["admin", "agent"]}>
+        <ArticleEditor />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/kb/:articleId",
+    element: (
+      <ProtectedRoute>
+        <ArticleDetail />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/kb/:articleId/edit",
+    element: (
+      <ProtectedRoute allowedRoles={["admin", "agent"]}>
+        <ArticleEditor />
       </ProtectedRoute>
     ),
   }

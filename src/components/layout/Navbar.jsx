@@ -3,7 +3,7 @@ import { useAuth } from "@/features/auth/AuthProvider";
 import { logoutUser } from "@/features/auth/services/authService";
 import { NotificationCenter } from "@/features/notifications/components/NotificationCenter";
 import { Button } from "@/components/ui/button";
-import { LogOut, Home, Ticket, ShieldCheck } from "lucide-react";
+import { LogOut, Home, Ticket, ShieldCheck, BookOpen } from "lucide-react";
 
 export function Navbar() {
   const { user, role } = useAuth();
@@ -29,6 +29,9 @@ export function Navbar() {
             </Link>
             <Link to="/tickets" className="transition-colors hover:text-foreground/80 text-foreground/60 flex items-center gap-2">
               <Ticket className="h-4 w-4" /> Tickets
+            </Link>
+            <Link to="/kb" className="transition-colors hover:text-foreground/80 text-foreground/60 flex items-center gap-2">
+              <BookOpen className="h-4 w-4" /> Help Center
             </Link>
             {role === "admin" && (
               <Link to="/admin" className="transition-colors hover:text-foreground/80 text-foreground/60 flex items-center gap-2">
