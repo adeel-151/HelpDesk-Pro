@@ -106,8 +106,8 @@
     --input: 214 32% 91%;
     --ring: 238 84% 67%;
     
-    /* Modern, slightly larger border radius */
-    --radius: 0.75rem;
+    /* Sharp edges (0rem radius) */
+    --radius: 0rem;
   }
 
   .dark {

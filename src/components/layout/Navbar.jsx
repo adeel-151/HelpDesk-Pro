@@ -31,11 +31,12 @@ export function Navbar() {
   if (!user) return null;
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl supports-[backdrop-filter]:bg-white/60">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <div className="flex items-center gap-8">
-          <Link to="/dashboard" className="flex items-center space-x-2 group">
-            <div className="bg-primary/10 text-primary p-2 rounded-xl group-hover:bg-primary group-hover:text-white transition-colors">
+    <div className="sticky top-0 z-50 w-full pt-4 px-4 pb-2 bg-gradient-to-b from-background/80 to-transparent backdrop-blur-[2px] pointer-events-none">
+      <header className="mx-auto max-w-7xl border border-border/50 bg-white/85 dark:bg-slate-950/85 backdrop-blur-2xl shadow-sm pointer-events-auto transition-all hover:shadow-md">
+        <div className="flex h-16 items-center justify-between px-6">
+          <div className="flex items-center gap-8">
+            <Link to="/dashboard" className="flex items-center space-x-2 group">
+              <div className="bg-primary text-primary-foreground p-1.5 shadow-inner">
               <LifeBuoy className="h-5 w-5" />
             </div>
             <span className="font-extrabold text-xl tracking-tight bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
@@ -45,26 +46,26 @@ export function Navbar() {
           <nav className="hidden md:flex items-center gap-1 text-sm font-medium">
             <Link 
               to="/dashboard" 
-              className={`px-3 py-2 rounded-md transition-colors flex items-center gap-2 ${isActive('/dashboard') ? 'bg-primary/10 text-primary font-semibold' : 'hover:bg-muted text-foreground/70 hover:text-foreground'}`}
+              className={`px-4 py-2 transition-all flex items-center gap-2 border-b-2 ${isActive('/dashboard') ? 'border-primary text-primary font-bold bg-primary/5' : 'border-transparent hover:border-border text-foreground/70 hover:text-foreground hover:bg-muted/50'}`}
             >
               <Home className="h-4 w-4" /> Dashboard
             </Link>
             <Link 
               to="/tickets" 
-              className={`px-3 py-2 rounded-md transition-colors flex items-center gap-2 ${isActive('/tickets') ? 'bg-primary/10 text-primary font-semibold' : 'hover:bg-muted text-foreground/70 hover:text-foreground'}`}
+              className={`px-4 py-2 transition-all flex items-center gap-2 border-b-2 ${isActive('/tickets') ? 'border-primary text-primary font-bold bg-primary/5' : 'border-transparent hover:border-border text-foreground/70 hover:text-foreground hover:bg-muted/50'}`}
             >
               <Ticket className="h-4 w-4" /> Tickets
             </Link>
             <Link 
               to="/kb" 
-              className={`px-3 py-2 rounded-md transition-colors flex items-center gap-2 ${isActive('/kb') ? 'bg-primary/10 text-primary font-semibold' : 'hover:bg-muted text-foreground/70 hover:text-foreground'}`}
+              className={`px-4 py-2 transition-all flex items-center gap-2 border-b-2 ${isActive('/kb') ? 'border-primary text-primary font-bold bg-primary/5' : 'border-transparent hover:border-border text-foreground/70 hover:text-foreground hover:bg-muted/50'}`}
             >
               <BookOpen className="h-4 w-4" /> Help Center
             </Link>
             {role === "admin" && (
               <Link 
                 to="/admin" 
-                className={`px-3 py-2 rounded-md transition-colors flex items-center gap-2 ${isActive('/admin') ? 'bg-primary/10 text-primary font-semibold' : 'hover:bg-muted text-foreground/70 hover:text-foreground'}`}
+                className={`px-4 py-2 transition-all flex items-center gap-2 border-b-2 ${isActive('/admin') ? 'border-primary text-primary font-bold bg-primary/5' : 'border-transparent hover:border-border text-foreground/70 hover:text-foreground hover:bg-muted/50'}`}
               >
                 <ShieldCheck className="h-4 w-4" /> Admin
               </Link>
@@ -86,8 +87,8 @@ export function Navbar() {
           <div className="hidden md:flex items-center gap-2 border-l pl-4 ml-2">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                  <Avatar className="h-8 w-8">
+                <Button variant="ghost" className="relative h-9 w-9 p-0 ring-1 ring-border">
+                  <Avatar className="h-9 w-9 rounded-none">
                     <AvatarImage src={user.photoURL} alt={user.displayName || "User"} />
                     <AvatarFallback>{(user.displayName || user.email).charAt(0).toUpperCase()}</AvatarFallback>
                   </Avatar>
@@ -120,5 +121,6 @@ export function Navbar() {
         </div>
       </div>
     </header>
+    </div>
   );
 }
