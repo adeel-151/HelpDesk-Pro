@@ -10,6 +10,7 @@ import AdminDashboard from "@/pages/admin/AdminDashboard";
 import KnowledgeBaseHome from "@/pages/knowledge/KnowledgeBaseHome";
 import ArticleDetail from "@/pages/knowledge/ArticleDetail";
 import ArticleEditor from "@/pages/knowledge/ArticleEditor";
+import UserProfile from "@/pages/profile/UserProfile";
 import { ProtectedRoute } from "./ProtectedRoute";
 
 // A basic layout wrapper for public landing page
@@ -97,6 +98,14 @@ export const router = createBrowserRouter([
     element: (
       <ProtectedRoute allowedRoles={["admin", "agent"]}>
         <ArticleEditor />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/profile",
+    element: (
+      <ProtectedRoute>
+        <UserProfile />
       </ProtectedRoute>
     ),
   }

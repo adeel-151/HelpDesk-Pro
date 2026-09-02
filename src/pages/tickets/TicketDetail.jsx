@@ -10,6 +10,7 @@ import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Textarea } from "@/components/ui/textarea";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -212,19 +213,26 @@ export default function TicketDetail() {
                 messages.filter(msg => msg.visibility !== 'internal' || role !== 'customer').map((msg) => {
                   const isCustomer = msg.senderRole === "customer";
                   return (
-                    <Card key={msg.id} className={`${isCustomer ? 'bg-background' : 'bg-primary/5 border-primary/20'}`}>
-                      <CardHeader className="py-3 px-4 flex flex-row items-center justify-between space-y-0 border-b">
-                        <div className="flex items-center gap-2">
-                          <span className="font-semibold text-sm capitalize">
-                            {msg.senderRole}
-                          </span>
-                          {msg.visibility === "internal" && (
-                            <Badge variant="destructive" className="text-[10px] h-4">Internal Note</Badge>
-                          )}
+                    <Card key={msg.id} className={msg.isInternal ? "border-amber-200 bg-amber-50" : ""}>
+                      <CardHeader className="py-4 px-4 pb-2 flex flex-row space-y-0 items-start justify-between">
+                        <div className="flex items-center gap-3">
+                          <Avatar className="h-8 w-8">
+                            <AvatarFallback className="text-xs">
+                              {msg.senderRole.charAt(0).toUpperCase()}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div className="flex flex-col">
+                            <span className="font-semibold text-sm capitalize">
+                              {msg.senderRole === "customer" ? "Customer" : "Support Agent"}
+                            </span>
+                            <span className="text-xs text-muted-foreground">
+                              {msg.createdAt?.toDate() ? format(msg.createdAt.toDate(), 'PPp') : "Just now"}
+                            </span>
+                          </div>
                         </div>
-                        <span className="text-xs text-muted-foreground">
-                          {msg.createdAt?.toDate() ? format(msg.createdAt.toDate(), 'MMM d, h:mm a') : "Just now"}
-                        </span>
+                        {msg.visibility === "internal" && (
+                          <Badge variant="destructive" className="text-[10px] h-4">Internal Note</Badge>
+                        )}
                       </CardHeader>
                       <CardContent className="py-4 px-4">
                         <p className="whitespace-pre-wrap text-sm">{msg.body}</p>

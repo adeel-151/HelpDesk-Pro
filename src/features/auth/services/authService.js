@@ -5,7 +5,7 @@ import {
   sendPasswordResetEmail,
   updateProfile
 } from "firebase/auth";
-import { doc, setDoc, getDoc, serverTimestamp } from "firebase/firestore";
+import { doc, setDoc, getDoc, updateDoc, serverTimestamp } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase/config";
 
 /**
@@ -59,6 +59,36 @@ export const logoutUser = async () => {
     await signOut(auth);
   } catch (error) {
     console.error("Error logging out:", error);
+    throw error;
+  }
+};
+
+/**
+ * Update User Profile
+ */
+export const updateUserProfile = async (displayName, photoURL) => {
+  try {
+    const user = auth.currentUser;
+    if (!user) throw new Error("No authenticated user");
+
+    // Update Firebase Auth profile
+    await updateProfile(user, {
+      displayName: displayName || user.displayName,
+      photoURL: photoURL || user.photoURL
+    });
+
+    // Sync with Firestore
+    const userDocRef = doc(db, "users", user.uid);
+    await updateDoc(userDocRef, {
+      displayName: displayName || user.displayName,
+      photoURL: photoURL || user.photoURL
+    });
+
+    // Force token refresh or state update might be needed in a larger app, 
+    // but React's onAuthStateChanged usually catches profile updates if re-triggered, 
+    // or we can handle local state via AuthProvider.
+  } catch (error) {
+    console.error("Error updating profile", error);
     throw error;
   }
 };
