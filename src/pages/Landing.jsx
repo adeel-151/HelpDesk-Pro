@@ -43,9 +43,7 @@ export default function Landing() {
           </div>
           
           <div className="container mx-auto px-4 relative z-10 text-center animate-in fade-in zoom-in-95 duration-1000">
-            <div className="inline-flex items-center rounded-full border border-white/20 px-3 py-1 text-xs font-semibold bg-white/10 text-white mb-8 backdrop-blur-md">
-              ✨ HelpDesk Pro v2.0 Now Live
-            </div>
+            
             
             <h1 className="text-5xl md:text-6xl lg:text-8xl font-extrabold tracking-tight mb-8 text-white drop-shadow-2xl leading-[1.1]">
               Customer support, <br/>
@@ -58,15 +56,15 @@ export default function Landing() {
               Resolve faster. Serve better. A modern, AI-ready workspace for your entire support team. Stop managing tickets and start building relationships.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mt-12">
               <Link to="/register">
-                <Button size="lg" className="h-14 px-10 text-lg group bg-primary text-white hover:bg-primary/90 border-0">
+                <Button size="lg" className="h-16 px-12 text-lg font-semibold group bg-white text-slate-950 hover:bg-slate-200 border-0 shadow-[0_0_40px_rgba(255,255,255,0.3)] hover:shadow-[0_0_60px_rgba(255,255,255,0.5)] hover:scale-105 transition-all duration-300">
                   Start for free
-                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1.5 transition-transform" />
                 </Button>
               </Link>
               <Link to="/login">
-                <Button size="lg" variant="outline" className="h-14 px-10 text-lg bg-white/10 text-white border-white/30 hover:bg-white/20 hover:text-white backdrop-blur-md">
+                <Button size="lg" variant="outline" className="h-16 px-12 text-lg font-semibold bg-white/5 text-white border-white/20 hover:bg-white/10 hover:text-white backdrop-blur-md hover:scale-105 transition-all duration-300">
                   View Demo
                 </Button>
               </Link>
