@@ -63,17 +63,17 @@ function CinematicHero() {
       <div className="absolute inset-0 bg-black/20" />
 
       {/* Massive Center Typography */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center z-10 flex flex-col items-center justify-center pointer-events-none">
-        <h1 className="hero-huge-text font-black text-5xl md:text-[8vw] text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.4)] uppercase w-full flex justify-center whitespace-nowrap">
+      <div className="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center z-10 flex flex-col items-center justify-center pointer-events-none px-4">
+        <h1 className="hero-huge-text font-black text-4xl md:text-[7vw] text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.4)] uppercase w-full flex justify-center whitespace-nowrap">
           H E L P D E S K
         </h1>
-        <p className="hero-subtext text-white/80 mt-4 tracking-[0.2em] uppercase font-bold text-xs md:text-sm drop-shadow-md">
+        <p className="hero-subtext text-white/80 mt-4 tracking-[0.2em] uppercase font-bold text-[10px] md:text-sm drop-shadow-md">
           Customer support, beautifully organized.
         </p>
       </div>
 
       {/* Bottom Left Glassmorphic Box */}
-      <div className="hero-glass-box absolute bottom-12 md:bottom-24 left-6 md:left-16 z-20 max-w-sm">
+      <div className="hero-glass-box absolute bottom-6 md:bottom-12 left-4 md:left-12 z-20 max-w-sm md:max-w-md w-[calc(100%-2rem)] md:w-auto">
         <div className="bg-white/10 backdrop-blur-md border border-white/20 p-6 md:p-8 relative overflow-hidden group hover:bg-white/15 transition-colors duration-500">
           <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-primary to-accent" />
           
@@ -97,16 +97,6 @@ function CinematicHero() {
             </Link>
           </div>
         </div>
-      </div>
-
-      {/* Right Navigation Dots */}
-      <div className="hero-side-elements absolute right-6 md:right-12 top-1/2 -translate-y-1/2 flex flex-col gap-4 z-20">
-        {[1, 2, 3, 4, 5].map((dot, i) => (
-          <div 
-            key={i} 
-            className={`w-1.5 h-1.5 rounded-full border border-white/50 ${i === 2 ? 'bg-white' : 'bg-transparent cursor-pointer hover:bg-white/50'} transition-colors`}
-          />
-        ))}
       </div>
 
       {/* Bottom Right Social Links */}
