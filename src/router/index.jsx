@@ -13,29 +13,38 @@ import ArticleEditor from "@/pages/knowledge/ArticleEditor";
 import UserProfile from "@/pages/profile/UserProfile";
 import { ProtectedRoute } from "./ProtectedRoute";
 
-// A basic layout wrapper for public landing page
+// Public pages wrapped in shared layout
+import { PublicLayout } from "@/components/layout/PublicLayout";
 import Landing from "@/pages/Landing";
 import Features from "@/pages/Features";
 import Pricing from "@/pages/Pricing";
 import Contact from "@/pages/Contact";
+import NotFound from "@/pages/NotFound";
 
 export const router = createBrowserRouter([
+  // Public pages with shared header/footer layout
   {
-    path: "/",
-    element: <Landing />,
+    element: <PublicLayout />,
+    children: [
+      {
+        path: "/",
+        element: <Landing />,
+      },
+      {
+        path: "/features",
+        element: <Features />,
+      },
+      {
+        path: "/pricing",
+        element: <Pricing />,
+      },
+      {
+        path: "/contact",
+        element: <Contact />,
+      },
+    ],
   },
-  {
-    path: "/features",
-    element: <Features />,
-  },
-  {
-    path: "/pricing",
-    element: <Pricing />,
-  },
-  {
-    path: "/contact",
-    element: <Contact />,
-  },
+  // Auth pages (no shared layout)
   {
     path: "/login",
     element: <Login />,
@@ -44,6 +53,7 @@ export const router = createBrowserRouter([
     path: "/register",
     element: <Register />,
   },
+  // Protected pages
   {
     path: "/dashboard",
     element: (
@@ -123,5 +133,10 @@ export const router = createBrowserRouter([
         <UserProfile />
       </ProtectedRoute>
     ),
-  }
+  },
+  // 404 catch-all
+  {
+    path: "*",
+    element: <NotFound />,
+  },
 ]);

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 @import "tailwindcss";
 @plugin "tailwindcss-animate";
 @plugin "@tailwindcss/typography";
@@ -76,67 +76,69 @@
 
 @layer base {
   :root {
-    /* Sleek Slate Background */
-    --background: 210 40% 98%; 
-    --foreground: 222 47% 11%;
+    /* Premium Slate Background */
+    --background: 220 20% 97%;
+    --foreground: 224 47% 11%;
 
     /* Vibrant Indigo Primary */
-    --primary: 238 84% 67%; /* Indigo 500 */
-    --primary-foreground: 210 40% 98%;
+    --primary: 238 76% 60%;
+    --primary-foreground: 0 0% 100%;
 
-    /* Soft Violet/Emerald Accent */
-    --accent: 250 84% 67%; 
-    --accent-foreground: 210 40% 98%;
+    /* Rich Violet Accent */
+    --accent: 262 72% 58%;
+    --accent-foreground: 0 0% 100%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card-foreground: 224 47% 11%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
-    
-    --secondary: 214 32% 91%; /* Slate 200 */
-    --secondary-foreground: 222 47% 11%;
-    
-    --muted: 214 32% 91%;
-    --muted-foreground: 215 16% 47%;
-    
-    --destructive: 348 83% 47%; /* Crimson */
-    --destructive-foreground: 210 40% 98%;
+    --popover-foreground: 224 47% 11%;
 
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 238 84% 67%;
-    
-    /* Sharp edges (0rem radius) */
-    --radius: 0rem;
+    --secondary: 220 14% 93%;
+    --secondary-foreground: 224 47% 11%;
+
+    --muted: 220 14% 93%;
+    --muted-foreground: 220 9% 46%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 13% 90%;
+    --input: 220 13% 90%;
+    --ring: 238 76% 60%;
+
+    /* Modern rounded corners */
+    --radius: 0.75rem;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
+    --background: 224 47% 5%;
     --foreground: 210 40% 98%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    /* Keep indigo primary in dark mode for brand consistency */
+    --primary: 238 76% 67%;
+    --primary-foreground: 0 0% 100%;
 
-    --accent: 142 71% 45%;
-    --accent-foreground: 144 100% 95%;
+    /* Emerald accent for dark mode vibrancy */
+    --accent: 160 64% 50%;
+    --accent-foreground: 0 0% 100%;
 
-    --card: 222.2 84% 4.9%;
+    --card: 224 40% 7%;
     --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
+    --popover: 224 40% 7%;
     --popover-foreground: 210 40% 98%;
 
-    --secondary: 217.2 32.6% 17.5%;
+    --secondary: 224 32% 14%;
     --secondary-foreground: 210 40% 98%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 224 32% 14%;
+    --muted-foreground: 218 11% 60%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 63% 41%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --border: 224 32% 14%;
+    --input: 224 32% 14%;
+    --ring: 238 76% 67%;
   }
 }
 
@@ -144,7 +146,32 @@
   * {
     @apply border-border;
   }
+  html {
+    scroll-behavior: smooth;
+  }
   body {
     @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  /* Premium custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.2);
+    border-radius: 100px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.35);
+  }
+
+  /* Selection styling */
+  ::selection {
+    background: hsl(var(--primary) / 0.2);
+    color: hsl(var(--primary));
   }
 }

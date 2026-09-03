@@ -250,7 +250,9 @@ export default function TicketDetail() {
                         )}
                       </CardHeader>
                       <CardContent className="py-4 px-4">
-                        <p className="whitespace-pre-wrap text-sm">{msg.body}</p>
+                        <div className="prose prose-sm dark:prose-invert max-w-none break-words">
+                          <ReactMarkdown remarkPlugins={[remarkGfm]}>{msg.body}</ReactMarkdown>
+                        </div>
                         {msg.attachments && msg.attachments.length > 0 && (
                           <div className="mt-3 pt-3 border-t border-muted">
                             <p className="text-xs text-muted-foreground mb-1">Attachments:</p>
