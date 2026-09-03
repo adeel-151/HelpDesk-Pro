@@ -19,9 +19,6 @@ const stagger = {
 export default function Pricing() {
   return (
     <>
-      {/* Pricing Hero */}
-    <>
-      {/* Pricing Hero */}
       <section className="py-24 md:py-32 bg-black text-white relative overflow-hidden border-b border-white/10">
         <div className="absolute top-0 right-0 -mr-40 -mt-40 w-[600px] h-[600px] bg-primary/20 blur-[150px] rounded-full" />
         <div className="absolute bottom-0 left-0 -ml-40 -mb-40 w-[600px] h-[600px] bg-accent/20 blur-[150px] rounded-full" />
