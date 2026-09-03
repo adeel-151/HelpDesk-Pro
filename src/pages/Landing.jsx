@@ -117,9 +117,9 @@ export default function Landing() {
       <CinematicHero />
 
       {/* Premium Stats Section */}
-      <section className="py-20 bg-background border-b border-border/50 relative overflow-hidden">
+      <section className="py-20 bg-black border-b border-white/10 relative overflow-hidden">
         {/* Ambient glow behind stats */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-5xl bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-5xl bg-primary/10 blur-[150px] rounded-full pointer-events-none" />
         
         <div className="container mx-auto px-4 relative z-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 text-center">
@@ -129,13 +129,10 @@ export default function Landing() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="flex flex-col items-center"
+              className="flex flex-col items-center p-6 bg-white/5 border border-white/10 backdrop-blur-md"
             >
-              <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-4 border border-primary/20">
-                <Activity className="h-6 w-6 text-primary" />
-              </div>
-              <h3 className="text-4xl md:text-5xl font-black text-foreground mb-2 tracking-tighter drop-shadow-sm">99.9%</h3>
-              <p className="text-sm text-muted-foreground font-bold uppercase tracking-[0.1em]">Uptime</p>
+              <h3 className="text-4xl md:text-5xl font-black text-white mb-2 tracking-widest drop-shadow-[0_0_15px_rgba(79,70,229,0.5)]">99.9%</h3>
+              <p className="text-xs text-white/50 font-bold uppercase tracking-[0.2em] mt-2">UPTIME</p>
             </motion.div>
 
             <motion.div 
@@ -143,13 +140,10 @@ export default function Landing() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="flex flex-col items-center"
+              className="flex flex-col items-center p-6 bg-white/5 border border-white/10 backdrop-blur-md"
             >
-              <div className="h-12 w-12 rounded-full bg-accent/10 flex items-center justify-center mb-4 border border-accent/20">
-                <CheckCircle className="h-6 w-6 text-accent" />
-              </div>
-              <h3 className="text-4xl md:text-5xl font-black text-foreground mb-2 tracking-tighter drop-shadow-sm">10k+</h3>
-              <p className="text-sm text-muted-foreground font-bold uppercase tracking-[0.1em]">Tickets Resolved</p>
+              <h3 className="text-4xl md:text-5xl font-black text-white mb-2 tracking-widest drop-shadow-[0_0_15px_rgba(79,70,229,0.5)]">10K+</h3>
+              <p className="text-xs text-white/50 font-bold uppercase tracking-[0.2em] mt-2">RESOLVED</p>
             </motion.div>
 
             <motion.div 
@@ -157,13 +151,10 @@ export default function Landing() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="flex flex-col items-center"
+              className="flex flex-col items-center p-6 bg-white/5 border border-white/10 backdrop-blur-md"
             >
-              <div className="h-12 w-12 rounded-full bg-emerald-500/10 flex items-center justify-center mb-4 border border-emerald-500/20">
-                <Zap className="h-6 w-6 text-emerald-500" />
-              </div>
-              <h3 className="text-4xl md:text-5xl font-black text-foreground mb-2 tracking-tighter drop-shadow-sm">&lt;2h</h3>
-              <p className="text-sm text-muted-foreground font-bold uppercase tracking-[0.1em]">Avg Response Time</p>
+              <h3 className="text-4xl md:text-5xl font-black text-white mb-2 tracking-widest drop-shadow-[0_0_15px_rgba(79,70,229,0.5)]">&lt;2H</h3>
+              <p className="text-xs text-white/50 font-bold uppercase tracking-[0.2em] mt-2">RESPONSE</p>
             </motion.div>
 
             <motion.div 
@@ -171,13 +162,10 @@ export default function Landing() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="flex flex-col items-center"
+              className="flex flex-col items-center p-6 bg-white/5 border border-white/10 backdrop-blur-md"
             >
-              <div className="h-12 w-12 rounded-full bg-blue-500/10 flex items-center justify-center mb-4 border border-blue-500/20">
-                <Shield className="h-6 w-6 text-blue-500" />
-              </div>
-              <h3 className="text-4xl md:text-5xl font-black text-foreground mb-2 tracking-tighter drop-shadow-sm">24/7</h3>
-              <p className="text-sm text-muted-foreground font-bold uppercase tracking-[0.1em]">Monitoring</p>
+              <h3 className="text-4xl md:text-5xl font-black text-white mb-2 tracking-widest drop-shadow-[0_0_15px_rgba(79,70,229,0.5)]">24/7</h3>
+              <p className="text-xs text-white/50 font-bold uppercase tracking-[0.2em] mt-2">MONITORING</p>
             </motion.div>
 
           </div>
@@ -185,28 +173,28 @@ export default function Landing() {
       </section>
 
       {/* Trusted by / Social Proof */}
-      <section className="py-16 border-b bg-background">
+      <section className="py-16 border-b border-white/10 bg-black">
         <div className="container mx-auto px-4">
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="text-center text-sm font-semibold text-muted-foreground uppercase tracking-[0.2em] mb-10"
+            className="text-center text-xs font-bold text-white/50 uppercase tracking-[0.3em] mb-10"
           >
-            Trusted by leading support teams worldwide
+            TRUSTED BY LEADING SUPPORT TEAMS WORLDWIDE
           </motion.p>
           <motion.div
             variants={stagger}
             initial="initial"
             whileInView="animate"
             viewport={{ once: true }}
-            className="flex flex-wrap justify-center items-center gap-x-12 gap-y-6 opacity-40"
+            className="flex flex-wrap justify-center items-center gap-x-12 gap-y-6 opacity-60"
           >
-            {["TechCorp", "DataFlow", "CloudSync", "SecureIO", "ScalePro"].map((name) => (
+            {["TECHCORP", "DATAFLOW", "CLOUDSYNC", "SECUREIO", "SCALEPRO"].map((name) => (
               <motion.div
                 key={name}
                 variants={fadeUp}
-                className="text-xl md:text-2xl font-black tracking-tight text-foreground"
+                className="text-xl md:text-2xl font-black tracking-widest text-white/40 hover:text-white transition-colors cursor-pointer"
               >
                 {name}
               </motion.div>
@@ -216,7 +204,7 @@ export default function Landing() {
       </section>
 
       {/* Features Section (Bento Grid) */}
-      <section className="py-24 bg-muted/30">
+      <section className="py-24 bg-black border-t border-white/10">
         <div className="container mx-auto px-4 max-w-6xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -225,9 +213,9 @@ export default function Landing() {
             transition={{ duration: 0.6 }}
             className="text-center mb-20 max-w-3xl mx-auto"
           >
-            <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">Built for scale. Designed for speed.</h2>
-            <p className="text-xl text-muted-foreground">
-              A carefully crafted suite of tools that gets out of your way, letting your team focus on what matters most: your customers.
+            <h2 className="text-3xl md:text-5xl font-black uppercase tracking-[0.2em] text-white mb-6">BUILT FOR SCALE</h2>
+            <p className="text-sm md:text-base text-white/50 tracking-widest uppercase">
+              A carefully crafted suite of tools designed for maximum velocity.
             </p>
           </motion.div>
           
@@ -239,57 +227,57 @@ export default function Landing() {
             className="grid grid-cols-1 md:grid-cols-3 gap-5 auto-rows-[280px]"
           >
             {/* Feature 1 (Large spans 2 cols) */}
-            <motion.div variants={fadeUp} transition={{ duration: 0.5 }} className="md:col-span-2 bg-background border rounded-2xl p-10 flex flex-col justify-between relative overflow-hidden group hover:border-primary/50 hover:shadow-lg transition-all duration-300">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 blur-[80px] rounded-full group-hover:bg-primary/15 transition-colors duration-500" />
+            <motion.div variants={fadeUp} transition={{ duration: 0.5 }} className="md:col-span-2 bg-white/5 border border-white/10 backdrop-blur-sm p-10 flex flex-col justify-between relative overflow-hidden group hover:border-primary/50 transition-colors duration-300">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 blur-[80px] rounded-full group-hover:bg-primary/20 transition-colors duration-500" />
               <div className="relative z-10 max-w-md">
-                <div className="w-14 h-14 bg-primary/10 text-primary flex items-center justify-center rounded-xl mb-6">
+                <div className="w-14 h-14 bg-transparent border border-white/20 text-white flex items-center justify-center mb-6">
                   <Zap className="h-7 w-7" />
                 </div>
-                <h3 className="text-3xl font-bold mb-4">Smart SLAs & Timers</h3>
-                <p className="text-lg text-muted-foreground">
+                <h3 className="text-xl font-bold uppercase tracking-widest text-white mb-4">SMART SLAS & TIMERS</h3>
+                <p className="text-sm text-white/50 leading-relaxed">
                   Automated deadline tracking based on ticket priority. Never miss a critical issue with our built-in countdown timers and visual alerts.
                 </p>
               </div>
             </motion.div>
             
             {/* Feature 2 */}
-            <motion.div variants={fadeUp} transition={{ duration: 0.5 }} className="bg-background border rounded-2xl p-10 flex flex-col justify-between relative overflow-hidden group hover:border-emerald-500/50 hover:shadow-lg transition-all duration-300">
-              <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-emerald-500/10 blur-[50px] rounded-full group-hover:bg-emerald-500/20 transition-colors duration-500" />
+            <motion.div variants={fadeUp} transition={{ duration: 0.5 }} className="bg-white/5 border border-white/10 backdrop-blur-sm p-10 flex flex-col justify-between relative overflow-hidden group hover:border-white/30 transition-colors duration-300">
+              <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-white/5 blur-[50px] rounded-full group-hover:bg-white/10 transition-colors duration-500" />
               <div className="relative z-10">
-                <div className="w-14 h-14 bg-emerald-500/10 text-emerald-500 flex items-center justify-center rounded-xl mb-6">
+                <div className="w-14 h-14 bg-transparent border border-white/20 text-white flex items-center justify-center mb-6">
                   <Edit3 className="h-7 w-7" />
                 </div>
-                <h3 className="text-2xl font-bold mb-3">Rich Markdown</h3>
-                <p className="text-muted-foreground">
+                <h3 className="text-lg font-bold uppercase tracking-widest text-white mb-3">RICH MARKDOWN</h3>
+                <p className="text-sm text-white/50 leading-relaxed">
                   Format code blocks, lists, and bold text effortlessly in every reply.
                 </p>
               </div>
             </motion.div>
             
             {/* Feature 3 */}
-            <motion.div variants={fadeUp} transition={{ duration: 0.5 }} className="bg-background border rounded-2xl p-10 flex flex-col justify-between relative overflow-hidden group hover:border-violet-500/50 hover:shadow-lg transition-all duration-300">
-              <div className="absolute -top-10 -left-10 w-40 h-40 bg-violet-500/10 blur-[50px] rounded-full group-hover:bg-violet-500/20 transition-colors duration-500" />
+            <motion.div variants={fadeUp} transition={{ duration: 0.5 }} className="bg-white/5 border border-white/10 backdrop-blur-sm p-10 flex flex-col justify-between relative overflow-hidden group hover:border-white/30 transition-colors duration-300">
+              <div className="absolute -top-10 -left-10 w-40 h-40 bg-white/5 blur-[50px] rounded-full group-hover:bg-white/10 transition-colors duration-500" />
               <div className="relative z-10">
-                <div className="w-14 h-14 bg-violet-500/10 text-violet-500 flex items-center justify-center rounded-xl mb-6">
+                <div className="w-14 h-14 bg-transparent border border-white/20 text-white flex items-center justify-center mb-6">
                   <BookOpen className="h-7 w-7" />
                 </div>
-                <h3 className="text-2xl font-bold mb-3">Knowledge Base</h3>
-                <p className="text-muted-foreground">
+                <h3 className="text-lg font-bold uppercase tracking-widest text-white mb-3">KNOWLEDGE BASE</h3>
+                <p className="text-sm text-white/50 leading-relaxed">
                   Build a searchable Help Center that empowers customers to find answers.
                 </p>
               </div>
             </motion.div>
 
             {/* Feature 4 (Large spans 2 cols) */}
-            <motion.div variants={fadeUp} transition={{ duration: 0.5 }} className="md:col-span-2 bg-slate-950 text-white border border-slate-800 rounded-2xl p-10 flex flex-col justify-between relative overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-emerald-500/10 opacity-50 group-hover:opacity-80 transition-opacity duration-500" />
+            <motion.div variants={fadeUp} transition={{ duration: 0.5 }} className="md:col-span-2 bg-white/5 border border-white/10 backdrop-blur-sm p-10 flex flex-col justify-between relative overflow-hidden group hover:border-accent/50 transition-colors duration-300">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10 opacity-50 group-hover:opacity-80 transition-opacity duration-500" />
               <div className="relative z-10 max-w-md">
-                <div className="w-14 h-14 bg-white/10 text-white flex items-center justify-center rounded-xl mb-6 border border-white/20 backdrop-blur-sm">
+                <div className="w-14 h-14 bg-transparent border border-white/20 text-white flex items-center justify-center mb-6">
                   <CheckCircle className="h-7 w-7" />
                 </div>
-                <h3 className="text-3xl font-bold mb-4">Enterprise Grade Security</h3>
-                <p className="text-slate-400 text-lg">
-                  Real-time Firebase synchronization, Bank-grade authentication, and strict Role-Based Access Control out of the box.
+                <h3 className="text-xl font-bold uppercase tracking-widest text-white mb-4">ENTERPRISE SECURITY</h3>
+                <p className="text-sm text-white/50 leading-relaxed">
+                  Real-time synchronization, advanced encryption, and strict Role-Based Access Control out of the box.
                 </p>
               </div>
             </motion.div>
@@ -298,11 +286,11 @@ export default function Landing() {
       </section>
 
       {/* Workflow Section */}
-      <section className="py-32 bg-background relative overflow-hidden">
+      <section className="py-32 bg-black border-t border-white/10 relative overflow-hidden">
         <div className="container mx-auto px-4 max-w-6xl relative z-10">
           <div className="text-center mb-24">
-            <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">Seamless Workflow</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <h2 className="text-3xl md:text-5xl font-black uppercase tracking-[0.2em] text-white mb-6">SEAMLESS WORKFLOW</h2>
+            <p className="text-sm md:text-base text-white/50 tracking-widest uppercase max-w-2xl mx-auto">
               We've designed every interaction to save you seconds. Over thousands of tickets, those seconds turn into weeks of saved time.
             </p>
           </div>
@@ -337,17 +325,17 @@ export default function Landing() {
                 className={`flex flex-col ${step.align === 'left' ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-12 md:gap-24`}
               >
                 <div className="flex-1 text-center md:text-left">
-                  <div className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-muted/50 border mb-6 ${step.align === 'left' ? 'mx-auto md:mx-0' : 'mx-auto md:ml-auto md:mr-0'}`}>
+                  <div className={`inline-flex items-center justify-center w-16 h-16 bg-transparent border border-white/20 mb-6 ${step.align === 'left' ? 'mx-auto md:mx-0' : 'mx-auto md:ml-auto md:mr-0'}`}>
                     {step.icon}
                   </div>
-                  <h3 className="text-3xl font-bold mb-4">{step.title}</h3>
-                  <p className="text-xl text-muted-foreground leading-relaxed">{step.desc}</p>
+                  <h3 className="text-2xl font-bold uppercase tracking-widest text-white mb-4">{step.title}</h3>
+                  <p className="text-sm text-white/50 leading-relaxed">{step.desc}</p>
                 </div>
                 <div className="flex-1 w-full relative">
-                  <div className="aspect-[4/3] rounded-2xl bg-muted/20 border border-border/50 shadow-2xl relative overflow-hidden backdrop-blur-sm">
-                    <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 to-accent/5" />
-                    <div className="absolute inset-0 flex items-center justify-center text-muted-foreground/30 font-medium text-lg">
-                      [ Interactive UI Mockup ]
+                  <div className="aspect-[4/3] bg-white/5 border border-white/10 shadow-[0_0_30px_rgba(0,0,0,0.5)] relative overflow-hidden backdrop-blur-sm group hover:border-white/30 transition-colors duration-500">
+                    <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 to-accent/10 opacity-50 group-hover:opacity-80 transition-opacity" />
+                    <div className="absolute inset-0 flex items-center justify-center text-white/30 font-bold uppercase tracking-[0.2em] text-sm">
+                      [ INTERACTIVE UI MOCKUP ]
                     </div>
                   </div>
                 </div>
@@ -358,12 +346,12 @@ export default function Landing() {
       </section>
 
       {/* Wall of Love (Testimonials) */}
-      <section className="py-32 bg-muted/20 border-y relative overflow-hidden">
+      <section className="py-32 bg-black border-t border-white/10 relative overflow-hidden">
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">Wall of Love</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Don't just take our word for it. See what top support teams are saying about HelpDesk Pro.
+            <h2 className="text-3xl md:text-5xl font-black uppercase tracking-[0.2em] text-white mb-6">WALL OF LOVE</h2>
+            <p className="text-sm md:text-base text-white/50 tracking-widest uppercase max-w-2xl mx-auto">
+              Don't just take our word for it. See what top support teams are saying about HelpDesk.
             </p>
           </div>
 
@@ -382,17 +370,17 @@ export default function Landing() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="break-inside-avoid bg-background border rounded-2xl p-8 hover:shadow-xl hover:border-primary/30 transition-all duration-300"
+                className="break-inside-avoid bg-white/5 border border-white/10 p-8 hover:border-primary/50 transition-colors duration-300 group"
               >
-                <div className="flex text-amber-400 mb-4">
-                  {[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-current" />)}
+                <div className="flex text-primary mb-4">
+                  {[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-current drop-shadow-[0_0_5px_rgba(79,70,229,0.8)]" />)}
                 </div>
-                <p className="text-foreground/90 text-lg mb-6 leading-relaxed">"{review.text}"</p>
+                <p className="text-white/80 text-sm mb-6 leading-relaxed uppercase tracking-wide">"{review.text}"</p>
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-primary to-accent" />
+                  <div className="w-10 h-10 bg-gradient-to-tr from-primary to-accent border border-white/20" />
                   <div>
-                    <h4 className="font-bold text-foreground">{review.author}</h4>
-                    <p className="text-sm text-muted-foreground">{review.role}</p>
+                    <h4 className="font-bold text-white uppercase tracking-wider text-xs">{review.author}</h4>
+                    <p className="text-[10px] text-white/50 uppercase tracking-[0.2em]">{review.role}</p>
                   </div>
                 </div>
               </motion.div>
@@ -402,101 +390,101 @@ export default function Landing() {
       </section>
 
       {/* Pricing Section */}
-      <section className="py-32 bg-background relative overflow-hidden">
+      <section className="py-32 bg-black border-t border-white/10 relative overflow-hidden">
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="text-center mb-24">
-            <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">Simple, transparent pricing</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              No hidden fees. No surprise charges. Choose the plan that best fits your team's needs.
+            <h2 className="text-3xl md:text-5xl font-black uppercase tracking-[0.2em] text-white mb-6">TRANSPARENT PRICING</h2>
+            <p className="text-sm md:text-base text-white/50 tracking-widest uppercase max-w-2xl mx-auto">
+              No hidden fees. Choose the tier that fits your operational capacity.
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {/* Starter Plan */}
-            <div className="bg-background border rounded-3xl p-8 flex flex-col hover:border-foreground/20 transition-all duration-300">
-              <h3 className="text-2xl font-bold mb-2">Starter</h3>
-              <p className="text-muted-foreground mb-6">Perfect for small teams getting started.</p>
+            <div className="bg-white/5 border border-white/10 p-8 flex flex-col hover:border-white/30 transition-colors duration-300">
+              <h3 className="text-xl font-bold uppercase tracking-widest text-white mb-2">STARTER</h3>
+              <p className="text-xs text-white/50 uppercase tracking-widest mb-6 leading-relaxed">Perfect for small teams getting started.</p>
               <div className="mb-8">
-                <span className="text-5xl font-black">$29</span>
-                <span className="text-muted-foreground">/mo per agent</span>
+                <span className="text-5xl font-black text-white">$29</span>
+                <span className="text-xs text-white/50 uppercase tracking-widest ml-2">/MO PER AGENT</span>
               </div>
               <ul className="space-y-4 mb-8 flex-1">
                 {["Up to 3 agents", "Basic reporting", "Email support", "Standard knowledge base"].map((feat, i) => (
                   <li key={i} className="flex items-center gap-3">
-                    <Check className="w-5 h-5 text-emerald-500" />
-                    <span>{feat}</span>
+                    <Check className="w-5 h-5 text-white/50" />
+                    <span className="text-sm text-white/80 uppercase tracking-wide">{feat}</span>
                   </li>
                 ))}
               </ul>
-              <Button variant="outline" className="w-full h-12 rounded-xl text-base">Get Started</Button>
+              <Button variant="outline" className="w-full h-12 rounded-none text-xs font-bold uppercase tracking-widest bg-transparent text-white border-white/20 hover:bg-white/10 hover:text-white">INITIATE</Button>
             </div>
 
             {/* Pro Plan */}
-            <div className="bg-background border border-primary relative rounded-3xl p-8 flex flex-col shadow-[0_0_50px_rgba(6,182,212,0.15)] md:-translate-y-4">
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-bold uppercase tracking-wider">
-                Most Popular
+            <div className="bg-white/5 border border-primary relative p-8 flex flex-col shadow-[0_0_50px_rgba(79,70,229,0.15)] md:-translate-y-4 group">
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary text-white px-4 py-1 text-[10px] font-bold uppercase tracking-widest border border-primary">
+                MOST POPULAR
               </div>
-              <h3 className="text-2xl font-bold mb-2">Professional</h3>
-              <p className="text-muted-foreground mb-6">For growing teams that need more power.</p>
+              <h3 className="text-xl font-bold uppercase tracking-widest text-white mb-2">PROFESSIONAL</h3>
+              <p className="text-xs text-white/50 uppercase tracking-widest mb-6 leading-relaxed">For growing teams that need more power.</p>
               <div className="mb-8">
-                <span className="text-5xl font-black">$79</span>
-                <span className="text-muted-foreground">/mo per agent</span>
+                <span className="text-5xl font-black text-white drop-shadow-[0_0_15px_rgba(79,70,229,0.5)]">$79</span>
+                <span className="text-xs text-white/50 uppercase tracking-widest ml-2">/MO PER AGENT</span>
               </div>
               <ul className="space-y-4 mb-8 flex-1">
                 {["Unlimited agents", "Advanced AI routing", "Custom domains", "24/7 Priority support", "Custom workflows"].map((feat, i) => (
                   <li key={i} className="flex items-center gap-3">
-                    <Check className="w-5 h-5 text-primary" />
-                    <span>{feat}</span>
+                    <Check className="w-5 h-5 text-primary drop-shadow-[0_0_5px_rgba(79,70,229,0.8)]" />
+                    <span className="text-sm text-white/80 uppercase tracking-wide">{feat}</span>
                   </li>
                 ))}
               </ul>
-              <Button className="w-full h-12 rounded-xl text-base shadow-lg shadow-primary/25 hover:scale-[1.02] transition-transform">Start Free Trial</Button>
+              <Button className="w-full h-12 rounded-none text-xs font-bold uppercase tracking-widest bg-primary text-white hover:bg-primary/90 shadow-[0_0_20px_rgba(79,70,229,0.4)]">START FREE TRIAL</Button>
             </div>
 
             {/* Enterprise Plan */}
-            <div className="bg-background border rounded-3xl p-8 flex flex-col hover:border-foreground/20 transition-all duration-300">
-              <h3 className="text-2xl font-bold mb-2">Enterprise</h3>
-              <p className="text-muted-foreground mb-6">Advanced security and custom deployments.</p>
+            <div className="bg-white/5 border border-white/10 p-8 flex flex-col hover:border-white/30 transition-colors duration-300">
+              <h3 className="text-xl font-bold uppercase tracking-widest text-white mb-2">ENTERPRISE</h3>
+              <p className="text-xs text-white/50 uppercase tracking-widest mb-6 leading-relaxed">Advanced security and custom deployments.</p>
               <div className="mb-8">
-                <span className="text-5xl font-black">Custom</span>
+                <span className="text-3xl font-black text-white uppercase tracking-widest mt-2 block">CUSTOM</span>
               </div>
               <ul className="space-y-4 mb-8 flex-1">
                 {["Dedicated success manager", "SSO & SAML", "SLA guarantees", "On-premise deployment options"].map((feat, i) => (
                   <li key={i} className="flex items-center gap-3">
-                    <Check className="w-5 h-5 text-emerald-500" />
-                    <span>{feat}</span>
+                    <Check className="w-5 h-5 text-white/50" />
+                    <span className="text-sm text-white/80 uppercase tracking-wide">{feat}</span>
                   </li>
                 ))}
               </ul>
-              <Button variant="outline" className="w-full h-12 rounded-xl text-base">Contact Sales</Button>
+              <Button variant="outline" className="w-full h-12 rounded-none text-xs font-bold uppercase tracking-widest bg-transparent text-white border-white/20 hover:bg-white/10 hover:text-white">CONTACT COMMS</Button>
             </div>
           </div>
         </div>
       </section>
 
       {/* FAQ Section */}
-      <section className="py-32 bg-muted/20 border-t relative overflow-hidden">
+      <section className="py-32 bg-black border-t border-white/10 relative overflow-hidden">
         <div className="container mx-auto px-4 max-w-3xl">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">Frequently Asked Questions</h2>
+            <h2 className="text-3xl md:text-5xl font-black uppercase tracking-[0.2em] text-white mb-6">SYSTEM INQUIRIES</h2>
           </div>
           
           <div className="space-y-4">
             {[
-              { q: "How long does it take to migrate from another helpdesk?", a: "Most migrations take less than 24 hours. Our dedicated onboarding team handles the entire data import process from Zendesk, Intercom, or Freshdesk." },
-              { q: "Do you offer a free trial?", a: "Yes, we offer a fully-featured 14-day free trial on our Professional plan. No credit card required." },
-              { q: "What integrations do you support?", a: "We integrate with Slack, Jira, Salesforce, Stripe, Shopify, and over 1,000 other tools via Zapier. We also provide a robust REST API." },
-              { q: "Can I customize the look of the knowledge base?", a: "Absolutely. You have full control over CSS, HTML, and domain mapping to ensure the help center perfectly matches your brand." }
+              { q: "How long does it take to migrate?", a: "Migrations are typically executed in under 24 hours. Our automated processes handle data imports from legacy systems." },
+              { q: "Is there an evaluation period?", a: "Yes, a 14-day full access trial is available on the Professional tier. No payment data required." },
+              { q: "Which external protocols are supported?", a: "Native integrations exist for Slack, Jira, Salesforce, Stripe, and a robust REST API for custom links." },
+              { q: "Can we modify the knowledge base UI?", a: "Full CSS and HTML overrides are supported, along with domain mapping for complete brand alignment." }
             ].map((faq, i) => {
               const [isOpen, setIsOpen] = useState(false);
               return (
-                <div key={i} className="bg-background border rounded-2xl overflow-hidden">
+                <div key={i} className="bg-white/5 border border-white/10 overflow-hidden">
                   <button 
                     onClick={() => setIsOpen(!isOpen)}
-                    className="w-full flex items-center justify-between p-6 text-left hover:bg-muted/30 transition-colors"
+                    className="w-full flex items-center justify-between p-6 text-left hover:bg-white/10 transition-colors"
                   >
-                    <span className="font-bold text-lg">{faq.q}</span>
-                    {isOpen ? <Minus className="w-5 h-5 text-muted-foreground flex-shrink-0" /> : <Plus className="w-5 h-5 text-muted-foreground flex-shrink-0" />}
+                    <span className="font-bold text-sm uppercase tracking-widest text-white/90">{faq.q}</span>
+                    {isOpen ? <Minus className="w-5 h-5 text-white/50 flex-shrink-0" /> : <Plus className="w-5 h-5 text-white/50 flex-shrink-0" />}
                   </button>
                   <AnimatePresence>
                     {isOpen && (
@@ -504,7 +492,7 @@ export default function Landing() {
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
-                        className="px-6 pb-6 text-muted-foreground"
+                        className="px-6 pb-6 text-xs text-white/50 uppercase tracking-widest leading-relaxed"
                       >
                         {faq.a}
                       </motion.div>
@@ -518,8 +506,8 @@ export default function Landing() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-32 relative overflow-hidden bg-foreground text-background">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-full bg-gradient-to-r from-primary/30 via-accent/30 to-primary/30 blur-[100px] pointer-events-none" />
+      <section className="py-32 relative overflow-hidden bg-black border-t border-white/10">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-full bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 blur-[150px] pointer-events-none" />
         
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -528,14 +516,14 @@ export default function Landing() {
           transition={{ duration: 0.7 }}
           className="container mx-auto px-4 max-w-4xl text-center relative z-10"
         >
-          <h2 className="text-5xl md:text-7xl font-black mb-8 tracking-tight">Ready to transform your support?</h2>
-          <p className="text-xl md:text-2xl text-background/70 mb-12 font-light">
-            Join today and start delivering exceptional customer experiences. It takes less than 2 minutes to set up.
+          <h2 className="text-4xl md:text-7xl font-black mb-8 tracking-[0.2em] uppercase text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">INITIATE SEQUENCE</h2>
+          <p className="text-xs md:text-sm text-white/50 uppercase tracking-[0.3em] mb-12 font-bold">
+            System ready for immediate deployment. Access granted in under 2 minutes.
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
             <Link to="/register">
-              <Button size="lg" className="h-14 px-10 text-lg bg-background text-foreground hover:bg-background/90 border-0 shadow-[0_0_40px_rgba(255,255,255,0.1)] hover:scale-[1.03] transition-all rounded-xl">
-                Create Free Account
+              <Button size="lg" className="h-14 px-10 text-xs font-bold tracking-[0.2em] uppercase bg-white text-black hover:bg-white/90 border-0 shadow-[0_0_40px_rgba(255,255,255,0.4)] transition-all rounded-none">
+                AUTHORIZE ACCESS
               </Button>
             </Link>
           </div>
