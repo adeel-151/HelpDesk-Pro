@@ -1,8 +1,20 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Link, useLocation } from "react-router-dom";
-import { LifeBuoy, Menu, X } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { LifeBuoy, Menu, X, User as UserIcon, LogOut, LayoutDashboard } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useAuth } from "@/features/auth/AuthProvider";
+import { logoutUser } from "@/features/auth/services/authService";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuLabel, 
+  DropdownMenuSeparator, 
+  DropdownMenuTrigger 
+} from "@/components/ui/dropdown-menu";
+import { Badge } from "@/components/ui/badge";
 
 const navLinks = [
   { name: "Features", path: "/features" },
@@ -12,9 +24,18 @@ const navLinks = [
 
 export function PublicHeader() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
+  
+  // Use auth state
+  const { user, role } = useAuth();
 
   const isActive = (path) => location.pathname === path;
+
+  const handleLogout = async () => {
+    await logoutUser();
+    navigate("/");
+  };
 
   return (
     <>
@@ -43,15 +64,66 @@ export function PublicHeader() {
                 </Button>
               </Link>
             ))}
+            
             <div className="w-px h-6 bg-border mx-2" />
-            <Link to="/login">
-              <Button variant="outline" className="mr-2">
-                Log in
-              </Button>
-            </Link>
-            <Link to="/register">
-              <Button>Get Started</Button>
-            </Link>
+            
+            {!user ? (
+              <>
+                <Link to="/login">
+                  <Button variant="outline" className="mr-2">
+                    Log in
+                  </Button>
+                </Link>
+                <Link to="/register">
+                  <Button>Get Started</Button>
+                </Link>
+              </>
+            ) : (
+              <div className="flex items-center gap-3">
+                <Link to="/dashboard">
+                  <Button variant="outline" className="mr-2">
+                    Dashboard
+                  </Button>
+                </Link>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="relative h-9 w-9 p-0 rounded-full ring-1 ring-border">
+                      <Avatar className="h-9 w-9">
+                        <AvatarImage src={user.photoURL} alt={user.displayName || "User"} />
+                        <AvatarFallback>{(user.displayName || user.email)?.charAt(0).toUpperCase()}</AvatarFallback>
+                      </Avatar>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56" align="end" forceMount>
+                    <DropdownMenuLabel className="font-normal">
+                      <div className="flex flex-col space-y-1">
+                        <p className="text-sm font-medium leading-none">{user.displayName || "User"}</p>
+                        <p className="text-xs leading-none text-muted-foreground">
+                          {user.email}
+                        </p>
+                        <Badge variant="secondary" className="w-fit mt-2 capitalize text-[10px]">
+                          {role}
+                        </Badge>
+                      </div>
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={() => navigate("/dashboard")} className="cursor-pointer">
+                      <LayoutDashboard className="mr-2 h-4 w-4" />
+                      <span>Dashboard</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => navigate("/profile")} className="cursor-pointer">
+                      <UserIcon className="mr-2 h-4 w-4" />
+                      <span>Profile</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-red-600 focus:text-red-600">
+                      <LogOut className="mr-2 h-4 w-4" />
+                      <span>Log out</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            )}
           </nav>
 
           {/* Mobile Menu Toggle */}
@@ -91,16 +163,47 @@ export function PublicHeader() {
                 </Link>
               ))}
               <div className="h-px bg-border my-4" />
-              <div className="flex gap-3">
-                <Link to="/login" className="flex-1" onClick={() => setMobileOpen(false)}>
-                  <Button variant="outline" className="w-full h-12">
-                    Log in
+              
+              {!user ? (
+                <div className="flex gap-3">
+                  <Link to="/login" className="flex-1" onClick={() => setMobileOpen(false)}>
+                    <Button variant="outline" className="w-full h-12">
+                      Log in
+                    </Button>
+                  </Link>
+                  <Link to="/register" className="flex-1" onClick={() => setMobileOpen(false)}>
+                    <Button className="w-full h-12">Get Started</Button>
+                  </Link>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3 px-2">
+                    <Avatar className="h-10 w-10 border">
+                      <AvatarImage src={user.photoURL} />
+                      <AvatarFallback>{(user.displayName || user.email)?.charAt(0).toUpperCase()}</AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <p className="text-sm font-medium">{user.displayName || "User"}</p>
+                      <p className="text-xs text-muted-foreground">{user.email}</p>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <Link to="/dashboard" onClick={() => setMobileOpen(false)}>
+                      <Button variant="outline" className="w-full h-12">
+                        <LayoutDashboard className="mr-2 h-4 w-4" /> Dashboard
+                      </Button>
+                    </Link>
+                    <Link to="/profile" onClick={() => setMobileOpen(false)}>
+                      <Button variant="outline" className="w-full h-12">
+                        <UserIcon className="mr-2 h-4 w-4" /> Profile
+                      </Button>
+                    </Link>
+                  </div>
+                  <Button variant="destructive" className="w-full h-12" onClick={handleLogout}>
+                    <LogOut className="mr-2 h-4 w-4" /> Log out
                   </Button>
-                </Link>
-                <Link to="/register" className="flex-1" onClick={() => setMobileOpen(false)}>
-                  <Button className="w-full h-12">Get Started</Button>
-                </Link>
-              </div>
+                </div>
+              )}
             </div>
           </motion.div>
         )}
