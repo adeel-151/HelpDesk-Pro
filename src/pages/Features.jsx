@@ -22,9 +22,9 @@ export default function Features() {
   return (
     <>
       {/* Features Hero */}
-      <section className="py-24 md:py-32 bg-slate-950 text-white relative overflow-hidden">
-        <div className="absolute top-0 right-0 -mr-40 -mt-40 w-[600px] h-[600px] bg-primary/20 blur-[150px] rounded-full" />
-        <div className="absolute bottom-0 left-0 -ml-40 -mb-40 w-[600px] h-[600px] bg-emerald-500/20 blur-[150px] rounded-full" />
+      <section className="py-24 md:py-32 bg-background text-foreground relative overflow-hidden border-b">
+        <div className="absolute top-0 right-0 -mr-40 -mt-40 w-[600px] h-[600px] bg-primary/10 blur-[150px] rounded-full" />
+        <div className="absolute bottom-0 left-0 -ml-40 -mb-40 w-[600px] h-[600px] bg-emerald-500/10 blur-[150px] rounded-full" />
         
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -32,14 +32,14 @@ export default function Features() {
           transition={{ duration: 0.7 }}
           className="container mx-auto px-4 text-center relative z-10"
         >
-          <div className="inline-flex items-center rounded-full border border-primary/30 px-4 py-1.5 text-sm font-semibold bg-primary/10 text-primary-foreground mb-8">
+          <div className="inline-flex items-center rounded-full border border-primary/30 px-4 py-1.5 text-sm font-semibold bg-primary/10 text-primary mb-8">
             Explore Our Platform
           </div>
-          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 drop-shadow-lg">
+          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 drop-shadow-sm">
             Everything you need.<br/>
-            <span className="text-slate-400">Nothing you don't.</span>
+            <span className="text-muted-foreground">Nothing you don't.</span>
           </h1>
-          <p className="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto font-light leading-relaxed">
+          <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto font-light leading-relaxed">
             We stripped away the clutter of legacy helpdesks to bring you a lightning-fast, incredibly powerful workspace built for modern teams.
           </p>
         </motion.div>

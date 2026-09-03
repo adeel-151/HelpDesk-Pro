@@ -33,20 +33,20 @@ function AnimatedCounter({ value, suffix = "", prefix = "" }) {
 export default function Landing() {
   return (
     <>
-      {/* Hero Section — Pure CSS gradient, no external images */}
-      <section className="relative w-full min-h-[90vh] flex items-center justify-center overflow-hidden bg-slate-950">
+      {/* Hero Section */}
+      <section className="relative w-full min-h-[90vh] flex items-center justify-center overflow-hidden bg-background">
         {/* Animated gradient orbs */}
         <div className="absolute inset-0">
-          <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-primary/30 blur-[180px] rounded-full animate-pulse" style={{ animationDuration: '4s' }} />
-          <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-accent/25 blur-[150px] rounded-full animate-pulse" style={{ animationDuration: '6s' }} />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-emerald-500/15 blur-[120px] rounded-full animate-pulse" style={{ animationDuration: '5s' }} />
+          <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-primary/20 blur-[180px] rounded-full animate-pulse" style={{ animationDuration: '4s' }} />
+          <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-accent/20 blur-[150px] rounded-full animate-pulse" style={{ animationDuration: '6s' }} />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-emerald-500/10 blur-[120px] rounded-full animate-pulse" style={{ animationDuration: '5s' }} />
         </div>
 
         {/* Subtle grid pattern */}
         <div
-          className="absolute inset-0 opacity-[0.03]"
+          className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]"
           style={{
-            backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
+            backgroundImage: `linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px)`,
             backgroundSize: '60px 60px'
           }}
         />
@@ -62,15 +62,15 @@ export default function Landing() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2 }}
-            className="inline-flex items-center rounded-full border border-white/10 px-4 py-1.5 text-sm font-medium bg-white/5 text-white/80 backdrop-blur-md mb-8 gap-2"
+            className="inline-flex items-center rounded-full border border-border px-4 py-1.5 text-sm font-medium bg-muted/50 text-muted-foreground backdrop-blur-md mb-8 gap-2"
           >
-            <Sparkles className="h-3.5 w-3.5 text-amber-400" />
+            <Sparkles className="h-3.5 w-3.5 text-amber-500" />
             Now with AI-powered smart routing
           </motion.div>
 
-          <h1 className="text-5xl md:text-6xl lg:text-8xl font-extrabold tracking-tight mb-8 text-white drop-shadow-2xl leading-[1.08]">
+          <h1 className="text-5xl md:text-6xl lg:text-8xl font-extrabold tracking-tight mb-8 text-foreground drop-shadow-sm leading-[1.08]">
             Customer support,<br/>
-            <span className="bg-gradient-to-r from-blue-400 via-indigo-300 to-emerald-300 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-blue-500 via-indigo-500 to-emerald-500 bg-clip-text text-transparent">
               beautifully organized.
             </span>
           </h1>
@@ -79,7 +79,7 @@ export default function Landing() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.8 }}
-            className="text-lg md:text-2xl text-slate-300 mb-12 max-w-3xl mx-auto font-light drop-shadow-md leading-relaxed"
+            className="text-lg md:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto font-light leading-relaxed"
           >
             Resolve faster. Serve better. A modern, AI-ready workspace for your entire support team. Stop managing tickets and start building relationships.
           </motion.p>
@@ -91,13 +91,13 @@ export default function Landing() {
             className="flex flex-col sm:flex-row gap-5 justify-center items-center mb-16"
           >
             <Link to="/register">
-              <Button size="lg" className="h-14 px-10 text-lg font-semibold group bg-white text-slate-950 hover:bg-slate-100 border-0 shadow-[0_0_40px_rgba(255,255,255,0.2)] hover:shadow-[0_0_60px_rgba(255,255,255,0.4)] hover:scale-[1.03] transition-all duration-300 rounded-xl">
+              <Button size="lg" className="h-14 px-10 text-lg font-semibold group hover:scale-[1.03] transition-all duration-300 rounded-xl shadow-lg shadow-primary/20">
                 Start for free
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
             <Link to="/login">
-              <Button size="lg" variant="outline" className="h-14 px-10 text-lg font-semibold bg-white/5 text-white border-white/15 hover:bg-white/10 hover:text-white backdrop-blur-md hover:scale-[1.03] transition-all duration-300 rounded-xl">
+              <Button size="lg" variant="outline" className="h-14 px-10 text-lg font-semibold hover:scale-[1.03] transition-all duration-300 rounded-xl bg-background/50 backdrop-blur-md">
                 View Demo
               </Button>
             </Link>
@@ -108,9 +108,9 @@ export default function Landing() {
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 1, type: "spring", bounce: 0.3 }}
-            className="mx-auto max-w-5xl relative rounded-2xl p-2 bg-white/5 border border-white/10 backdrop-blur-sm"
+            className="mx-auto max-w-5xl relative rounded-2xl p-2 bg-muted/30 border border-border/50 backdrop-blur-sm"
           >
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent z-10 rounded-2xl" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10 rounded-2xl" />
             <img 
               src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=2070&q=80" 
               alt="Professional dashboard interface preview" 

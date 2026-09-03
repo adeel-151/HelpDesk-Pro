@@ -77,6 +77,8 @@ export function Navbar() {
           <div className="flex items-center gap-2 md:gap-3">
             {!user ? (
               <div className="hidden md:flex items-center gap-2">
+                <ModeToggle />
+                <div className="h-6 w-px bg-border/60 mx-1" />
                 <Link to="/login">
                   <Button variant="outline">Log in</Button>
                 </Link>
@@ -186,15 +188,21 @@ export function Navbar() {
               <div className="h-px bg-border my-4" />
               
               {!user ? (
-                <div className="flex gap-3">
-                  <Link to="/login" className="flex-1" onClick={() => setMobileOpen(false)}>
-                    <Button variant="outline" className="w-full h-12">
-                      Log in
-                    </Button>
-                  </Link>
-                  <Link to="/register" className="flex-1" onClick={() => setMobileOpen(false)}>
-                    <Button className="w-full h-12">Get Started</Button>
-                  </Link>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between px-2">
+                    <span className="text-sm font-medium text-muted-foreground">Theme</span>
+                    <ModeToggle />
+                  </div>
+                  <div className="flex gap-3">
+                    <Link to="/login" className="flex-1" onClick={() => setMobileOpen(false)}>
+                      <Button variant="outline" className="w-full h-12">
+                        Log in
+                      </Button>
+                    </Link>
+                    <Link to="/register" className="flex-1" onClick={() => setMobileOpen(false)}>
+                      <Button className="w-full h-12">Get Started</Button>
+                    </Link>
+                  </div>
                 </div>
               ) : (
                 <div className="space-y-4">
