@@ -73,7 +73,7 @@ function CinematicHero() {
     <section 
       ref={container}
       onMouseMove={handleMouseMove}
-      className="relative w-full pt-32 pb-20 flex flex-col items-center justify-center overflow-hidden bg-background"
+      className="relative w-full min-h-[100vh] pt-20 pb-10 flex flex-col items-center justify-center overflow-hidden bg-background"
       style={{ perspective: 1500 }}
     >
       {/* Three.js 3D Background */}
