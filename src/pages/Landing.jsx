@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { LifeBuoy, Zap, Edit3, BookOpen, CheckCircle, ArrowRight, Sparkles, Shield, Globe, Users, Activity, Star, MessageSquare, Plus, Minus, Check } from "lucide-react";
 import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from "framer-motion";
 import ThreeHeroModels from "@/components/ui/ThreeHeroModels";
+import heroImg from "@/assets/hero.jpg";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useRef, useState } from "react";
@@ -54,7 +55,8 @@ function CinematicHero() {
     >
       {/* Background Image */}
       <div 
-        className="hero-bg-img absolute inset-0 w-full h-full bg-[url('/hero-bg.jpg')] bg-cover bg-center bg-no-repeat"
+        className="hero-bg-img absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url(${heroImg})` }}
       />
       
       {/* Subtle overlay for text readability */}
