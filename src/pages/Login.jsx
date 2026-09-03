@@ -11,18 +11,18 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen flex w-full font-sans selection:bg-primary/20 selection:text-primary">
+    <div className="min-h-screen flex w-full font-sans bg-black text-white selection:bg-primary/20 selection:text-primary">
       {/* Form Side */}
-      <div className="flex-1 flex flex-col justify-center px-4 sm:px-12 lg:px-24 xl:px-32 relative bg-background">
+      <div className="flex-1 flex flex-col justify-center px-4 sm:px-12 lg:px-24 xl:px-32 relative bg-black border-r border-white/10">
         
         {/* Logo */}
         <div className="absolute top-8 left-8 sm:left-12 flex items-center space-x-2">
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="bg-primary/10 text-primary p-2 rounded-xl">
-              <LifeBuoy className="h-5 w-5" />
+          <Link to="/" className="flex items-center space-x-3 group">
+            <div className="w-8 h-8 border-2 border-white flex items-center justify-center group-hover:bg-white group-hover:text-black transition-colors">
+              <span className="font-black text-xs tracking-tighter">HD</span>
             </div>
-            <span className="font-extrabold text-xl tracking-tight bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              HelpDesk Pro
+            <span className="font-black text-lg tracking-[0.2em] uppercase text-white">
+              HELPDESK
             </span>
           </Link>
         </div>
@@ -31,43 +31,52 @@ export default function Login() {
           <LoginForm />
         </div>
         
-        <div className="absolute bottom-8 left-8 sm:left-12 text-sm text-muted-foreground">
-          © {new Date().getFullYear()} HelpDesk Pro. All rights reserved.
+        <div className="absolute bottom-8 left-8 sm:left-12 text-[10px] uppercase tracking-widest text-white/50">
+          // SYSTEM BUILD {new Date().getFullYear()} © HELPDESK PRO.
         </div>
       </div>
 
       {/* Cinematic Image Side */}
-      <div className="hidden lg:flex flex-1 relative bg-slate-950 text-white overflow-hidden items-end p-12">
+      <div className="hidden lg:flex flex-1 relative bg-black text-white overflow-hidden items-end p-12">
         <div className="absolute inset-0 z-0">
           <img 
-            src="https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=2850&auto=format&fit=crop" 
-            alt="HelpDesk Background" 
+            src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=2850&auto=format&fit=crop" 
+            alt="Cyber Terminal" 
             className="w-full h-full object-cover object-center opacity-40 mix-blend-luminosity"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
           {/* Subtle neon glow */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/20 blur-[100px] rounded-full z-0"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/30 blur-[150px] rounded-full z-0 pointer-events-none"></div>
         </div>
         
         <div className="relative z-10 max-w-lg pb-12 animate-in fade-in slide-in-from-bottom-8 duration-1000">
-          <h2 className="text-4xl font-extrabold tracking-tight mb-6 leading-tight">
-            Welcome back to your workspace.
+          <div className="inline-flex items-center border border-white/20 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white/50 mb-8 bg-white/5">
+            // AUTHENTICATION PROTOCOL
+          </div>
+          <h2 className="text-4xl font-black tracking-[0.2em] uppercase mb-6 drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+            AUTHORIZATION REQUIRED
           </h2>
-          <p className="text-lg text-slate-300 font-light mb-8">
-            Access your dashboard to manage tickets, collaborate with your team, and deliver exceptional support.
+          <p className="text-xs text-white/50 uppercase tracking-widest leading-relaxed mb-8">
+            Access your control panel to manage active tickets, deploy solutions, and maintain operational stability.
           </p>
           <div className="space-y-4">
-            <div className="flex items-center gap-3">
-              <CheckCircle className="text-emerald-400 h-5 w-5" />
-              <span className="text-slate-200">Real-time collaboration</span>
+            <div className="flex items-center gap-4">
+              <div className="w-6 h-6 border border-primary flex items-center justify-center bg-primary/10 shadow-[0_0_10px_rgba(79,70,229,0.5)]">
+                <CheckCircle className="text-primary h-3 w-3" />
+              </div>
+              <span className="text-xs font-bold uppercase tracking-widest text-white/80">ENCRYPTED CONNECTION</span>
             </div>
-            <div className="flex items-center gap-3">
-              <CheckCircle className="text-emerald-400 h-5 w-5" />
-              <span className="text-slate-200">Automated SLAs</span>
+            <div className="flex items-center gap-4">
+              <div className="w-6 h-6 border border-primary flex items-center justify-center bg-primary/10 shadow-[0_0_10px_rgba(79,70,229,0.5)]">
+                <CheckCircle className="text-primary h-3 w-3" />
+              </div>
+              <span className="text-xs font-bold uppercase tracking-widest text-white/80">BIOMETRIC READY</span>
             </div>
-            <div className="flex items-center gap-3">
-              <CheckCircle className="text-emerald-400 h-5 w-5" />
-              <span className="text-slate-200">Enterprise security</span>
+            <div className="flex items-center gap-4">
+              <div className="w-6 h-6 border border-primary flex items-center justify-center bg-primary/10 shadow-[0_0_10px_rgba(79,70,229,0.5)]">
+                <CheckCircle className="text-primary h-3 w-3" />
+              </div>
+              <span className="text-xs font-bold uppercase tracking-widest text-white/80">ZERO-TRUST ARCHITECTURE</span>
             </div>
           </div>
         </div>

@@ -70,22 +70,22 @@ export function LoginForm() {
   return (
     <Card className="w-full max-w-md mx-auto border-0 shadow-none bg-transparent">
       <CardHeader className="px-0">
-        <CardTitle className="text-2xl font-bold">Sign In</CardTitle>
-        <CardDescription>Enter your email and password to access your account.</CardDescription>
+        <CardTitle className="text-2xl font-black uppercase tracking-[0.2em] text-white">SYSTEM LOGIN</CardTitle>
+        <CardDescription className="text-xs uppercase tracking-widest text-white/50">ENTER YOUR CREDENTIALS TO ACCESS THE WORKSPACE.</CardDescription>
       </CardHeader>
       <CardContent className="px-0">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
               control={form.control}
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-white/70">IDENTIFIER (EMAIL)</FormLabel>
                   <FormControl>
-                    <Input placeholder="name@example.com" {...field} />
+                    <Input className="bg-black border-white/10 text-white rounded-none px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-white/20" placeholder="operative@system.com" {...field} />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-red-400 text-[10px] uppercase tracking-widest" />
                 </FormItem>
               )}
             />
@@ -94,62 +94,62 @@ export function LoginForm() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-white/70">SECURITY KEY (PASSWORD)</FormLabel>
                   <FormControl>
-                    <Input type="password" placeholder="••••••••" {...field} />
+                    <Input type="password" className="bg-black border-white/10 text-white rounded-none px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-white/20" placeholder="••••••••" {...field} />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-red-400 text-[10px] uppercase tracking-widest" />
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full h-12" disabled={isLoading}>
-              {isLoading ? "Signing in..." : "Sign In"}
+            <Button type="submit" className="w-full h-14 rounded-none text-xs font-bold uppercase tracking-widest bg-primary text-white hover:bg-primary/90 shadow-[0_0_20px_rgba(79,70,229,0.4)] transition-all" disabled={isLoading}>
+              {isLoading ? "AUTHENTICATING..." : "AUTHORIZE"}
             </Button>
           </form>
         </Form>
 
         {/* Demo Accounts Section */}
-        <div className="mt-8 pt-6 border-t">
-          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider text-center mb-4">1-Click Demo Logins</p>
+        <div className="mt-8 pt-6 border-t border-white/10">
+          <p className="text-[10px] font-bold text-white/50 uppercase tracking-[0.2em] text-center mb-4">BYPASS AUTH (DEMO)</p>
           <div className="grid grid-cols-3 gap-2">
             <Button 
               variant="outline" 
               size="sm" 
-              className="text-xs h-9 bg-background hover:bg-primary/5 hover:text-primary border-primary/20"
+              className="text-[10px] font-bold uppercase tracking-widest h-10 rounded-none bg-transparent text-white/70 border-white/20 hover:bg-white/10 hover:text-white hover:border-white/50 transition-all"
               onClick={() => handleDemoLogin('customer')}
               disabled={isLoading}
             >
-              Customer
+              CUSTOMER
             </Button>
             <Button 
               variant="outline" 
               size="sm" 
-              className="text-xs h-9 bg-background hover:bg-emerald-500/10 hover:text-emerald-600 border-emerald-500/20"
+              className="text-[10px] font-bold uppercase tracking-widest h-10 rounded-none bg-transparent text-white/70 border-white/20 hover:bg-emerald-500/20 hover:text-emerald-400 hover:border-emerald-500/50 transition-all"
               onClick={() => handleDemoLogin('agent')}
               disabled={isLoading}
             >
-              Agent
+              AGENT
             </Button>
             <Button 
               variant="outline" 
               size="sm" 
-              className="text-xs h-9 bg-background hover:bg-violet-500/10 hover:text-violet-600 border-violet-500/20"
+              className="text-[10px] font-bold uppercase tracking-widest h-10 rounded-none bg-transparent text-white/70 border-white/20 hover:bg-accent/20 hover:text-accent hover:border-accent/50 transition-all"
               onClick={() => handleDemoLogin('admin')}
               disabled={isLoading}
             >
-              Admin
+              ADMIN
             </Button>
           </div>
         </div>
       </CardContent>
-      <CardFooter className="flex flex-col space-y-2 text-sm text-center px-0">
-        <Link to="/forgot-password" className="text-primary hover:underline">
-          Forgot your password?
+      <CardFooter className="flex flex-col space-y-4 text-[10px] uppercase tracking-widest text-center px-0 font-bold mt-4">
+        <Link to="/forgot-password" className="text-white/50 hover:text-primary transition-colors">
+          REQUEST KEY RESET?
         </Link>
-        <div className="text-muted-foreground">
-          Don't have an account?{" "}
-          <Link to="/register" className="text-primary hover:underline font-medium">
-            Sign up
+        <div className="text-white/50">
+          UNREGISTERED OPERATIVE?{" "}
+          <Link to="/register" className="text-primary hover:text-primary/80 transition-colors">
+            INITIALIZE REGISTRATION
           </Link>
         </div>
       </CardFooter>

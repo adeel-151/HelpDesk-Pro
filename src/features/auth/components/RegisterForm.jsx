@@ -54,12 +54,12 @@ export function RegisterForm() {
   return (
     <Card className="w-full max-w-md mx-auto border-0 shadow-none bg-transparent">
       <CardHeader className="px-0">
-        <CardTitle className="text-2xl font-bold">Create an account</CardTitle>
-        <CardDescription>Enter your details to create an account.</CardDescription>
+        <CardTitle className="text-2xl font-black uppercase tracking-[0.2em] text-white">NEW OPERATIVE REGISTRATION</CardTitle>
+        <CardDescription className="text-xs uppercase tracking-widest text-white/50">PROVIDE YOUR DETAILS TO INITIALIZE AN ACCOUNT.</CardDescription>
       </CardHeader>
       <CardContent className="px-0">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             
             {/* Role Selection UI */}
             <FormField
@@ -67,26 +67,26 @@ export function RegisterForm() {
               name="role"
               render={({ field }) => (
                 <FormItem className="space-y-3 mb-6">
-                  <FormLabel>I am a...</FormLabel>
+                  <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-white/70">SELECT OPERATIONAL ROLE</FormLabel>
                   <FormControl>
                     <div className="grid grid-cols-2 gap-4">
                       <div 
-                        className={`cursor-pointer rounded-xl border p-4 flex flex-col items-center justify-center gap-2 transition-all ${field.value === 'customer' ? 'border-primary bg-primary/10 text-primary' : 'border-border/50 bg-muted/20 text-muted-foreground hover:bg-muted/50'}`}
+                        className={`cursor-pointer rounded-none border p-4 flex flex-col items-center justify-center gap-2 transition-all ${field.value === 'customer' ? 'border-primary bg-primary/20 text-primary shadow-[0_0_20px_rgba(79,70,229,0.3)]' : 'border-white/10 bg-black text-white/50 hover:bg-white/5'}`}
                         onClick={() => field.onChange('customer')}
                       >
                         <User className="h-6 w-6" />
-                        <span className="font-medium text-sm">Customer</span>
+                        <span className="font-bold text-[10px] uppercase tracking-widest">CUSTOMER</span>
                       </div>
                       <div 
-                        className={`cursor-pointer rounded-xl border p-4 flex flex-col items-center justify-center gap-2 transition-all ${field.value === 'agent' ? 'border-primary bg-primary/10 text-primary' : 'border-border/50 bg-muted/20 text-muted-foreground hover:bg-muted/50'}`}
+                        className={`cursor-pointer rounded-none border p-4 flex flex-col items-center justify-center gap-2 transition-all ${field.value === 'agent' ? 'border-emerald-500 bg-emerald-500/20 text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.3)]' : 'border-white/10 bg-black text-white/50 hover:bg-white/5'}`}
                         onClick={() => field.onChange('agent')}
                       >
                         <Headset className="h-6 w-6" />
-                        <span className="font-medium text-sm">Support Agent</span>
+                        <span className="font-bold text-[10px] uppercase tracking-widest">SUPPORT AGENT</span>
                       </div>
                     </div>
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-red-400 text-[10px] uppercase tracking-widest" />
                 </FormItem>
               )}
             />
@@ -96,11 +96,11 @@ export function RegisterForm() {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Full Name</FormLabel>
+                  <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-white/70">FULL DESIGNATION (NAME)</FormLabel>
                   <FormControl>
-                    <Input placeholder="John Doe" {...field} />
+                    <Input className="bg-black border-white/10 text-white rounded-none px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-white/20" placeholder="John Doe" {...field} />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-red-400 text-[10px] uppercase tracking-widest" />
                 </FormItem>
               )}
             />
@@ -109,11 +109,11 @@ export function RegisterForm() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-white/70">COMMS VECTOR (EMAIL)</FormLabel>
                   <FormControl>
-                    <Input placeholder="name@example.com" {...field} />
+                    <Input className="bg-black border-white/10 text-white rounded-none px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-white/20" placeholder="name@example.com" {...field} />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-red-400 text-[10px] uppercase tracking-widest" />
                 </FormItem>
               )}
             />
@@ -122,11 +122,11 @@ export function RegisterForm() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-white/70">SECURITY KEY (PASSWORD)</FormLabel>
                   <FormControl>
-                    <Input type="password" placeholder="••••••••" {...field} />
+                    <Input type="password" className="bg-black border-white/10 text-white rounded-none px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-white/20" placeholder="••••••••" {...field} />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-red-400 text-[10px] uppercase tracking-widest" />
                 </FormItem>
               )}
             />
@@ -135,25 +135,25 @@ export function RegisterForm() {
               name="confirmPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Confirm Password</FormLabel>
+                  <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-white/70">CONFIRM SECURITY KEY</FormLabel>
                   <FormControl>
-                    <Input type="password" placeholder="••••••••" {...field} />
+                    <Input type="password" className="bg-black border-white/10 text-white rounded-none px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-white/20" placeholder="••••••••" {...field} />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-red-400 text-[10px] uppercase tracking-widest" />
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? "Creating account..." : "Sign Up"}
+            <Button type="submit" className="w-full h-14 rounded-none text-xs font-bold uppercase tracking-widest bg-primary text-white hover:bg-primary/90 shadow-[0_0_20px_rgba(79,70,229,0.4)] transition-all" disabled={isLoading}>
+              {isLoading ? "INITIALIZING..." : "SUBMIT CREDENTIALS"}
             </Button>
           </form>
         </Form>
       </CardContent>
-      <CardFooter className="flex flex-col space-y-2 text-sm text-center px-0">
-        <div className="text-muted-foreground">
-          Already have an account?{" "}
-          <Link to="/login" className="text-primary hover:underline font-medium">
-            Sign in
+      <CardFooter className="flex flex-col space-y-4 text-[10px] uppercase tracking-widest text-center px-0 font-bold mt-4">
+        <div className="text-white/50">
+          ALREADY AUTHORIZED?{" "}
+          <Link to="/login" className="text-primary hover:text-primary/80 transition-colors">
+            ACCESS LOGIN PANEL
           </Link>
         </div>
       </CardFooter>
