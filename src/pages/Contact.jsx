@@ -32,8 +32,9 @@ export default function Contact() {
   return (
     <>
       {/* Contact Hero */}
-      <section className="py-24 bg-slate-950 text-white relative overflow-hidden">
+      <section className="py-24 md:py-32 bg-black text-white relative overflow-hidden border-b border-white/10">
         <div className="absolute top-0 right-0 -mr-40 -mt-40 w-[600px] h-[600px] bg-primary/20 blur-[150px] rounded-full" />
+        <div className="absolute bottom-0 left-0 -ml-40 -mb-40 w-[600px] h-[600px] bg-accent/20 blur-[150px] rounded-full" />
         
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -41,17 +42,20 @@ export default function Contact() {
           transition={{ duration: 0.7 }}
           className="container mx-auto px-4 text-center relative z-10"
         >
-          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 drop-shadow-lg">
-            Get in touch
+          <div className="inline-flex items-center border border-white/20 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white/50 mb-8 bg-white/5">
+            // SYSTEM.COMMUNICATIONS
+          </div>
+          <h1 className="text-4xl md:text-7xl font-black tracking-[0.2em] uppercase mb-6 drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+            INITIATE CONTACT
           </h1>
-          <p className="text-xl text-slate-300 max-w-2xl mx-auto font-light leading-relaxed">
-            Whether you have a question about features, trials, pricing, need a demo, or anything else, our team is ready to answer all your questions.
+          <p className="text-xs md:text-sm text-white/50 uppercase tracking-[0.2em] max-w-2xl mx-auto font-bold leading-relaxed">
+            Whether you have a question about features, trials, pricing, or need a demo, our operatives are standing by to assist.
           </p>
         </motion.div>
       </section>
 
       {/* Contact Methods Grid */}
-      <section className="py-16 bg-background relative -mt-8 z-20">
+      <section className="py-16 bg-black relative -mt-8 z-20">
         <div className="container mx-auto px-4 max-w-5xl">
           <motion.div
             variants={stagger}
@@ -61,17 +65,17 @@ export default function Contact() {
             className="grid md:grid-cols-3 gap-6 items-stretch"
           >
             {[
-              { icon: <MessageSquare className="h-6 w-6" />, color: "bg-primary/10 text-primary", title: "Chat to Sales", desc: "Speak to our friendly team about custom plans or enterprise deals.", link: "sales@helpdeskpro.com", linkColor: "text-primary" },
-              { icon: <LifeBuoy className="h-6 w-6" />, color: "bg-emerald-500/10 text-emerald-500", title: "Support", desc: "Need technical help? We're here to assist you 24/7.", link: "support@helpdeskpro.com", linkColor: "text-emerald-600" },
-              { icon: <MapPin className="h-6 w-6" />, color: "bg-violet-500/10 text-violet-500", title: "Visit Us", desc: "Visit our headquarters in San Francisco.", link: "100 Market St, SF, CA", linkColor: "text-violet-600" },
+              { icon: <MessageSquare className="h-6 w-6" />, color: "border-primary text-primary shadow-[0_0_15px_rgba(79,70,229,0.3)]", title: "SALES CHANNEL", desc: "Speak to our team about custom plans or enterprise deals.", link: "sales@helpdeskpro.com", linkColor: "text-primary" },
+              { icon: <LifeBuoy className="h-6 w-6" />, color: "border-accent text-accent shadow-[0_0_15px_rgba(168,85,247,0.3)]", title: "SUPPORT LINK", desc: "Need technical help? We're here to assist you 24/7.", link: "support@helpdeskpro.com", linkColor: "text-accent" },
+              { icon: <MapPin className="h-6 w-6" />, color: "border-white/50 text-white shadow-[0_0_15px_rgba(255,255,255,0.1)]", title: "HQ COORDINATES", desc: "Visit our global headquarters in San Francisco.", link: "100 Market St, SF, CA", linkColor: "text-white" },
             ].map((card) => (
-              <motion.div key={card.title} variants={fadeUp} transition={{ duration: 0.4 }} className="bg-background border rounded-2xl p-8 shadow-sm hover:shadow-lg transition-all duration-300 text-center group">
-                <div className={`w-14 h-14 ${card.color} rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform`}>
+              <motion.div key={card.title} variants={fadeUp} transition={{ duration: 0.4 }} className="bg-white/5 border border-white/10 p-8 hover:border-white/30 transition-all duration-300 text-center group">
+                <div className={`w-14 h-14 border ${card.color} flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform`}>
                   {card.icon}
                 </div>
-                <h3 className="text-xl font-bold mb-3">{card.title}</h3>
-                <p className="text-muted-foreground text-sm mb-6">{card.desc}</p>
-                <p className={`font-semibold ${card.linkColor}`}>{card.link}</p>
+                <h3 className="text-sm font-bold uppercase tracking-widest text-white mb-3">{card.title}</h3>
+                <p className="text-xs text-white/50 uppercase tracking-widest mb-6 leading-relaxed">{card.desc}</p>
+                <p className={`text-xs font-bold uppercase tracking-widest ${card.linkColor}`}>{card.link}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -79,17 +83,17 @@ export default function Contact() {
       </section>
 
       {/* Contact Form Section */}
-      <section className="py-24 bg-muted/20 border-t">
+      <section className="py-24 bg-black border-t border-b border-white/10">
         <div className="container mx-auto px-4 max-w-3xl">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="bg-background border rounded-2xl p-8 md:p-12 shadow-xl relative overflow-hidden"
+            className="bg-white/5 border border-white/10 p-8 md:p-12 relative overflow-hidden"
           >
-            <div className="absolute -top-24 -right-24 w-48 h-48 bg-primary/10 rounded-full blur-[40px]" />
-            <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-emerald-500/10 rounded-full blur-[40px]" />
+            <div className="absolute -top-24 -right-24 w-48 h-48 bg-primary/20 rounded-full blur-[40px]" />
+            <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-accent/20 rounded-full blur-[40px]" />
 
             <div className="relative z-10">
               {isSubmitted ? (
@@ -99,57 +103,57 @@ export default function Contact() {
                   transition={{ duration: 0.5 }}
                   className="text-center py-16"
                 >
-                  <div className="w-20 h-20 bg-emerald-500/20 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <div className="w-20 h-20 border border-primary text-primary flex items-center justify-center mx-auto mb-6 shadow-[0_0_30px_rgba(79,70,229,0.3)]">
                     <CheckCircle2 className="h-10 w-10" />
                   </div>
-                  <h3 className="text-3xl font-bold mb-4">Message Sent!</h3>
-                  <p className="text-muted-foreground text-lg mb-8 max-w-md mx-auto">
-                    Thanks for reaching out. Our team will get back to you within 24 hours.
+                  <h3 className="text-2xl font-black uppercase tracking-[0.2em] text-white mb-4">TRANSMISSION SENT</h3>
+                  <p className="text-xs text-white/50 uppercase tracking-widest mb-8 max-w-md mx-auto leading-relaxed">
+                    Data packet received. Our team will decrypt and respond within 24 hours.
                   </p>
-                  <Button onClick={() => setIsSubmitted(false)} variant="outline">
-                    Send another message
+                  <Button onClick={() => setIsSubmitted(false)} variant="outline" className="h-12 px-8 rounded-none text-xs font-bold uppercase tracking-widest bg-transparent text-white border-white/20 hover:bg-white/10">
+                    TRANSMIT ANOTHER
                   </Button>
                 </motion.div>
               ) : (
                 <>
                   <div className="text-center mb-10">
-                    <h2 className="text-3xl font-bold mb-4">Send us a message</h2>
-                    <p className="text-muted-foreground">Fill out the form below and we'll get back to you shortly.</p>
+                    <h2 className="text-2xl font-black uppercase tracking-[0.2em] text-white mb-4">COMMS UPLINK</h2>
+                    <p className="text-xs text-white/50 uppercase tracking-widest">Provide your parameters below to establish a connection.</p>
                   </div>
 
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid md:grid-cols-2 gap-6">
                       <div className="space-y-2">
-                        <label className="text-sm font-medium">First Name</label>
-                        <input required type="text" className="w-full bg-background border rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all" placeholder="Jane" />
+                        <label className="text-[10px] font-bold uppercase tracking-widest text-white/70">DESIGNATION (FIRST)</label>
+                        <input required type="text" className="w-full bg-black border border-white/10 text-white rounded-none px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-white/20" placeholder="Jane" />
                       </div>
                       <div className="space-y-2">
-                        <label className="text-sm font-medium">Last Name</label>
-                        <input required type="text" className="w-full bg-background border rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all" placeholder="Doe" />
+                        <label className="text-[10px] font-bold uppercase tracking-widest text-white/70">DESIGNATION (LAST)</label>
+                        <input required type="text" className="w-full bg-black border border-white/10 text-white rounded-none px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-white/20" placeholder="Doe" />
                       </div>
                     </div>
                     <div className="space-y-2">
-                      <label className="text-sm font-medium">Email Address</label>
-                      <input required type="email" className="w-full bg-background border rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all" placeholder="jane@company.com" />
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-white/70">COMMS VECTOR (EMAIL)</label>
+                      <input required type="email" className="w-full bg-black border border-white/10 text-white rounded-none px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-white/20" placeholder="jane@company.com" />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-sm font-medium">Subject</label>
-                      <select required className="w-full bg-background border rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all">
-                        <option value="">Select a topic...</option>
-                        <option value="sales">Sales Inquiry</option>
-                        <option value="support">Technical Support</option>
-                        <option value="billing">Billing Question</option>
-                        <option value="other">Other</option>
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-white/70">TOPIC CLASSIFICATION</label>
+                      <select required className="w-full bg-black border border-white/10 text-white rounded-none px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all appearance-none">
+                        <option value="" className="bg-black">SELECT A PARAMETER...</option>
+                        <option value="sales" className="bg-black">SALES INQUIRY</option>
+                        <option value="support" className="bg-black">TECHNICAL SUPPORT</option>
+                        <option value="billing" className="bg-black">BILLING QUESTION</option>
+                        <option value="other" className="bg-black">OTHER</option>
                       </select>
                     </div>
                     <div className="space-y-2">
-                      <label className="text-sm font-medium">Message</label>
-                      <textarea required rows={5} className="w-full bg-background border rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all resize-none" placeholder="How can we help you?" />
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-white/70">PAYLOAD (MESSAGE)</label>
+                      <textarea required rows={5} className="w-full bg-black border border-white/10 text-white rounded-none px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all resize-none placeholder:text-white/20" placeholder="How can we assist your operation?" />
                     </div>
-                    <Button type="submit" disabled={isSubmitting} className="w-full h-14 text-lg rounded-xl">
-                      {isSubmitting ? "Sending..." : (
+                    <Button type="submit" disabled={isSubmitting} className="w-full h-14 rounded-none text-xs font-bold uppercase tracking-widest bg-primary text-white hover:bg-primary/90 shadow-[0_0_20px_rgba(79,70,229,0.4)] transition-all">
+                      {isSubmitting ? "TRANSMITTING..." : (
                         <>
-                          Send Message <Send className="ml-2 h-5 w-5" />
+                          SEND TRANSMISSION <Send className="ml-3 h-4 w-4" />
                         </>
                       )}
                     </Button>
