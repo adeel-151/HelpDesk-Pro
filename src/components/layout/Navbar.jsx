@@ -58,7 +58,7 @@ export function Navbar() {
 
   const navClass = isLanding && !scrolled
     ? "fixed top-0 z-50 w-full transition-all duration-300 bg-transparent"
-    : "sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-xl transition-all duration-300";
+    : "sticky top-0 z-50 w-full border-b border-white/10 bg-black/60 backdrop-blur-xl transition-all duration-300 shadow-[0_4px_30px_rgba(0,0,0,0.5)]";
 
   return (
     <>
@@ -66,28 +66,17 @@ export function Navbar() {
         <div className="container mx-auto flex h-20 items-center justify-between px-8">
           <div className="flex items-center gap-8">
             <Link to={user ? "/dashboard" : "/"} className="flex items-center space-x-2 group">
-              {isLanding && !scrolled ? (
-                <div className="flex items-center gap-3">
-                  <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white transition-transform group-hover:scale-105 duration-300">
-                    <path d="M50 5 L93 25 V75 L50 95 L7 75 V25 L50 5 Z" stroke="currentColor" strokeWidth="3" strokeOpacity="0.3"/>
-                    <path d="M28 35 V65 M48 35 V65 M28 50 H48" stroke="currentColor" strokeWidth="6" strokeLinecap="round"/>
-                    <path d="M60 35 H65 C73.284 35 80 41.716 80 50 C80 58.284 73.284 65 65 65 H60 V35 Z" stroke="currentColor" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round"/>
-                    <circle cx="80" cy="50" r="3" fill="currentColor"/>
-                  </svg>
-                  <span className="font-bold text-xl tracking-[0.2em] text-white/90">
-                    HELPDESK
-                  </span>
-                </div>
-              ) : (
-                <>
-                  <div className="bg-primary/10 text-primary p-2 rounded-xl group-hover:bg-primary/20 transition-colors">
-                    <LifeBuoy className="h-5 w-5" />
-                  </div>
-                  <span className="font-extrabold text-xl tracking-tight bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                    HelpDesk Pro
-                  </span>
-                </>
-              )}
+              <div className="flex items-center gap-3">
+                <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white transition-transform group-hover:scale-105 duration-300">
+                  <path d="M50 5 L93 25 V75 L50 95 L7 75 V25 L50 5 Z" stroke="currentColor" strokeWidth="3" strokeOpacity="0.3"/>
+                  <path d="M28 35 V65 M48 35 V65 M28 50 H48" stroke="currentColor" strokeWidth="6" strokeLinecap="round"/>
+                  <path d="M60 35 H65 C73.284 35 80 41.716 80 50 C80 58.284 73.284 65 65 65 H60 V35 Z" stroke="currentColor" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round"/>
+                  <circle cx="80" cy="50" r="3" fill="currentColor"/>
+                </svg>
+                <span className="font-bold text-xl tracking-[0.2em] text-white/90">
+                  HELPDESK
+                </span>
+              </div>
             </Link>
           </div>
 
@@ -96,12 +85,10 @@ export function Navbar() {
               {visibleLinks.map((link) => (
                 <Link key={link.path} to={link.path}>
                   <span
-                    className={`text-sm font-bold uppercase tracking-[0.2em] transition-colors ${
-                      isLanding && !scrolled
-                        ? "text-white/80 hover:text-white"
-                        : isActive(link.path)
-                        ? "text-primary"
-                        : "text-foreground/70 hover:text-foreground"
+                    className={`text-xs font-bold uppercase tracking-[0.2em] transition-colors ${
+                      isActive(link.path)
+                        ? "text-primary drop-shadow-[0_0_10px_rgba(79,70,229,0.5)]"
+                        : "text-white/60 hover:text-white"
                     }`}
                   >
                     {link.label}
@@ -113,12 +100,12 @@ export function Navbar() {
             {!user ? (
               <div className="hidden md:flex items-center gap-4">
                 <ModeToggle />
-                <div className={`h-6 w-px ${isLanding && !scrolled ? "bg-white/20" : "bg-border/60"}`} />
+                <div className="h-6 w-px bg-white/20" />
                 <Link to="/login">
-                  <span className={`text-sm font-bold uppercase tracking-[0.1em] ${isLanding && !scrolled ? "text-white/80 hover:text-white" : "text-foreground/80 hover:text-foreground"}`}>Log in</span>
+                  <span className="text-xs font-bold uppercase tracking-[0.1em] text-white/80 hover:text-white transition-colors">Log in</span>
                 </Link>
                 <Link to="/register">
-                  <Button className={`${isLanding && !scrolled ? "bg-white text-black hover:bg-white/90" : ""} font-bold uppercase tracking-[0.1em] text-xs px-6`}>Get Started</Button>
+                  <Button className="bg-white text-black hover:bg-white/90 font-bold uppercase tracking-[0.1em] text-xs px-6 rounded-none">Get Started</Button>
                 </Link>
               </div>
             ) : (
