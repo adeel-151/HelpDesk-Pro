@@ -126,44 +126,17 @@ function CinematicHero() {
           </Link>
         </div>
 
-        {/* 3D Cinematic Stats Container (Floating) */}
+        {/* 3D Cinematic Hero Image Container (Floating) */}
         <motion.div
           style={{ rotateX, rotateY }}
           className="hero-image mx-auto w-[90%] max-w-5xl relative rounded-2xl p-1.5 bg-muted/10 border border-border/30 backdrop-blur-md shadow-2xl"
         >
           <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10 rounded-2xl pointer-events-none" />
-          <div className="w-full h-full min-h-[250px] md:min-h-[350px] rounded-xl bg-background/40 backdrop-blur-xl p-6 md:p-10 flex flex-col justify-center border border-border/20 shadow-inner">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 w-full h-full relative z-20">
-              
-              {/* Uptime Card */}
-              <div className="flex flex-col items-center justify-center p-8 rounded-2xl bg-gradient-to-br from-primary/10 to-transparent border border-primary/20 hover:border-primary/40 transition-colors shadow-lg">
-                <div className="h-14 w-14 rounded-full bg-primary/20 flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(6,182,212,0.3)]">
-                  <Activity className="h-7 w-7 text-primary" />
-                </div>
-                <h3 className="text-5xl font-black text-foreground mb-3 tracking-tighter drop-shadow-sm">99.9%</h3>
-                <p className="text-xs text-muted-foreground font-bold uppercase tracking-[0.2em]">Guaranteed Uptime</p>
-              </div>
-
-              {/* Monitoring Card */}
-              <div className="flex flex-col items-center justify-center p-8 rounded-2xl bg-gradient-to-br from-accent/10 to-transparent border border-accent/20 hover:border-accent/40 transition-colors shadow-lg">
-                <div className="h-14 w-14 rounded-full bg-accent/20 flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(236,72,153,0.3)]">
-                  <Shield className="h-7 w-7 text-accent" />
-                </div>
-                <h3 className="text-5xl font-black text-foreground mb-3 tracking-tighter drop-shadow-sm">24/7</h3>
-                <p className="text-xs text-muted-foreground font-bold uppercase tracking-[0.2em]">Active Monitoring</p>
-              </div>
-
-              {/* Latency Card */}
-              <div className="flex flex-col items-center justify-center p-8 rounded-2xl bg-gradient-to-br from-emerald-500/10 to-transparent border border-emerald-500/20 hover:border-emerald-500/40 transition-colors shadow-lg">
-                <div className="h-14 w-14 rounded-full bg-emerald-500/20 flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(16,185,129,0.3)]">
-                  <Zap className="h-7 w-7 text-emerald-500" />
-                </div>
-                <h3 className="text-5xl font-black text-foreground mb-3 tracking-tighter drop-shadow-sm">&lt;50ms</h3>
-                <p className="text-xs text-muted-foreground font-bold uppercase tracking-[0.2em]">Global Latency</p>
-              </div>
-
-            </div>
-          </div>
+          <img 
+            src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=2070&q=80" 
+            alt="Professional dashboard interface preview" 
+            className="rounded-xl object-cover w-full h-[250px] md:h-[450px]"
+          />
         </motion.div>
       </div>
     </section>
@@ -174,6 +147,74 @@ export default function Landing() {
   return (
     <>
       <CinematicHero />
+
+      {/* Premium Stats Section */}
+      <section className="py-20 bg-background border-b border-border/50 relative overflow-hidden">
+        {/* Ambient glow behind stats */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-5xl bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
+        
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 text-center">
+            
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="flex flex-col items-center"
+            >
+              <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-4 border border-primary/20">
+                <Activity className="h-6 w-6 text-primary" />
+              </div>
+              <h3 className="text-4xl md:text-5xl font-black text-foreground mb-2 tracking-tighter drop-shadow-sm">99.9%</h3>
+              <p className="text-sm text-muted-foreground font-bold uppercase tracking-[0.1em]">Uptime</p>
+            </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="flex flex-col items-center"
+            >
+              <div className="h-12 w-12 rounded-full bg-accent/10 flex items-center justify-center mb-4 border border-accent/20">
+                <CheckCircle className="h-6 w-6 text-accent" />
+              </div>
+              <h3 className="text-4xl md:text-5xl font-black text-foreground mb-2 tracking-tighter drop-shadow-sm">10k+</h3>
+              <p className="text-sm text-muted-foreground font-bold uppercase tracking-[0.1em]">Tickets Resolved</p>
+            </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="flex flex-col items-center"
+            >
+              <div className="h-12 w-12 rounded-full bg-emerald-500/10 flex items-center justify-center mb-4 border border-emerald-500/20">
+                <Zap className="h-6 w-6 text-emerald-500" />
+              </div>
+              <h3 className="text-4xl md:text-5xl font-black text-foreground mb-2 tracking-tighter drop-shadow-sm">&lt;2h</h3>
+              <p className="text-sm text-muted-foreground font-bold uppercase tracking-[0.1em]">Avg Response Time</p>
+            </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="flex flex-col items-center"
+            >
+              <div className="h-12 w-12 rounded-full bg-blue-500/10 flex items-center justify-center mb-4 border border-blue-500/20">
+                <Shield className="h-6 w-6 text-blue-500" />
+              </div>
+              <h3 className="text-4xl md:text-5xl font-black text-foreground mb-2 tracking-tighter drop-shadow-sm">24/7</h3>
+              <p className="text-sm text-muted-foreground font-bold uppercase tracking-[0.1em]">Monitoring</p>
+            </motion.div>
+
+          </div>
+        </div>
+      </section>
 
       {/* Trusted by / Social Proof */}
       <section className="py-16 border-b bg-background">
