@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 @plugin "tailwindcss-animate";
 @plugin "@tailwindcss/typography";
@@ -6,7 +6,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --font-sans: "Plus Jakarta Sans", sans-serif;
+  --font-sans: "Outfit", sans-serif;
 
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
@@ -76,69 +76,70 @@
 
 @layer base {
   :root {
-    /* Premium Slate Background */
-    --background: 220 20% 97%;
-    --foreground: 224 47% 11%;
+    /* Pure White Background */
+    --background: 0 0% 100%;
+    --foreground: 240 10% 4%;
 
-    /* Vibrant Indigo Primary */
-    --primary: 238 76% 60%;
+    /* Electric Cyan Primary */
+    --primary: 190 90% 45%;
     --primary-foreground: 0 0% 100%;
 
-    /* Rich Violet Accent */
-    --accent: 262 72% 58%;
+    /* Hot Pink Accent */
+    --accent: 330 90% 55%;
     --accent-foreground: 0 0% 100%;
 
     --card: 0 0% 100%;
-    --card-foreground: 224 47% 11%;
+    --card-foreground: 240 10% 4%;
     --popover: 0 0% 100%;
-    --popover-foreground: 224 47% 11%;
+    --popover-foreground: 240 10% 4%;
 
-    --secondary: 220 14% 93%;
-    --secondary-foreground: 224 47% 11%;
+    --secondary: 240 5% 96%;
+    --secondary-foreground: 240 10% 4%;
 
-    --muted: 220 14% 93%;
-    --muted-foreground: 220 9% 46%;
+    --muted: 240 5% 96%;
+    --muted-foreground: 240 4% 46%;
 
-    --destructive: 0 72% 51%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 13% 90%;
-    --input: 220 13% 90%;
-    --ring: 238 76% 60%;
+    --border: 240 6% 90%;
+    --input: 240 6% 90%;
+    --ring: 190 90% 45%;
 
     /* Modern rounded corners */
     --radius: 0.75rem;
   }
 
   .dark {
-    --background: 224 47% 5%;
-    --foreground: 210 40% 98%;
+    /* Obsidian Black Background */
+    --background: 240 10% 4%;
+    --foreground: 0 0% 98%;
 
-    /* Keep indigo primary in dark mode for brand consistency */
-    --primary: 238 76% 67%;
-    --primary-foreground: 0 0% 100%;
+    /* Vibrant Electric Cyan */
+    --primary: 190 90% 50%;
+    --primary-foreground: 240 10% 4%;
 
-    /* Emerald accent for dark mode vibrancy */
-    --accent: 160 64% 50%;
-    --accent-foreground: 0 0% 100%;
+    /* Hot Pink Accent */
+    --accent: 330 90% 60%;
+    --accent-foreground: 0 0% 98%;
 
-    --card: 224 40% 7%;
-    --card-foreground: 210 40% 98%;
-    --popover: 224 40% 7%;
-    --popover-foreground: 210 40% 98%;
+    --card: 240 10% 6%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 6%;
+    --popover-foreground: 0 0% 98%;
 
-    --secondary: 224 32% 14%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 240 10% 12%;
+    --secondary-foreground: 0 0% 98%;
 
-    --muted: 224 32% 14%;
-    --muted-foreground: 218 11% 60%;
+    --muted: 240 10% 12%;
+    --muted-foreground: 240 5% 65%;
 
     --destructive: 0 63% 41%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 224 32% 14%;
-    --input: 224 32% 14%;
-    --ring: 238 76% 67%;
+    --border: 240 10% 12%;
+    --input: 240 10% 12%;
+    --ring: 190 90% 50%;
   }
 }
 

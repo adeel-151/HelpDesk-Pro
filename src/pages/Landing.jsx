@@ -94,33 +94,33 @@ function CinematicHero() {
         }}
       />
 
-      <div className="container mx-auto px-4 relative z-10 text-center">
+      <div className="container mx-auto px-4 relative z-10 text-center flex flex-col items-center justify-center h-full mt-10">
         {/* Badge */}
-        <div className="hero-badge inline-flex items-center rounded-full border border-border px-4 py-1.5 text-sm font-medium bg-muted/50 text-muted-foreground backdrop-blur-md mb-8 gap-2 shadow-sm">
-          <Sparkles className="h-3.5 w-3.5 text-amber-500" />
+        <div className="hero-badge inline-flex items-center rounded-full border border-border/50 px-4 py-1.5 text-sm font-medium bg-muted/20 text-muted-foreground backdrop-blur-md mb-6 gap-2 shadow-sm">
+          <Sparkles className="h-3.5 w-3.5 text-primary" />
           Now with AI-powered smart routing
         </div>
 
-        <h1 className="hero-title text-5xl md:text-6xl lg:text-8xl font-extrabold tracking-tight mb-8 text-foreground drop-shadow-sm leading-[1.08]">
+        <h1 className="hero-title text-4xl md:text-5xl lg:text-7xl font-extrabold tracking-tight mb-6 text-foreground drop-shadow-sm leading-[1.1]">
           Customer support,<br/>
-          <span className="bg-gradient-to-r from-blue-500 via-indigo-500 to-emerald-500 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
             beautifully organized.
           </span>
         </h1>
         
-        <p className="hero-desc text-lg md:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto font-light leading-relaxed">
+        <p className="hero-desc text-base md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto font-light leading-relaxed">
           Resolve faster. Serve better. A modern, AI-ready workspace for your entire support team. Stop managing tickets and start building relationships.
         </p>
         
-        <div className="hero-btns flex flex-col sm:flex-row gap-5 justify-center items-center mb-24">
+        <div className="hero-btns flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
           <Link to="/register">
-            <Button size="lg" className="h-14 px-10 text-lg font-semibold group hover:scale-[1.03] transition-all duration-300 rounded-xl shadow-lg shadow-primary/20">
+            <Button size="lg" className="h-12 px-8 text-base font-semibold group hover:scale-[1.03] transition-all duration-300 rounded-xl shadow-lg shadow-primary/20">
               Start for free
-              <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </Button>
           </Link>
           <Link to="/login">
-            <Button size="lg" variant="outline" className="h-14 px-10 text-lg font-semibold hover:scale-[1.03] transition-all duration-300 rounded-xl bg-background/50 backdrop-blur-md">
+            <Button size="lg" variant="outline" className="h-12 px-8 text-base font-semibold hover:scale-[1.03] transition-all duration-300 rounded-xl bg-background/20 backdrop-blur-md border-border/50">
               View Demo
             </Button>
           </Link>
@@ -129,13 +129,13 @@ function CinematicHero() {
         {/* 3D Cinematic Hero Image Container (Floating) */}
         <motion.div
           style={{ rotateX, rotateY }}
-          className="hero-image mx-auto max-w-5xl relative rounded-2xl p-2 bg-muted/30 border border-border/50 backdrop-blur-sm shadow-2xl"
+          className="hero-image mx-auto w-[90%] max-w-4xl relative rounded-2xl p-1.5 bg-muted/10 border border-border/30 backdrop-blur-md shadow-2xl"
         >
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10 rounded-2xl" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10 rounded-2xl pointer-events-none" />
           <img 
             src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=2070&q=80" 
             alt="Professional dashboard interface preview" 
-            className="rounded-xl object-cover w-full h-[350px] md:h-[550px]"
+            className="rounded-xl object-cover w-full h-[250px] md:h-[450px]"
           />
         </motion.div>
       </div>
