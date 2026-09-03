@@ -301,19 +301,22 @@ export default function Landing() {
                 title: "AI-Powered Triage",
                 desc: "Incoming tickets are instantly analyzed, categorized, and routed to the most capable agent based on their skill set and current load.",
                 icon: <Zap className="h-8 w-8 text-primary" />,
-                align: "left"
+                align: "left",
+                imgUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1000"
               },
               {
                 title: "Collaborative Resolution",
                 desc: "Agents can whisper to each other internally, share context, and escalate without the customer ever seeing the internal mess.",
                 icon: <Users className="h-8 w-8 text-accent" />,
-                align: "right"
+                align: "right",
+                imgUrl: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1000"
               },
               {
                 title: "One-Click Responses",
                 desc: "Access your entire knowledge base directly from the composer. Insert canned responses and articles with a single keystroke.",
                 icon: <MessageSquare className="h-8 w-8 text-emerald-500" />,
-                align: "left"
+                align: "left",
+                imgUrl: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80&w=1000"
               }
             ].map((step, idx) => (
               <motion.div 
@@ -333,9 +336,11 @@ export default function Landing() {
                 </div>
                 <div className="flex-1 w-full relative">
                   <div className="aspect-[4/3] bg-white/5 border border-white/10 shadow-[0_0_30px_rgba(0,0,0,0.5)] relative overflow-hidden backdrop-blur-sm group hover:border-white/30 transition-colors duration-500">
-                    <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 to-accent/10 opacity-50 group-hover:opacity-80 transition-opacity" />
-                    <div className="absolute inset-0 flex items-center justify-center text-white/30 font-bold uppercase tracking-[0.2em] text-sm">
-                      [ INTERACTIVE UI MOCKUP ]
+                    <img src={step.imgUrl} alt={step.title} className="absolute inset-0 w-full h-full object-cover mix-blend-luminosity opacity-40 group-hover:opacity-70 transition-opacity duration-700" />
+                    <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-accent/20 opacity-50 group-hover:opacity-80 transition-opacity duration-500 mix-blend-overlay" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-80" />
+                    <div className="absolute bottom-4 left-4 text-white/50 font-bold uppercase tracking-[0.2em] text-[10px]">
+                      // SYSTEM._MOCKUP_RENDER
                     </div>
                   </div>
                 </div>
