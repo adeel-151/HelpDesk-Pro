@@ -2,6 +2,10 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { LifeBuoy, Zap, Edit3, BookOpen, CheckCircle, ArrowRight, Sparkles, Shield, Globe, Users } from "lucide-react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import ThreeHeroModels from "@/components/ui/ThreeHeroModels";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { useRef } from "react";
 
 const fadeUp = {
   initial: { opacity: 0, y: 30 },
@@ -31,14 +35,16 @@ function AnimatedCounter({ value, suffix = "", prefix = "" }) {
 }
 
 function CinematicHero() {
+  const container = useRef();
+  
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
   const handleMouseMove = (e) => {
     const { clientX, clientY } = e;
     const { innerWidth, innerHeight } = window;
-    const x = (clientX / innerWidth - 0.5) * 2; // -1 to 1
-    const y = (clientY / innerHeight - 0.5) * 2; // -1 to 1
+    const x = (clientX / innerWidth - 0.5) * 2;
+    const y = (clientY / innerHeight - 0.5) * 2;
     mouseX.set(x);
     mouseY.set(y);
   };
@@ -47,25 +53,31 @@ function CinematicHero() {
   const smoothX = useSpring(mouseX, springConfig);
   const smoothY = useSpring(mouseY, springConfig);
 
-  // 3D tilt mapping
   const rotateX = useTransform(smoothY, [-1, 1], [15, -15]);
   const rotateY = useTransform(smoothX, [-1, 1], [-15, 15]);
   
-  // Mouse catcher glow mapping
   const glowX = useTransform(smoothX, [-1, 1], [-300, 300]);
   const glowY = useTransform(smoothY, [-1, 1], [-300, 300]);
 
+  useGSAP(() => {
+    const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
+    
+    tl.fromTo(".hero-badge", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 1 })
+      .fromTo(".hero-title", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 1, stagger: 0.1 }, "-=0.8")
+      .fromTo(".hero-desc", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 1 }, "-=0.8")
+      .fromTo(".hero-btns", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 1 }, "-=0.8")
+      .fromTo(".hero-image", { y: 100, opacity: 0 }, { y: 0, opacity: 1, duration: 1.5, ease: "expo.out" }, "-=0.6");
+  }, { scope: container });
+
   return (
     <section 
+      ref={container}
       onMouseMove={handleMouseMove}
       className="relative w-full pt-32 pb-20 flex flex-col items-center justify-center overflow-hidden bg-background"
       style={{ perspective: 1500 }}
     >
-      {/* Background Orbs */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 right-1/4 w-[400px] h-[400px] bg-accent/20 blur-[150px] rounded-full" />
-        <div className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] bg-emerald-500/10 blur-[120px] rounded-full" />
-      </div>
+      {/* Three.js 3D Background */}
+      <ThreeHeroModels />
 
       {/* Cinematic Mouse Catcher Glow */}
       <motion.div
@@ -82,45 +94,25 @@ function CinematicHero() {
         }}
       />
 
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-        className="container mx-auto px-4 relative z-10 text-center"
-      >
+      <div className="container mx-auto px-4 relative z-10 text-center">
         {/* Badge */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.2 }}
-          className="inline-flex items-center rounded-full border border-border px-4 py-1.5 text-sm font-medium bg-muted/50 text-muted-foreground backdrop-blur-md mb-8 gap-2 shadow-sm"
-        >
+        <div className="hero-badge inline-flex items-center rounded-full border border-border px-4 py-1.5 text-sm font-medium bg-muted/50 text-muted-foreground backdrop-blur-md mb-8 gap-2 shadow-sm">
           <Sparkles className="h-3.5 w-3.5 text-amber-500" />
           Now with AI-powered smart routing
-        </motion.div>
+        </div>
 
-        <h1 className="text-5xl md:text-6xl lg:text-8xl font-extrabold tracking-tight mb-8 text-foreground drop-shadow-sm leading-[1.08]">
+        <h1 className="hero-title text-5xl md:text-6xl lg:text-8xl font-extrabold tracking-tight mb-8 text-foreground drop-shadow-sm leading-[1.08]">
           Customer support,<br/>
           <span className="bg-gradient-to-r from-blue-500 via-indigo-500 to-emerald-500 bg-clip-text text-transparent">
             beautifully organized.
           </span>
         </h1>
         
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4, duration: 0.8 }}
-          className="text-lg md:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto font-light leading-relaxed"
-        >
+        <p className="hero-desc text-lg md:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto font-light leading-relaxed">
           Resolve faster. Serve better. A modern, AI-ready workspace for your entire support team. Stop managing tickets and start building relationships.
-        </motion.p>
+        </p>
         
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-          className="flex flex-col sm:flex-row gap-5 justify-center items-center mb-24"
-        >
+        <div className="hero-btns flex flex-col sm:flex-row gap-5 justify-center items-center mb-24">
           <Link to="/register">
             <Button size="lg" className="h-14 px-10 text-lg font-semibold group hover:scale-[1.03] transition-all duration-300 rounded-xl shadow-lg shadow-primary/20">
               Start for free
@@ -132,15 +124,12 @@ function CinematicHero() {
               View Demo
             </Button>
           </Link>
-        </motion.div>
+        </div>
 
-        {/* 3D Cinematic Hero Image */}
+        {/* 3D Cinematic Hero Image Container (Floating) */}
         <motion.div
           style={{ rotateX, rotateY }}
-          initial={{ opacity: 0, y: 100 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8, duration: 1, type: "spring", bounce: 0.3 }}
-          className="mx-auto max-w-5xl relative rounded-2xl p-2 bg-muted/30 border border-border/50 backdrop-blur-sm shadow-2xl"
+          className="hero-image mx-auto max-w-5xl relative rounded-2xl p-2 bg-muted/30 border border-border/50 backdrop-blur-sm shadow-2xl"
         >
           <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10 rounded-2xl" />
           <img 
@@ -149,7 +138,7 @@ function CinematicHero() {
             className="rounded-xl object-cover w-full h-[350px] md:h-[550px]"
           />
         </motion.div>
-      </motion.div>
+      </div>
     </section>
   );
 }
