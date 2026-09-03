@@ -45,7 +45,7 @@ export default function ThreeHeroModels() {
   return (
     <div className="absolute inset-0 z-0 pointer-events-none opacity-100 transition-opacity duration-1000">
       <Canvas camera={{ position: [0, 0, 10], fov: 45 }}>
-        <Float speed={2} rotationIntensity={0.2} floatIntensity={1} position={[0, -2, -2]}>
+        <Float speed={2} rotationIntensity={0.2} floatIntensity={1} position={[0, 0, -2]}>
           <TechGlobe />
         </Float>
       </Canvas>
