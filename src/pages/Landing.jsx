@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { LifeBuoy, Zap, Edit3, BookOpen, CheckCircle, ArrowRight, Sparkles, Shield, Globe, Users } from "lucide-react";
+import { LifeBuoy, Zap, Edit3, BookOpen, CheckCircle, ArrowRight, Sparkles, Shield, Globe, Users, Activity } from "lucide-react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import ThreeHeroModels from "@/components/ui/ThreeHeroModels";
 import gsap from "gsap";
@@ -126,17 +126,44 @@ function CinematicHero() {
           </Link>
         </div>
 
-        {/* 3D Cinematic Hero Image Container (Floating) */}
+        {/* 3D Cinematic Stats Container (Floating) */}
         <motion.div
           style={{ rotateX, rotateY }}
-          className="hero-image mx-auto w-[90%] max-w-4xl relative rounded-2xl p-1.5 bg-muted/10 border border-border/30 backdrop-blur-md shadow-2xl"
+          className="hero-image mx-auto w-[90%] max-w-5xl relative rounded-2xl p-1.5 bg-muted/10 border border-border/30 backdrop-blur-md shadow-2xl"
         >
           <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10 rounded-2xl pointer-events-none" />
-          <img 
-            src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=2070&q=80" 
-            alt="Professional dashboard interface preview" 
-            className="rounded-xl object-cover w-full h-[250px] md:h-[450px]"
-          />
+          <div className="w-full h-full min-h-[250px] md:min-h-[350px] rounded-xl bg-background/40 backdrop-blur-xl p-6 md:p-10 flex flex-col justify-center border border-border/20 shadow-inner">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 w-full h-full relative z-20">
+              
+              {/* Uptime Card */}
+              <div className="flex flex-col items-center justify-center p-8 rounded-2xl bg-gradient-to-br from-primary/10 to-transparent border border-primary/20 hover:border-primary/40 transition-colors shadow-lg">
+                <div className="h-14 w-14 rounded-full bg-primary/20 flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(6,182,212,0.3)]">
+                  <Activity className="h-7 w-7 text-primary" />
+                </div>
+                <h3 className="text-5xl font-black text-foreground mb-3 tracking-tighter drop-shadow-sm">99.9%</h3>
+                <p className="text-xs text-muted-foreground font-bold uppercase tracking-[0.2em]">Guaranteed Uptime</p>
+              </div>
+
+              {/* Monitoring Card */}
+              <div className="flex flex-col items-center justify-center p-8 rounded-2xl bg-gradient-to-br from-accent/10 to-transparent border border-accent/20 hover:border-accent/40 transition-colors shadow-lg">
+                <div className="h-14 w-14 rounded-full bg-accent/20 flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(236,72,153,0.3)]">
+                  <Shield className="h-7 w-7 text-accent" />
+                </div>
+                <h3 className="text-5xl font-black text-foreground mb-3 tracking-tighter drop-shadow-sm">24/7</h3>
+                <p className="text-xs text-muted-foreground font-bold uppercase tracking-[0.2em]">Active Monitoring</p>
+              </div>
+
+              {/* Latency Card */}
+              <div className="flex flex-col items-center justify-center p-8 rounded-2xl bg-gradient-to-br from-emerald-500/10 to-transparent border border-emerald-500/20 hover:border-emerald-500/40 transition-colors shadow-lg">
+                <div className="h-14 w-14 rounded-full bg-emerald-500/20 flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(16,185,129,0.3)]">
+                  <Zap className="h-7 w-7 text-emerald-500" />
+                </div>
+                <h3 className="text-5xl font-black text-foreground mb-3 tracking-tighter drop-shadow-sm">&lt;50ms</h3>
+                <p className="text-xs text-muted-foreground font-bold uppercase tracking-[0.2em]">Global Latency</p>
+              </div>
+
+            </div>
+          </div>
         </motion.div>
       </div>
     </section>
