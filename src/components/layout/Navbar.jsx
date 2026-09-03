@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/features/auth/AuthProvider";
 import { logoutUser } from "@/features/auth/services/authService";
@@ -44,46 +44,73 @@ export function Navbar() {
   ];
 
   const visibleLinks = navLinks.filter(l => l.show);
+  const isLanding = location.pathname === "/";
+  const [scrolled, setScrolled] = useState(false);
+
+  // Add scroll listener
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const navClass = isLanding && !scrolled
+    ? "fixed top-0 z-50 w-full transition-all duration-300 bg-transparent"
+    : "sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-xl transition-all duration-300";
 
   return (
     <>
-      <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl transition-all">
-        <div className="container mx-auto flex h-16 items-center justify-between px-4">
+      <header className={navClass}>
+        <div className="container mx-auto flex h-20 items-center justify-between px-8">
           <div className="flex items-center gap-8">
             <Link to={user ? "/dashboard" : "/"} className="flex items-center space-x-2 group">
-              <div className="bg-primary/10 text-primary p-2 rounded-xl group-hover:bg-primary/20 transition-colors">
-                <LifeBuoy className="h-5 w-5" />
-              </div>
-              <span className="font-extrabold text-xl tracking-tight bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                HelpDesk Pro
-              </span>
+              {isLanding && !scrolled ? (
+                <span className="font-black text-3xl tracking-widest text-white">
+                  HD
+                </span>
+              ) : (
+                <>
+                  <div className="bg-primary/10 text-primary p-2 rounded-xl group-hover:bg-primary/20 transition-colors">
+                    <LifeBuoy className="h-5 w-5" />
+                  </div>
+                  <span className="font-extrabold text-xl tracking-tight bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                    HelpDesk Pro
+                  </span>
+                </>
+              )}
             </Link>
-            
-            <nav className="hidden md:flex items-center gap-1">
+          </div>
+
+          <div className="flex items-center gap-2 md:gap-6">
+            <nav className="hidden md:flex items-center gap-6 mr-4">
               {visibleLinks.map((link) => (
                 <Link key={link.path} to={link.path}>
-                  <Button
-                    variant="ghost"
-                    className={`${isActive(link.path) ? "text-primary bg-primary/5 font-semibold" : "text-foreground/70"}`}
+                  <span
+                    className={`text-sm font-bold uppercase tracking-[0.2em] transition-colors ${
+                      isLanding && !scrolled
+                        ? "text-white/80 hover:text-white"
+                        : isActive(link.path)
+                        ? "text-primary"
+                        : "text-foreground/70 hover:text-foreground"
+                    }`}
                   >
-                    {link.icon}
                     {link.label}
-                  </Button>
+                  </span>
                 </Link>
               ))}
             </nav>
-          </div>
 
-          <div className="flex items-center gap-2 md:gap-3">
             {!user ? (
-              <div className="hidden md:flex items-center gap-2">
+              <div className="hidden md:flex items-center gap-4">
                 <ModeToggle />
-                <div className="h-6 w-px bg-border/60 mx-1" />
+                <div className={`h-6 w-px ${isLanding && !scrolled ? "bg-white/20" : "bg-border/60"}`} />
                 <Link to="/login">
-                  <Button variant="outline">Log in</Button>
+                  <span className={`text-sm font-bold uppercase tracking-[0.1em] ${isLanding && !scrolled ? "text-white/80 hover:text-white" : "text-foreground/80 hover:text-foreground"}`}>Log in</span>
                 </Link>
                 <Link to="/register">
-                  <Button>Get Started</Button>
+                  <Button className={`${isLanding && !scrolled ? "bg-white text-black hover:bg-white/90" : ""} font-bold uppercase tracking-[0.1em] text-xs px-6`}>Get Started</Button>
                 </Link>
               </div>
             ) : (

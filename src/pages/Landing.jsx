@@ -37,95 +37,83 @@ function AnimatedCounter({ value, suffix = "", prefix = "" }) {
 function CinematicHero() {
   const container = useRef();
   
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  const handleMouseMove = (e) => {
-    const { clientX, clientY } = e;
-    const { innerWidth, innerHeight } = window;
-    const x = (clientX / innerWidth - 0.5) * 2;
-    const y = (clientY / innerHeight - 0.5) * 2;
-    mouseX.set(x);
-    mouseY.set(y);
-  };
-
-  const springConfig = { damping: 30, stiffness: 200, mass: 0.5 };
-  const smoothX = useSpring(mouseX, springConfig);
-  const smoothY = useSpring(mouseY, springConfig);
-
-  const rotateX = useTransform(smoothY, [-1, 1], [15, -15]);
-  const rotateY = useTransform(smoothX, [-1, 1], [-15, 15]);
-  
-  const glowX = useTransform(smoothX, [-1, 1], [-300, 300]);
-  const glowY = useTransform(smoothY, [-1, 1], [-300, 300]);
-
   useGSAP(() => {
     const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
     
-    tl.fromTo(".hero-badge", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 1 })
-      .fromTo(".hero-title", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 1, stagger: 0.1 }, "-=0.8")
-      .fromTo(".hero-desc", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 1 }, "-=0.8")
-      .fromTo(".hero-btns", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 1 }, "-=0.8")
-      .fromTo(".hero-image", { y: 100, opacity: 0 }, { y: 0, opacity: 1, duration: 1.5, ease: "expo.out" }, "-=0.6");
+    tl.fromTo(".hero-bg-img", { scale: 1.1, opacity: 0 }, { scale: 1, opacity: 1, duration: 2, ease: "power2.out" })
+      .fromTo(".hero-huge-text", { letterSpacing: "1em", opacity: 0 }, { letterSpacing: "0.2em", opacity: 1, duration: 1.5 }, "-=1.5")
+      .fromTo(".hero-subtext", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 1 }, "-=1")
+      .fromTo(".hero-glass-box", { x: -50, opacity: 0 }, { x: 0, opacity: 1, duration: 1 }, "-=0.8")
+      .fromTo(".hero-side-elements", { opacity: 0 }, { opacity: 1, duration: 1 }, "-=0.5");
   }, { scope: container });
 
   return (
     <section 
       ref={container}
-      onMouseMove={handleMouseMove}
-      className="relative w-full min-h-[90vh] pt-4 pb-16 flex flex-col items-center justify-center overflow-hidden bg-background"
-      style={{ perspective: 1500 }}
+      className="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden bg-black"
     >
-      {/* Three.js 3D Background */}
-      <ThreeHeroModels />
-
-      {/* Cinematic Mouse Catcher Glow */}
-      <motion.div
-        style={{ x: glowX, y: glowY }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/20 blur-[160px] rounded-full pointer-events-none"
+      {/* Background Image */}
+      <div 
+        className="hero-bg-img absolute inset-0 w-full h-full bg-[url('/hero-bg.jpg')] bg-cover bg-center bg-no-repeat"
       />
+      
+      {/* Subtle overlay for text readability */}
+      <div className="absolute inset-0 bg-black/20" />
 
-      {/* Subtle grid pattern */}
-      <div
-        className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none"
-        style={{
-          backgroundImage: `linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px)`,
-          backgroundSize: '60px 60px'
-        }}
-      />
-
-      <div className="container mx-auto px-4 relative z-10 text-center flex flex-col items-center justify-center h-full mt-10">
-        {/* Badge */}
-        <div className="hero-badge inline-flex items-center rounded-full border border-border/50 px-4 py-1.5 text-sm font-medium bg-muted/20 text-muted-foreground backdrop-blur-md mb-6 gap-2 shadow-sm">
-          <Sparkles className="h-3.5 w-3.5 text-primary" />
-          Now with AI-powered smart routing
-        </div>
-
-        <h1 className="hero-title text-4xl md:text-5xl lg:text-7xl font-extrabold tracking-tight mb-6 text-foreground drop-shadow-sm leading-[1.1]">
-          Customer support,<br/>
-          <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-            beautifully organized.
-          </span>
+      {/* Massive Center Typography */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center z-10 flex flex-col items-center justify-center pointer-events-none">
+        <h1 className="hero-huge-text font-black text-5xl md:text-[8vw] text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.4)] uppercase w-full flex justify-center whitespace-nowrap">
+          H E L P D E S K
         </h1>
-        
-        <p className="hero-desc text-base md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto font-light leading-relaxed">
-          Resolve faster. Serve better. A modern, AI-ready workspace for your entire support team. Stop managing tickets and start building relationships.
+        <p className="hero-subtext text-white/80 mt-4 tracking-[0.2em] uppercase font-bold text-xs md:text-sm drop-shadow-md">
+          Customer support, beautifully organized.
         </p>
-        
-        <div className="hero-btns flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
-          <Link to="/register">
-            <Button size="lg" className="h-12 px-8 text-base font-semibold group hover:scale-[1.03] transition-all duration-300 rounded-xl shadow-lg shadow-primary/20">
-              Start for free
-              <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-            </Button>
-          </Link>
-          <Link to="/login">
-            <Button size="lg" variant="outline" className="h-12 px-8 text-base font-semibold hover:scale-[1.03] transition-all duration-300 rounded-xl bg-background/20 backdrop-blur-md border-border/50">
-              View Demo
-            </Button>
-          </Link>
-        </div>
+      </div>
 
+      {/* Bottom Left Glassmorphic Box */}
+      <div className="hero-glass-box absolute bottom-12 md:bottom-24 left-6 md:left-16 z-20 max-w-sm">
+        <div className="bg-white/10 backdrop-blur-md border border-white/20 p-6 md:p-8 relative overflow-hidden group hover:bg-white/15 transition-colors duration-500">
+          <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-primary to-accent" />
+          
+          <div className="flex items-start gap-4 mb-4">
+            <div className="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center flex-shrink-0 group-hover:border-white transition-colors cursor-pointer">
+              <div className="w-0 h-0 border-t-4 border-t-transparent border-l-6 border-l-white border-b-4 border-b-transparent ml-1" />
+            </div>
+            <div>
+              <h3 className="text-white font-bold text-xs uppercase tracking-widest mb-2">SMART RESOLUTION</h3>
+              <p className="text-white/70 text-xs leading-relaxed">
+                Resolve faster. Serve better. A modern, AI-ready workspace for your entire support team. Stop managing tickets and start building relationships.
+              </p>
+            </div>
+          </div>
+          
+          <div className="flex gap-4 mt-6">
+            <Link to="/register" className="w-full">
+              <Button className="w-full bg-white text-black hover:bg-white/90 font-bold uppercase tracking-widest text-xs h-10 rounded-none">
+                Start for free
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* Right Navigation Dots */}
+      <div className="hero-side-elements absolute right-6 md:right-12 top-1/2 -translate-y-1/2 flex flex-col gap-4 z-20">
+        {[1, 2, 3, 4, 5].map((dot, i) => (
+          <div 
+            key={i} 
+            className={`w-1.5 h-1.5 rounded-full border border-white/50 ${i === 2 ? 'bg-white' : 'bg-transparent cursor-pointer hover:bg-white/50'} transition-colors`}
+          />
+        ))}
+      </div>
+
+      {/* Bottom Right Social Links */}
+      <div className="hero-side-elements absolute bottom-12 md:bottom-24 right-6 md:right-12 flex gap-6 z-20">
+        {["IN", "TW", "YT"].map((social) => (
+          <a key={social} href="#" className="text-white/60 hover:text-white font-bold text-xs tracking-widest transition-colors">
+            {social}
+          </a>
+        ))}
       </div>
     </section>
   );
