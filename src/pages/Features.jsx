@@ -76,30 +76,14 @@ export default function Features() {
               whileInView="animate"
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="flex-1 w-full bg-slate-100 dark:bg-slate-900 rounded-2xl p-8 border shadow-inner"
+              className="flex-1 w-full relative"
             >
-              <div className="space-y-4">
-                {[
-                  { color: "text-red-500 bg-red-500/10", time: "2h 14m left" },
-                  { color: "text-amber-500 bg-amber-500/10", time: "8h 30m left" },
-                  { color: "text-emerald-500 bg-emerald-500/10", time: "2d left" },
-                ].map((item, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, x: 20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.4 + i * 0.15 }}
-                    className="bg-background p-4 rounded-xl shadow-sm border border-border/50 flex justify-between items-center hover:shadow-md transition-shadow"
-                  >
-                    <div>
-                      <div className="h-4 w-32 bg-muted rounded mb-2" />
-                      <div className="h-3 w-48 bg-muted/50 rounded" />
-                    </div>
-                    <div className={`text-xs font-bold ${item.color} px-3 py-1 rounded-full`}>{item.time}</div>
-                  </motion.div>
-                ))}
-              </div>
+              <div className="absolute inset-0 bg-blue-500/10 blur-[50px] rounded-full" />
+              <img 
+                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=2070&q=80" 
+                alt="Support team collaborating" 
+                className="rounded-2xl border shadow-2xl relative z-10 w-full h-[350px] object-cover"
+              />
             </motion.div>
           </div>
         </div>
@@ -185,22 +169,14 @@ export default function Features() {
               whileInView="animate"
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="flex-1 w-full bg-slate-100 dark:bg-slate-900 rounded-2xl p-8 border shadow-inner"
+              className="flex-1 w-full relative"
             >
-              <div className="bg-background rounded-full px-4 py-3 flex items-center gap-3 border shadow-sm mb-6">
-                <Search className="text-muted-foreground h-5 w-5" />
-                <span className="text-muted-foreground font-medium">How to reset my password...</span>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-background p-4 rounded-xl border hover:shadow-md transition-shadow cursor-pointer">
-                  <div className="h-3 w-24 bg-violet-500/20 rounded mb-2" />
-                  <div className="h-2 w-full bg-muted rounded" />
-                </div>
-                <div className="bg-background p-4 rounded-xl border hover:shadow-md transition-shadow cursor-pointer">
-                  <div className="h-3 w-20 bg-blue-500/20 rounded mb-2" />
-                  <div className="h-2 w-full bg-muted rounded" />
-                </div>
-              </div>
+              <div className="absolute inset-0 bg-violet-500/10 blur-[50px] rounded-full" />
+              <img 
+                src="https://images.unsplash.com/photo-1531538512164-9faccefb7b3c?auto=format&fit=crop&w=2070&q=80" 
+                alt="Self-service knowledge base" 
+                className="rounded-2xl border shadow-2xl relative z-10 w-full h-[350px] object-cover"
+              />
             </motion.div>
           </div>
         </div>

@@ -88,7 +88,7 @@ export default function Landing() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
-            className="flex flex-col sm:flex-row gap-5 justify-center items-center"
+            className="flex flex-col sm:flex-row gap-5 justify-center items-center mb-16"
           >
             <Link to="/register">
               <Button size="lg" className="h-14 px-10 text-lg font-semibold group bg-white text-slate-950 hover:bg-slate-100 border-0 shadow-[0_0_40px_rgba(255,255,255,0.2)] hover:shadow-[0_0_60px_rgba(255,255,255,0.4)] hover:scale-[1.03] transition-all duration-300 rounded-xl">
@@ -101,6 +101,21 @@ export default function Landing() {
                 View Demo
               </Button>
             </Link>
+          </motion.div>
+
+          {/* Hero Image */}
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8, duration: 1, type: "spring", bounce: 0.3 }}
+            className="mx-auto max-w-5xl relative rounded-2xl p-2 bg-white/5 border border-white/10 backdrop-blur-sm"
+          >
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent z-10 rounded-2xl" />
+            <img 
+              src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=2070&q=80" 
+              alt="Professional dashboard interface preview" 
+              className="rounded-xl object-cover w-full h-[350px] md:h-[500px] shadow-2xl"
+            />
           </motion.div>
         </motion.div>
       </section>
