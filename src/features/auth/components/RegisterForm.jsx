@@ -54,8 +54,8 @@ export function RegisterForm() {
   return (
     <Card className="w-full max-w-md mx-auto border-0 shadow-none bg-transparent">
       <CardHeader className="px-0">
-        <CardTitle className="text-2xl font-black uppercase tracking-[0.2em] text-white">NEW OPERATIVE REGISTRATION</CardTitle>
-        <CardDescription className="text-xs uppercase tracking-widest text-white/50">PROVIDE YOUR DETAILS TO INITIALIZE AN ACCOUNT.</CardDescription>
+        <CardTitle className="text-2xl font-black uppercase tracking-[0.2em] text-black dark:text-white">NEW OPERATIVE REGISTRATION</CardTitle>
+        <CardDescription className="text-xs uppercase tracking-widest text-black/50 dark:text-white/50">PROVIDE YOUR DETAILS TO INITIALIZE AN ACCOUNT.</CardDescription>
       </CardHeader>
       <CardContent className="px-0">
         <Form {...form}>
@@ -67,18 +67,18 @@ export function RegisterForm() {
               name="role"
               render={({ field }) => (
                 <FormItem className="space-y-3 mb-6">
-                  <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-white/70">SELECT OPERATIONAL ROLE</FormLabel>
+                  <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-black/70 dark:text-white/70">SELECT OPERATIONAL ROLE</FormLabel>
                   <FormControl>
                     <div className="grid grid-cols-2 gap-4">
                       <div 
-                        className={`cursor-pointer rounded-none border p-4 flex flex-col items-center justify-center gap-2 transition-all ${field.value === 'customer' ? 'border-primary bg-primary/20 text-primary shadow-[0_0_20px_rgba(79,70,229,0.3)]' : 'border-white/10 bg-black text-white/50 hover:bg-white/5'}`}
+                        className={`cursor-pointer rounded-none border p-4 flex flex-col items-center justify-center gap-2 transition-all ${field.value === 'customer' ? 'border-primary bg-primary/20 text-primary shadow-[0_0_20px_rgba(79,70,229,0.3)]' : 'border-black/10 dark:border-white/10 bg-white dark:bg-black text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
                         onClick={() => field.onChange('customer')}
                       >
                         <User className="h-6 w-6" />
                         <span className="font-bold text-[10px] uppercase tracking-widest">CUSTOMER</span>
                       </div>
                       <div 
-                        className={`cursor-pointer rounded-none border p-4 flex flex-col items-center justify-center gap-2 transition-all ${field.value === 'agent' ? 'border-emerald-500 bg-emerald-500/20 text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.3)]' : 'border-white/10 bg-black text-white/50 hover:bg-white/5'}`}
+                        className={`cursor-pointer rounded-none border p-4 flex flex-col items-center justify-center gap-2 transition-all ${field.value === 'agent' ? 'border-emerald-500 bg-emerald-500/20 text-emerald-500 dark:text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.3)]' : 'border-black/10 dark:border-white/10 bg-white dark:bg-black text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
                         onClick={() => field.onChange('agent')}
                       >
                         <Headset className="h-6 w-6" />
@@ -86,7 +86,7 @@ export function RegisterForm() {
                       </div>
                     </div>
                   </FormControl>
-                  <FormMessage className="text-red-400 text-[10px] uppercase tracking-widest" />
+                  <FormMessage className="text-red-500 dark:text-red-400 text-[10px] uppercase tracking-widest" />
                 </FormItem>
               )}
             />
@@ -96,11 +96,11 @@ export function RegisterForm() {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-white/70">FULL DESIGNATION (NAME)</FormLabel>
+                  <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-black/70 dark:text-white/70">FULL DESIGNATION (NAME)</FormLabel>
                   <FormControl>
-                    <Input className="bg-black border-white/10 text-white rounded-none px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-white/20" placeholder="John Doe" {...field} />
+                    <Input className="bg-white dark:bg-black border-black/10 dark:border-white/10 text-black dark:text-white rounded-none px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-black/20 dark:placeholder:text-white/20" placeholder="John Doe" {...field} />
                   </FormControl>
-                  <FormMessage className="text-red-400 text-[10px] uppercase tracking-widest" />
+                  <FormMessage className="text-red-500 dark:text-red-400 text-[10px] uppercase tracking-widest" />
                 </FormItem>
               )}
             />
@@ -109,11 +109,11 @@ export function RegisterForm() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-white/70">COMMS VECTOR (EMAIL)</FormLabel>
+                  <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-black/70 dark:text-white/70">COMMS VECTOR (EMAIL)</FormLabel>
                   <FormControl>
-                    <Input className="bg-black border-white/10 text-white rounded-none px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-white/20" placeholder="name@example.com" {...field} />
+                    <Input className="bg-white dark:bg-black border-black/10 dark:border-white/10 text-black dark:text-white rounded-none px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-black/20 dark:placeholder:text-white/20" placeholder="name@example.com" {...field} />
                   </FormControl>
-                  <FormMessage className="text-red-400 text-[10px] uppercase tracking-widest" />
+                  <FormMessage className="text-red-500 dark:text-red-400 text-[10px] uppercase tracking-widest" />
                 </FormItem>
               )}
             />
@@ -122,11 +122,11 @@ export function RegisterForm() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-white/70">SECURITY KEY (PASSWORD)</FormLabel>
+                  <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-black/70 dark:text-white/70">SECURITY KEY (PASSWORD)</FormLabel>
                   <FormControl>
-                    <Input type="password" className="bg-black border-white/10 text-white rounded-none px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-white/20" placeholder="••••••••" {...field} />
+                    <Input type="password" className="bg-white dark:bg-black border-black/10 dark:border-white/10 text-black dark:text-white rounded-none px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-black/20 dark:placeholder:text-white/20" placeholder="••••••••" {...field} />
                   </FormControl>
-                  <FormMessage className="text-red-400 text-[10px] uppercase tracking-widest" />
+                  <FormMessage className="text-red-500 dark:text-red-400 text-[10px] uppercase tracking-widest" />
                 </FormItem>
               )}
             />
@@ -135,11 +135,11 @@ export function RegisterForm() {
               name="confirmPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-white/70">CONFIRM SECURITY KEY</FormLabel>
+                  <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-black/70 dark:text-white/70">CONFIRM SECURITY KEY</FormLabel>
                   <FormControl>
-                    <Input type="password" className="bg-black border-white/10 text-white rounded-none px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-white/20" placeholder="••••••••" {...field} />
+                    <Input type="password" className="bg-white dark:bg-black border-black/10 dark:border-white/10 text-black dark:text-white rounded-none px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-black/20 dark:placeholder:text-white/20" placeholder="••••••••" {...field} />
                   </FormControl>
-                  <FormMessage className="text-red-400 text-[10px] uppercase tracking-widest" />
+                  <FormMessage className="text-red-500 dark:text-red-400 text-[10px] uppercase tracking-widest" />
                 </FormItem>
               )}
             />
@@ -150,7 +150,7 @@ export function RegisterForm() {
         </Form>
       </CardContent>
       <CardFooter className="flex flex-col space-y-4 text-[10px] uppercase tracking-widest text-center px-0 font-bold mt-4">
-        <div className="text-white/50">
+        <div className="text-black/50 dark:text-white/50">
           ALREADY AUTHORIZED?{" "}
           <Link to="/login" className="text-primary hover:text-primary/80 transition-colors">
             ACCESS LOGIN PANEL

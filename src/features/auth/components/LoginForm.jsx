@@ -70,8 +70,8 @@ export function LoginForm() {
   return (
     <Card className="w-full max-w-md mx-auto border-0 shadow-none bg-transparent">
       <CardHeader className="px-0">
-        <CardTitle className="text-2xl font-black uppercase tracking-[0.2em] text-white">SYSTEM LOGIN</CardTitle>
-        <CardDescription className="text-xs uppercase tracking-widest text-white/50">ENTER YOUR CREDENTIALS TO ACCESS THE WORKSPACE.</CardDescription>
+        <CardTitle className="text-2xl font-black uppercase tracking-[0.2em] text-black dark:text-white">SYSTEM LOGIN</CardTitle>
+        <CardDescription className="text-xs uppercase tracking-widest text-black/50 dark:text-white/50">ENTER YOUR CREDENTIALS TO ACCESS THE WORKSPACE.</CardDescription>
       </CardHeader>
       <CardContent className="px-0">
         <Form {...form}>
@@ -81,11 +81,11 @@ export function LoginForm() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-white/70">IDENTIFIER (EMAIL)</FormLabel>
+                  <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-black/70 dark:text-white/70">IDENTIFIER (EMAIL)</FormLabel>
                   <FormControl>
-                    <Input className="bg-black border-white/10 text-white rounded-none px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-white/20" placeholder="operative@system.com" {...field} />
+                    <Input className="bg-white dark:bg-black border-black/10 dark:border-white/10 text-black dark:text-white rounded-none px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-black/20 dark:placeholder:text-white/20" placeholder="operative@system.com" {...field} />
                   </FormControl>
-                  <FormMessage className="text-red-400 text-[10px] uppercase tracking-widest" />
+                  <FormMessage className="text-red-500 dark:text-red-400 text-[10px] uppercase tracking-widest" />
                 </FormItem>
               )}
             />
@@ -94,11 +94,11 @@ export function LoginForm() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-white/70">SECURITY KEY (PASSWORD)</FormLabel>
+                  <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-black/70 dark:text-white/70">SECURITY KEY (PASSWORD)</FormLabel>
                   <FormControl>
-                    <Input type="password" className="bg-black border-white/10 text-white rounded-none px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-white/20" placeholder="••••••••" {...field} />
+                    <Input type="password" className="bg-white dark:bg-black border-black/10 dark:border-white/10 text-black dark:text-white rounded-none px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-black/20 dark:placeholder:text-white/20" placeholder="••••••••" {...field} />
                   </FormControl>
-                  <FormMessage className="text-red-400 text-[10px] uppercase tracking-widest" />
+                  <FormMessage className="text-red-500 dark:text-red-400 text-[10px] uppercase tracking-widest" />
                 </FormItem>
               )}
             />
@@ -109,13 +109,13 @@ export function LoginForm() {
         </Form>
 
         {/* Demo Accounts Section */}
-        <div className="mt-8 pt-6 border-t border-white/10">
-          <p className="text-[10px] font-bold text-white/50 uppercase tracking-[0.2em] text-center mb-4">BYPASS AUTH (DEMO)</p>
+        <div className="mt-8 pt-6 border-t border-black/10 dark:border-white/10">
+          <p className="text-[10px] font-bold text-black/50 dark:text-white/50 uppercase tracking-[0.2em] text-center mb-4">BYPASS AUTH (DEMO)</p>
           <div className="grid grid-cols-3 gap-2">
             <Button 
               variant="outline" 
               size="sm" 
-              className="text-[10px] font-bold uppercase tracking-widest h-10 rounded-none bg-transparent text-white/70 border-white/20 hover:bg-white/10 hover:text-white hover:border-white/50 transition-all"
+              className="text-[10px] font-bold uppercase tracking-widest h-10 rounded-none bg-transparent text-black/70 dark:text-white/70 border-black/20 dark:border-white/20 hover:bg-black/10 dark:hover:bg-white/10 hover:text-black dark:hover:text-white hover:border-black/50 dark:hover:border-white/50 transition-all"
               onClick={() => handleDemoLogin('customer')}
               disabled={isLoading}
             >
@@ -124,7 +124,7 @@ export function LoginForm() {
             <Button 
               variant="outline" 
               size="sm" 
-              className="text-[10px] font-bold uppercase tracking-widest h-10 rounded-none bg-transparent text-white/70 border-white/20 hover:bg-emerald-500/20 hover:text-emerald-400 hover:border-emerald-500/50 transition-all"
+              className="text-[10px] font-bold uppercase tracking-widest h-10 rounded-none bg-transparent text-black/70 dark:text-white/70 border-black/20 dark:border-white/20 hover:bg-emerald-500/20 hover:text-emerald-500 dark:hover:text-emerald-400 hover:border-emerald-500/50 transition-all"
               onClick={() => handleDemoLogin('agent')}
               disabled={isLoading}
             >
@@ -133,7 +133,7 @@ export function LoginForm() {
             <Button 
               variant="outline" 
               size="sm" 
-              className="text-[10px] font-bold uppercase tracking-widest h-10 rounded-none bg-transparent text-white/70 border-white/20 hover:bg-accent/20 hover:text-accent hover:border-accent/50 transition-all"
+              className="text-[10px] font-bold uppercase tracking-widest h-10 rounded-none bg-transparent text-black/70 dark:text-white/70 border-black/20 dark:border-white/20 hover:bg-accent/20 hover:text-accent hover:border-accent/50 transition-all"
               onClick={() => handleDemoLogin('admin')}
               disabled={isLoading}
             >
@@ -143,10 +143,10 @@ export function LoginForm() {
         </div>
       </CardContent>
       <CardFooter className="flex flex-col space-y-4 text-[10px] uppercase tracking-widest text-center px-0 font-bold mt-4">
-        <Link to="/forgot-password" className="text-white/50 hover:text-primary transition-colors">
+        <Link to="/forgot-password" className="text-black/50 dark:text-white/50 hover:text-primary transition-colors">
           REQUEST KEY RESET?
         </Link>
-        <div className="text-white/50">
+        <div className="text-black/50 dark:text-white/50">
           UNREGISTERED OPERATIVE?{" "}
           <Link to="/register" className="text-primary hover:text-primary/80 transition-colors">
             INITIALIZE REGISTRATION

@@ -57,8 +57,8 @@ export function Navbar() {
   }, []);
 
   const navClass = isLanding && !scrolled
-    ? "fixed top-0 z-50 w-full transition-all duration-300 bg-transparent"
-    : "sticky top-0 z-50 w-full border-b border-white/10 bg-black/60 backdrop-blur-xl transition-all duration-300 shadow-[0_4px_30px_rgba(0,0,0,0.5)]";
+    ? "fixed top-0 z-50 w-full transition-all duration-300 bg-transparent text-black dark:text-white"
+    : "sticky top-0 z-50 w-full border-b border-black/10 dark:border-white/10 bg-white/60 dark:bg-black/60 backdrop-blur-xl transition-all duration-300 shadow-sm dark:shadow-[0_4px_30px_rgba(0,0,0,0.5)] text-black dark:text-white";
 
   return (
     <>
@@ -67,13 +67,13 @@ export function Navbar() {
           <div className="flex items-center gap-8">
             <Link to={user ? "/dashboard" : "/"} className="flex items-center space-x-2 group">
               <div className="flex items-center gap-3">
-                <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white transition-transform group-hover:scale-105 duration-300">
+                <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-black dark:text-white transition-transform group-hover:scale-105 duration-300">
                   <path d="M50 5 L93 25 V75 L50 95 L7 75 V25 L50 5 Z" stroke="currentColor" strokeWidth="3" strokeOpacity="0.3"/>
                   <path d="M28 35 V65 M48 35 V65 M28 50 H48" stroke="currentColor" strokeWidth="6" strokeLinecap="round"/>
                   <path d="M60 35 H65 C73.284 35 80 41.716 80 50 C80 58.284 73.284 65 65 65 H60 V35 Z" stroke="currentColor" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round"/>
                   <circle cx="80" cy="50" r="3" fill="currentColor"/>
                 </svg>
-                <span className="font-bold text-xl tracking-[0.2em] text-white/90">
+                <span className="font-bold text-xl tracking-[0.2em] text-black/90 dark:text-white/90">
                   HELPDESK
                 </span>
               </div>
@@ -88,7 +88,7 @@ export function Navbar() {
                     className={`text-xs font-bold uppercase tracking-[0.2em] transition-colors ${
                       isActive(link.path)
                         ? "text-primary drop-shadow-[0_0_10px_rgba(79,70,229,0.5)]"
-                        : "text-white/60 hover:text-white"
+                        : "text-black/60 hover:text-black dark:text-white/60 dark:hover:text-white"
                     }`}
                   >
                     {link.label}
@@ -100,12 +100,12 @@ export function Navbar() {
             {!user ? (
               <div className="hidden md:flex items-center gap-4">
                 <ModeToggle />
-                <div className="h-6 w-px bg-white/20" />
+                <div className="h-6 w-px bg-black/20 dark:bg-white/20" />
                 <Link to="/login">
-                  <span className="text-xs font-bold uppercase tracking-[0.1em] text-white/80 hover:text-white transition-colors">Log in</span>
+                  <span className="text-xs font-bold uppercase tracking-[0.1em] text-black/80 hover:text-black dark:text-white/80 dark:hover:text-white transition-colors">Log in</span>
                 </Link>
                 <Link to="/register">
-                  <Button className="bg-white text-black hover:bg-white/90 font-bold uppercase tracking-[0.1em] text-xs px-6 rounded-none">Get Started</Button>
+                  <Button className="bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90 font-bold uppercase tracking-[0.1em] text-xs px-6 rounded-none">Get Started</Button>
                 </Link>
               </div>
             ) : (
@@ -172,7 +172,7 @@ export function Navbar() {
             {/* Mobile Menu Toggle */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="md:hidden p-2 rounded-lg hover:bg-muted transition-colors"
+              className="md:hidden p-2 rounded-lg hover:bg-muted transition-colors text-black dark:text-white"
             >
               {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
@@ -188,7 +188,7 @@ export function Navbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="md:hidden fixed top-16 left-0 right-0 z-40 bg-background/95 backdrop-blur-xl border-b shadow-xl overflow-hidden"
+            className="md:hidden fixed top-16 left-0 right-0 z-40 bg-white/95 dark:bg-black/95 backdrop-blur-xl border-b border-black/10 dark:border-white/10 shadow-xl overflow-hidden"
           >
             <div className="container mx-auto px-4 py-6 space-y-3">
               {visibleLinks.map((link) => (
@@ -196,10 +196,10 @@ export function Navbar() {
                   key={link.path}
                   to={link.path}
                   onClick={() => setMobileOpen(false)}
-                  className={`flex items-center px-4 py-3 rounded-xl text-lg font-medium transition-colors ${
+                  className={`flex items-center px-4 py-3 rounded-none text-xs uppercase tracking-widest font-bold transition-colors ${
                     isActive(link.path)
                       ? "bg-primary/10 text-primary"
-                      : "hover:bg-muted"
+                      : "hover:bg-muted text-black dark:text-white"
                   }`}
                 >
                   {link.icon && <span className="mr-3">{link.icon}</span>}
@@ -212,17 +212,17 @@ export function Navbar() {
               {!user ? (
                 <div className="space-y-4">
                   <div className="flex items-center justify-between px-2">
-                    <span className="text-sm font-medium text-muted-foreground">Theme</span>
+                    <span className="text-[10px] uppercase tracking-widest font-bold text-muted-foreground">Theme</span>
                     <ModeToggle />
                   </div>
                   <div className="flex gap-3">
                     <Link to="/login" className="flex-1" onClick={() => setMobileOpen(false)}>
-                      <Button variant="outline" className="w-full h-12">
+                      <Button variant="outline" className="w-full h-12 rounded-none uppercase tracking-widest text-xs font-bold border-black/20 dark:border-white/20 text-black dark:text-white">
                         Log in
                       </Button>
                     </Link>
                     <Link to="/register" className="flex-1" onClick={() => setMobileOpen(false)}>
-                      <Button className="w-full h-12">Get Started</Button>
+                      <Button className="w-full h-12 rounded-none uppercase tracking-widest text-xs font-bold bg-black text-white dark:bg-white dark:text-black">Get Started</Button>
                     </Link>
                   </div>
                 </div>
@@ -235,11 +235,11 @@ export function Navbar() {
                         <AvatarFallback>{(user.displayName || user.email)?.charAt(0).toUpperCase()}</AvatarFallback>
                       </Avatar>
                       <div>
-                        <p className="text-sm font-medium">{user.displayName || "User"}</p>
-                        <p className="text-xs text-muted-foreground">{role}</p>
+                        <p className="text-sm font-medium text-black dark:text-white">{user.displayName || "User"}</p>
+                        <p className="text-[10px] uppercase tracking-widest text-muted-foreground">{role}</p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-1 text-black dark:text-white">
                       <ModeToggle />
                       <NotificationCenter />
                     </div>
@@ -247,7 +247,7 @@ export function Navbar() {
                   
                   {role === "customer" && (
                     <Link to="/tickets/new" onClick={() => setMobileOpen(false)}>
-                      <Button className="w-full h-11 mb-2">
+                      <Button className="w-full h-11 mb-2 rounded-none uppercase tracking-widest text-xs font-bold">
                         <PlusCircle className="mr-2 h-4 w-4" /> New Ticket
                       </Button>
                     </Link>
@@ -255,22 +255,22 @@ export function Navbar() {
                   
                   <div className="grid grid-cols-2 gap-3">
                     <Link to="/dashboard" onClick={() => setMobileOpen(false)}>
-                      <Button variant="outline" className="w-full h-11 justify-start px-4">
+                      <Button variant="outline" className="w-full h-11 justify-start px-4 rounded-none border-black/20 dark:border-white/20 text-black dark:text-white">
                         <LayoutDashboard className="mr-2 h-4 w-4" /> Dashboard
                       </Button>
                     </Link>
                     <Link to="/profile" onClick={() => setMobileOpen(false)}>
-                      <Button variant="outline" className="w-full h-11 justify-start px-4">
+                      <Button variant="outline" className="w-full h-11 justify-start px-4 rounded-none border-black/20 dark:border-white/20 text-black dark:text-white">
                         <UserIcon className="mr-2 h-4 w-4" /> Profile
                       </Button>
                     </Link>
                   </div>
                   <Link to="/profile" onClick={() => setMobileOpen(false)}>
-                    <Button variant="outline" className="w-full h-11 justify-start px-4 mb-3">
+                    <Button variant="outline" className="w-full h-11 justify-start px-4 mb-3 rounded-none border-black/20 dark:border-white/20 text-black dark:text-white">
                       <Settings className="mr-2 h-4 w-4" /> Settings
                     </Button>
                   </Link>
-                  <Button variant="destructive" className="w-full h-11" onClick={handleLogout}>
+                  <Button variant="destructive" className="w-full h-11 rounded-none uppercase tracking-widest text-xs font-bold" onClick={handleLogout}>
                     <LogOut className="mr-2 h-4 w-4" /> Log out
                   </Button>
                 </div>
@@ -287,7 +287,7 @@ export function Navbar() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="md:hidden fixed inset-0 top-16 z-30 bg-black/20"
+            className="md:hidden fixed inset-0 top-16 z-30 bg-black/20 dark:bg-black/80 backdrop-blur-sm"
             onClick={() => setMobileOpen(false)}
           />
         )}

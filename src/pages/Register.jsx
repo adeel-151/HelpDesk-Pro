@@ -11,17 +11,17 @@ export default function Register() {
   }
 
   return (
-    <div className="min-h-screen flex w-full font-sans bg-black text-white selection:bg-primary/20 selection:text-primary">
+    <div className="min-h-screen flex w-full font-sans bg-white dark:bg-black text-black dark:text-white selection:bg-primary/20 selection:text-primary">
       {/* Form Side */}
-      <div className="flex-1 flex flex-col justify-center px-4 sm:px-12 lg:px-24 xl:px-32 relative bg-black border-r border-white/10">
+      <div className="flex-1 flex flex-col justify-center px-4 sm:px-12 lg:px-24 xl:px-32 relative bg-white dark:bg-black border-r border-black/10 dark:border-white/10">
         
         {/* Logo */}
         <div className="absolute top-8 left-8 sm:left-12 flex items-center space-x-2">
           <Link to="/" className="flex items-center space-x-3 group">
-            <div className="w-8 h-8 border-2 border-white flex items-center justify-center group-hover:bg-white group-hover:text-black transition-colors">
+            <div className="w-8 h-8 border-2 border-black dark:border-white flex items-center justify-center group-hover:bg-black group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-black transition-colors">
               <span className="font-black text-xs tracking-tighter">HD</span>
             </div>
-            <span className="font-black text-lg tracking-[0.2em] uppercase text-white">
+            <span className="font-black text-lg tracking-[0.2em] uppercase text-black dark:text-white">
               HELPDESK
             </span>
           </Link>
@@ -31,13 +31,13 @@ export default function Register() {
           <RegisterForm />
         </div>
         
-        <div className="absolute bottom-8 left-8 sm:left-12 text-[10px] uppercase tracking-widest text-white/50 hidden sm:block">
+        <div className="absolute bottom-8 left-8 sm:left-12 text-[10px] uppercase tracking-widest text-black/50 dark:text-white/50 hidden sm:block">
           // SYSTEM BUILD {new Date().getFullYear()} © HELPDESK PRO.
         </div>
       </div>
 
       {/* Cinematic Image Side */}
-      <div className="hidden lg:flex flex-1 relative bg-black text-white overflow-hidden items-end p-12">
+      <div className="hidden lg:flex flex-1 relative bg-black text-white overflow-hidden items-end p-12 border-l border-black/10 dark:border-white/10">
         <div className="absolute inset-0 z-0">
           <img 
             src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2940&auto=format&fit=crop" 
@@ -53,7 +53,7 @@ export default function Register() {
           <div className="inline-flex items-center border border-white/20 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white/50 mb-8 bg-white/5">
             // NEW OPERATIVE REGISTRATION
           </div>
-          <h2 className="text-4xl font-black tracking-[0.2em] uppercase mb-6 drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+          <h2 className="text-4xl font-black tracking-[0.2em] uppercase mb-6 drop-shadow-[0_0_20px_rgba(255,255,255,0.3)] text-white">
             INITIALIZE WORKSPACE
           </h2>
           <p className="text-xs text-white/50 uppercase tracking-widest leading-relaxed mb-10">
