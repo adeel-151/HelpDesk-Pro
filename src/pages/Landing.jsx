@@ -126,18 +126,6 @@ function CinematicHero() {
           </Link>
         </div>
 
-        {/* 3D Cinematic Hero Image Container (Floating) */}
-        <motion.div
-          style={{ rotateX, rotateY }}
-          className="hero-image mx-auto w-[90%] max-w-5xl relative rounded-2xl p-1.5 bg-muted/10 border border-border/30 backdrop-blur-md shadow-2xl"
-        >
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10 rounded-2xl pointer-events-none" />
-          <img 
-            src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=2070&q=80" 
-            alt="Professional dashboard interface preview" 
-            className="rounded-xl object-cover w-full h-[250px] md:h-[450px]"
-          />
-        </motion.div>
       </div>
     </section>
   );
