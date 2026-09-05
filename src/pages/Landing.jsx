@@ -44,6 +44,7 @@ function CinematicHero() {
     tl.fromTo(".hero-bg-img", { scale: 1.1, opacity: 0 }, { scale: 1, opacity: 1, duration: 2, ease: "power2.out" })
       .fromTo(".hero-huge-text", { letterSpacing: "1em", opacity: 0 }, { letterSpacing: "0.2em", opacity: 1, duration: 1.5 }, "-=1.5")
       .fromTo(".hero-subtext", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 1 }, "-=1")
+      .fromTo(".hero-cta", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 1 }, "-=0.7")
       .fromTo(".hero-glass-box", { x: -50, opacity: 0 }, { x: 0, opacity: 1, duration: 1 }, "-=0.8")
       .fromTo(".hero-side-elements", { opacity: 0 }, { opacity: 1, duration: 1 }, "-=0.5");
   }, { scope: container });
@@ -59,22 +60,55 @@ function CinematicHero() {
         style={{ backgroundImage: `url(${heroImg})` }}
       />
       
-      {/* Subtle overlay for text readability */}
-      <div className="absolute inset-0 bg-black/40 transition-colors duration-500" />
+      {/* Overlay — slightly stronger on mobile for readability */}
+      <div className="absolute inset-0 bg-black/50 md:bg-black/40 transition-colors duration-500" />
 
-      {/* Massive Center Typography */}
-      <div className="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center z-10 flex flex-col items-center justify-center pointer-events-none px-4">
-        <h1 className="hero-huge-text font-black text-3xl sm:text-4xl md:text-[7vw] text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.4)] uppercase w-full flex justify-center whitespace-nowrap">
+      {/* ───── MOBILE HERO LAYOUT (clean vertical stack) ───── */}
+      <div className="md:hidden relative z-10 flex flex-col items-center justify-center h-full w-full px-6 text-center">
+        {/* Title */}
+        <h1 className="hero-huge-text font-black text-[10vw] text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.4)] uppercase whitespace-nowrap">
+          HELPDESK
+        </h1>
+        <p className="hero-subtext text-white/70 mt-3 tracking-[0.25em] uppercase font-bold text-[10px]">
+          Customer support, beautifully organized.
+        </p>
+
+        {/* CTA */}
+        <div className="hero-cta mt-10 w-full max-w-xs space-y-4">
+          <Link to="/register" className="block w-full">
+            <Button className="w-full bg-white text-black hover:bg-white/90 font-bold uppercase tracking-widest text-xs h-12 rounded-none">
+              Start for free
+            </Button>
+          </Link>
+          <p className="text-white/40 text-[9px] uppercase tracking-[0.2em] font-bold">
+            No credit card required · Setup in 2 min
+          </p>
+        </div>
+
+        {/* Social links pinned at bottom */}
+        <div className="hero-side-elements absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-6">
+          {["IN", "TW", "YT"].map((social) => (
+            <a key={social} href="#" className="text-white/40 hover:text-white font-bold text-[10px] tracking-widest transition-colors">
+              {social}
+            </a>
+          ))}
+        </div>
+      </div>
+
+      {/* ───── DESKTOP HERO LAYOUT (original glassmorphism) ───── */}
+      {/* Center Typography (desktop only) */}
+      <div className="hidden md:flex absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center z-10 flex-col items-center justify-center pointer-events-none px-4">
+        <h1 className="hero-huge-text font-black md:text-[7vw] text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.4)] uppercase w-full flex justify-center whitespace-nowrap">
           H E L P D E S K
         </h1>
-        <p className="hero-subtext text-white/80 mt-4 tracking-[0.2em] uppercase font-bold text-[10px] md:text-sm drop-shadow-md">
+        <p className="hero-subtext text-white/80 mt-4 tracking-[0.2em] uppercase font-bold md:text-sm drop-shadow-md">
           Customer support, beautifully organized.
         </p>
       </div>
 
-      {/* Bottom Left Glassmorphic Box */}
-      <div className="hero-glass-box absolute bottom-6 md:bottom-12 left-4 md:left-12 z-20 max-w-sm md:max-w-md w-[calc(100%-2rem)] md:w-auto">
-        <div className="bg-white/10 backdrop-blur-md border border-white/20 p-6 md:p-8 relative overflow-hidden group hover:bg-white/15 transition-colors duration-500 shadow-none">
+      {/* Glassmorphic Box (desktop only) */}
+      <div className="hero-glass-box hidden md:block absolute bottom-12 left-12 z-20 max-w-md">
+        <div className="bg-white/10 backdrop-blur-md border border-white/20 p-8 relative overflow-hidden group hover:bg-white/15 transition-colors duration-500 shadow-none">
           <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-primary to-accent" />
           
           <div className="flex items-start gap-4 mb-4">
@@ -99,8 +133,8 @@ function CinematicHero() {
         </div>
       </div>
 
-      {/* Bottom Right Social Links */}
-      <div className="hero-side-elements absolute bottom-6 sm:bottom-12 md:bottom-24 right-4 sm:right-6 md:right-12 flex gap-4 sm:gap-6 z-20">
+      {/* Social Links (desktop only) */}
+      <div className="hero-side-elements hidden md:flex absolute bottom-24 right-12 gap-6 z-20">
         {["IN", "TW", "YT"].map((social) => (
           <a key={social} href="#" className="text-white/60 hover:text-white font-bold text-xs tracking-widest transition-colors drop-shadow-none">
             {social}
