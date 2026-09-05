@@ -56,14 +56,14 @@ export default function CustomerDashboard() {
   }
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto pb-12 pt-8 px-4 sm:px-8 bg-background">
+    <div className="space-y-6 sm:space-y-8 max-w-7xl mx-auto pb-12 pt-4 sm:pt-8 px-3 sm:px-4 md:px-8 bg-background">
       {/* Welcome Banner */}
-      <div className="border-2 border-black dark:border-white p-8 relative overflow-hidden bg-white/5 dark:bg-black/5 flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="border-2 border-black dark:border-white p-4 sm:p-8 relative overflow-hidden bg-white/5 dark:bg-black/5 flex flex-col md:flex-row md:items-center justify-between gap-4 sm:gap-6">
         <div className="absolute top-0 right-0 p-2 text-[10px] uppercase tracking-[0.2em] text-muted-foreground font-bold">
           // CLIENT_PORTAL
         </div>
         <div className="relative z-10">
-          <h2 className="text-3xl md:text-5xl font-black tracking-[0.2em] uppercase mb-4 text-foreground">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-black tracking-[0.1em] sm:tracking-[0.2em] uppercase mb-4 text-foreground">
             WELCOME, {profile?.name?.split(' ')[0] || 'CUSTOMER'}
           </h2>
           <p className="text-muted-foreground text-xs font-bold uppercase tracking-widest max-w-2xl leading-loose">
@@ -73,7 +73,7 @@ export default function CustomerDashboard() {
       </div>
 
       {/* Quick Actions */}
-      <div className="grid md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
         <Link to="/customer/tickets/new" className="group">
           <div className="bg-card border-2 border-black/20 dark:border-white/20 hover:border-primary rounded-none p-6 transition-colors h-full flex flex-col items-center justify-center text-center space-y-4 cursor-pointer">
             <div className="w-16 h-16 bg-primary text-primary-foreground flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
@@ -99,7 +99,7 @@ export default function CustomerDashboard() {
       </div>
 
       {/* Stats & Recent Tickets */}
-      <div className="grid lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         
         {/* Left Col: Stats */}
         <div className="space-y-6">
@@ -108,7 +108,7 @@ export default function CustomerDashboard() {
               <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-amber-500">OPEN_REQUESTS</h3>
               <Clock className="h-4 w-4 text-amber-500" />
             </div>
-            <div className="text-4xl font-black tracking-tighter mt-auto text-amber-500">{stats.open}</div>
+            <div className="text-2xl sm:text-4xl font-black tracking-tighter mt-auto text-amber-500">{stats.open}</div>
           </div>
           
           <div className="border border-black/20 dark:border-white/20 bg-card p-6 flex flex-col relative group hover:border-emerald-500 transition-colors">
@@ -116,7 +116,7 @@ export default function CustomerDashboard() {
               <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-500">RESOLVED</h3>
               <CheckCircle2 className="h-4 w-4 text-emerald-500" />
             </div>
-            <div className="text-4xl font-black tracking-tighter mt-auto text-emerald-500">{stats.resolved}</div>
+            <div className="text-2xl sm:text-4xl font-black tracking-tighter mt-auto text-emerald-500">{stats.resolved}</div>
           </div>
         </div>
 

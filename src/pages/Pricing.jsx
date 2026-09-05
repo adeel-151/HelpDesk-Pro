@@ -32,7 +32,7 @@ export default function Pricing() {
           <div className="inline-flex items-center border border-black/20 dark:border-white/20 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-black/50 dark:text-white/50 mb-8 bg-black/5 dark:bg-white/5">
             // SYSTEM.PRICING_TIERS
           </div>
-          <h1 className="text-4xl md:text-7xl font-black tracking-[0.2em] uppercase mb-8 drop-shadow-[0_0_20px_rgba(0,0,0,0.1)] dark:drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+          <h1 className="text-3xl sm:text-4xl md:text-7xl font-black tracking-[0.1em] sm:tracking-[0.2em] uppercase mb-8 drop-shadow-[0_0_20px_rgba(0,0,0,0.1)] dark:drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">
             PLANS THAT SCALE <br/>
             <span className="text-primary drop-shadow-[0_0_15px_rgba(79,70,229,0.3)] dark:drop-shadow-[0_0_15px_rgba(79,70,229,0.5)]">WITH YOUR TEAM.</span>
           </h1>
@@ -50,7 +50,7 @@ export default function Pricing() {
             initial="initial"
             whileInView="animate"
             viewport={{ once: true }}
-            className="grid md:grid-cols-3 gap-8 items-start"
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 items-start"
           >
             {/* Starter Plan */}
             <motion.div variants={fadeUp} transition={{ duration: 0.5 }} className="bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 p-8 hover:border-black/30 dark:hover:border-white/30 transition-colors duration-300 flex flex-col h-full">
@@ -75,7 +75,7 @@ export default function Pricing() {
             </motion.div>
 
             {/* Pro Plan */}
-            <motion.div variants={fadeUp} transition={{ duration: 0.5 }} className="bg-black/5 dark:bg-white/5 border border-primary relative p-8 shadow-[0_0_50px_rgba(79,70,229,0.15)] transform md:-translate-y-4 flex flex-col h-full group">
+            <motion.div variants={fadeUp} transition={{ duration: 0.5 }} className="bg-black/5 dark:bg-white/5 border border-primary relative p-8 shadow-[0_0_50px_rgba(79,70,229,0.15)] transform sm:col-span-2 md:col-span-1 md:-translate-y-4 flex flex-col h-full group">
               <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary text-white px-4 py-1 text-[10px] font-bold tracking-widest uppercase border border-primary">
                 MOST POPULAR
               </div>
@@ -140,9 +140,9 @@ export default function Pricing() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="overflow-x-auto border border-black/10 dark:border-white/10"
+            className="overflow-x-auto border border-black/10 dark:border-white/10 -mx-4 sm:mx-0"
           >
-            <table className="w-full text-left border-collapse">
+            <table className="w-full text-left border-collapse min-w-[600px]">
               <thead className="bg-black/5 dark:bg-white/5">
                 <tr>
                   <th className="py-6 px-4 border-b border-black/10 dark:border-white/10 font-bold text-xs uppercase tracking-widest text-black/80 dark:text-white/80 w-2/5">FEATURE</th>
@@ -225,7 +225,7 @@ export default function Pricing() {
           transition={{ duration: 0.7 }}
           className="container mx-auto px-4 max-w-4xl text-center relative z-10"
         >
-          <h2 className="text-4xl md:text-7xl font-black mb-8 tracking-[0.2em] uppercase text-black dark:text-white drop-shadow-[0_0_20px_rgba(0,0,0,0.1)] dark:drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">INITIATE SEQUENCE</h2>
+          <h2 className="text-3xl sm:text-4xl md:text-7xl font-black mb-8 tracking-[0.1em] sm:tracking-[0.2em] uppercase text-black dark:text-white drop-shadow-[0_0_20px_rgba(0,0,0,0.1)] dark:drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">INITIATE SEQUENCE</h2>
           <p className="text-xs md:text-sm text-black/50 dark:text-white/50 uppercase tracking-[0.3em] mb-12 font-bold">
             System ready for immediate deployment. Access granted in under 2 minutes.
           </p>

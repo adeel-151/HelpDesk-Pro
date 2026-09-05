@@ -37,11 +37,11 @@ export default function KnowledgeBaseHome() {
     <div className="w-full h-full p-4 sm:p-8 bg-background">
       <div className="max-w-4xl mx-auto space-y-8">
         
-        <div className="border-2 border-black dark:border-white p-8 bg-white/5 dark:bg-black/5 text-center relative overflow-hidden">
+        <div className="border-2 border-black dark:border-white p-4 sm:p-8 bg-white/5 dark:bg-black/5 text-center relative overflow-hidden">
           <div className="absolute top-0 right-0 p-2 text-[10px] uppercase tracking-[0.2em] text-muted-foreground font-bold">
             // DATA_REPOSITORY
           </div>
-          <h1 className="text-3xl md:text-5xl font-black tracking-[0.2em] uppercase mt-4">KNOWLEDGE_BASE</h1>
+          <h1 className="text-2xl sm:text-3xl md:text-5xl font-black tracking-[0.1em] sm:tracking-[0.2em] uppercase mt-4">KNOWLEDGE_BASE</h1>
           <p className="text-[10px] text-muted-foreground uppercase tracking-widest mt-4 font-bold max-w-xl mx-auto leading-relaxed">
             SEARCH THE REPOSITORY OR BROWSE ARCHIVED CATEGORIES.
           </p>
@@ -56,14 +56,14 @@ export default function KnowledgeBaseHome() {
           </div>
         </div>
 
-        <div className="flex justify-between items-center border-b-2 border-black dark:border-white pb-4">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b-2 border-black dark:border-white pb-4">
           <div>
             <h2 className="text-xl font-black tracking-[0.2em] uppercase">LATEST_ARTICLES</h2>
             <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mt-1">// RECENT_ADDITIONS</p>
           </div>
           {(role === "admin" || role === "agent") && (
             <Link to={`/${role}/kb/new`}>
-              <Button className="rounded-none bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90 font-bold uppercase tracking-widest text-xs">
+              <Button className="w-full sm:w-auto rounded-none bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90 font-bold uppercase tracking-widest text-xs">
                 <PlusCircle className="mr-2 h-4 w-4" /> CREATE_ARTICLE
               </Button>
             </Link>

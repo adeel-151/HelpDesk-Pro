@@ -27,11 +27,11 @@ export default function Login() {
           </Link>
         </div>
 
-        <div className="w-full max-w-md mx-auto pt-20 pb-12">
+        <div className="w-full max-w-md mx-auto pt-24 sm:pt-20 pb-12 px-2 sm:px-0">
           <LoginForm />
         </div>
         
-        <div className="absolute bottom-8 left-8 sm:left-12 text-[10px] uppercase tracking-widest text-black/50 dark:text-white/50">
+        <div className="absolute bottom-4 sm:bottom-8 left-4 sm:left-8 md:left-12 text-[10px] uppercase tracking-widest text-black/50 dark:text-white/50 hidden sm:block">
           // SYSTEM BUILD {new Date().getFullYear()} © HELPDESK PRO.
         </div>
       </div>

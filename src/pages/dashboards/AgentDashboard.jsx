@@ -101,14 +101,14 @@ export default function AgentDashboard() {
   }
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto pb-12 pt-8 px-4 sm:px-8 bg-background">
+    <div className="space-y-6 sm:space-y-8 max-w-7xl mx-auto pb-12 pt-4 sm:pt-8 px-3 sm:px-4 md:px-8 bg-background">
       {/* Header */}
-      <div className="border-2 border-black dark:border-white p-8 relative overflow-hidden bg-white/5 dark:bg-black/5 flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="border-2 border-black dark:border-white p-4 sm:p-8 relative overflow-hidden bg-white/5 dark:bg-black/5 flex flex-col md:flex-row md:items-center justify-between gap-4 sm:gap-6">
         <div className="absolute top-0 right-0 p-2 text-[10px] uppercase tracking-[0.2em] text-muted-foreground font-bold">
           // OPERATIVE_WORKSPACE
         </div>
         <div className="relative z-10">
-          <h2 className="text-3xl md:text-5xl font-black tracking-[0.2em] uppercase mb-4 text-foreground">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-black tracking-[0.1em] sm:tracking-[0.2em] uppercase mb-4 text-foreground">
             WELCOME, {profile?.name?.split(' ')[0] || 'AGENT'}
           </h2>
           <p className="text-muted-foreground text-xs font-bold uppercase tracking-widest max-w-2xl leading-loose">
@@ -125,14 +125,14 @@ export default function AgentDashboard() {
       </div>
 
       {/* Metrics Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
         {/* Total Tickets */}
         <div className="border border-black/20 dark:border-white/20 bg-card p-6 flex flex-col relative group hover:border-primary transition-colors">
           <div className="flex justify-between items-start mb-4">
             <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">TOTAL_INCIDENTS</h3>
             <Ticket className="h-4 w-4 text-primary" />
           </div>
-          <div className="text-4xl font-black tracking-tighter mt-auto">{stats.total}</div>
+          <div className="text-2xl sm:text-4xl font-black tracking-tighter mt-auto">{stats.total}</div>
         </div>
         
         {/* Unassigned Tickets */}
@@ -141,7 +141,7 @@ export default function AgentDashboard() {
             <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-amber-500">UNASSIGNED_TRIAGE</h3>
             <Clock className="h-4 w-4 text-amber-500" />
           </div>
-          <div className="text-4xl font-black tracking-tighter mt-auto text-amber-500">{stats.unassigned}</div>
+          <div className="text-2xl sm:text-4xl font-black tracking-tighter mt-auto text-amber-500">{stats.unassigned}</div>
         </div>
         
         {/* In Progress Tickets */}
@@ -150,7 +150,7 @@ export default function AgentDashboard() {
             <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-blue-500">IN_PROGRESS</h3>
             <Activity className="h-4 w-4 text-blue-500" />
           </div>
-          <div className="text-4xl font-black tracking-tighter mt-auto text-blue-500">{stats.inProgress}</div>
+          <div className="text-2xl sm:text-4xl font-black tracking-tighter mt-auto text-blue-500">{stats.inProgress}</div>
         </div>
         
         {/* Resolved Tickets */}
@@ -159,7 +159,7 @@ export default function AgentDashboard() {
             <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-500">RESOLVED</h3>
             <CheckCircle2 className="h-4 w-4 text-emerald-500" />
           </div>
-          <div className="text-4xl font-black tracking-tighter mt-auto text-emerald-500">{stats.resolved}</div>
+          <div className="text-2xl sm:text-4xl font-black tracking-tighter mt-auto text-emerald-500">{stats.resolved}</div>
         </div>
       </div>
 
@@ -175,7 +175,7 @@ export default function AgentDashboard() {
               <p className="text-[10px] text-muted-foreground uppercase tracking-widest mt-1">LAST_7_DAYS</p>
             </div>
           </div>
-          <div className="h-[300px] w-full mt-4">
+          <div className="h-[250px] sm:h-[300px] w-full mt-4">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={stats.timeSeriesData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke={theme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'} vertical={false} />
@@ -215,7 +215,7 @@ export default function AgentDashboard() {
               <p className="text-[10px] text-muted-foreground uppercase tracking-widest mt-1">CURRENT_STATE</p>
             </div>
           </div>
-          <div className="h-[300px] w-full flex items-center justify-center">
+          <div className="h-[250px] sm:h-[300px] w-full flex items-center justify-center">
             {statusData.length > 0 ? (
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>

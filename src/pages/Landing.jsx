@@ -64,7 +64,7 @@ function CinematicHero() {
 
       {/* Massive Center Typography */}
       <div className="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center z-10 flex flex-col items-center justify-center pointer-events-none px-4">
-        <h1 className="hero-huge-text font-black text-4xl md:text-[7vw] text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.4)] uppercase w-full flex justify-center whitespace-nowrap">
+        <h1 className="hero-huge-text font-black text-3xl sm:text-4xl md:text-[7vw] text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.4)] uppercase w-full flex justify-center whitespace-nowrap">
           H E L P D E S K
         </h1>
         <p className="hero-subtext text-white/80 mt-4 tracking-[0.2em] uppercase font-bold text-[10px] md:text-sm drop-shadow-md">
@@ -100,7 +100,7 @@ function CinematicHero() {
       </div>
 
       {/* Bottom Right Social Links */}
-      <div className="hero-side-elements absolute bottom-12 md:bottom-24 right-6 md:right-12 flex gap-6 z-20">
+      <div className="hero-side-elements absolute bottom-6 sm:bottom-12 md:bottom-24 right-4 sm:right-6 md:right-12 flex gap-4 sm:gap-6 z-20">
         {["IN", "TW", "YT"].map((social) => (
           <a key={social} href="#" className="text-white/60 hover:text-white font-bold text-xs tracking-widest transition-colors drop-shadow-none">
             {social}
@@ -122,7 +122,7 @@ export default function Landing() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-5xl bg-primary/10 blur-[150px] rounded-full pointer-events-none" />
         
         <div className="container mx-auto px-4 relative z-10">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 text-center">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8 md:gap-12 text-center">
             
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
@@ -131,7 +131,7 @@ export default function Landing() {
               transition={{ duration: 0.5 }}
               className="flex flex-col items-center p-6 bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 backdrop-blur-md"
             >
-              <h3 className="text-4xl md:text-5xl font-black text-black dark:text-white mb-2 tracking-widest drop-shadow-[0_0_15px_rgba(79,70,229,0.3)] dark:drop-shadow-[0_0_15px_rgba(79,70,229,0.5)]">99.9%</h3>
+              <h3 className="text-2xl sm:text-4xl md:text-5xl font-black text-black dark:text-white mb-2 tracking-widest drop-shadow-[0_0_15px_rgba(79,70,229,0.3)] dark:drop-shadow-[0_0_15px_rgba(79,70,229,0.5)]">99.9%</h3>
               <p className="text-xs text-black/50 dark:text-white/50 font-bold uppercase tracking-[0.2em] mt-2">UPTIME</p>
             </motion.div>
 
@@ -142,7 +142,7 @@ export default function Landing() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="flex flex-col items-center p-6 bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 backdrop-blur-md"
             >
-              <h3 className="text-4xl md:text-5xl font-black text-black dark:text-white mb-2 tracking-widest drop-shadow-[0_0_15px_rgba(79,70,229,0.3)] dark:drop-shadow-[0_0_15px_rgba(79,70,229,0.5)]">10K+</h3>
+              <h3 className="text-2xl sm:text-4xl md:text-5xl font-black text-black dark:text-white mb-2 tracking-widest drop-shadow-[0_0_15px_rgba(79,70,229,0.3)] dark:drop-shadow-[0_0_15px_rgba(79,70,229,0.5)]">10K+</h3>
               <p className="text-xs text-black/50 dark:text-white/50 font-bold uppercase tracking-[0.2em] mt-2">RESOLVED</p>
             </motion.div>
 
@@ -153,7 +153,7 @@ export default function Landing() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="flex flex-col items-center p-6 bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 backdrop-blur-md"
             >
-              <h3 className="text-4xl md:text-5xl font-black text-black dark:text-white mb-2 tracking-widest drop-shadow-[0_0_15px_rgba(79,70,229,0.3)] dark:drop-shadow-[0_0_15px_rgba(79,70,229,0.5)]">&lt;2H</h3>
+              <h3 className="text-2xl sm:text-4xl md:text-5xl font-black text-black dark:text-white mb-2 tracking-widest drop-shadow-[0_0_15px_rgba(79,70,229,0.3)] dark:drop-shadow-[0_0_15px_rgba(79,70,229,0.5)]">&lt;2H</h3>
               <p className="text-xs text-black/50 dark:text-white/50 font-bold uppercase tracking-[0.2em] mt-2">RESPONSE</p>
             </motion.div>
 
@@ -164,7 +164,7 @@ export default function Landing() {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="flex flex-col items-center p-6 bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 backdrop-blur-md"
             >
-              <h3 className="text-4xl md:text-5xl font-black text-black dark:text-white mb-2 tracking-widest drop-shadow-[0_0_15px_rgba(79,70,229,0.3)] dark:drop-shadow-[0_0_15px_rgba(79,70,229,0.5)]">24/7</h3>
+              <h3 className="text-2xl sm:text-4xl md:text-5xl font-black text-black dark:text-white mb-2 tracking-widest drop-shadow-[0_0_15px_rgba(79,70,229,0.3)] dark:drop-shadow-[0_0_15px_rgba(79,70,229,0.5)]">24/7</h3>
               <p className="text-xs text-black/50 dark:text-white/50 font-bold uppercase tracking-[0.2em] mt-2">MONITORING</p>
             </motion.div>
 
@@ -295,7 +295,7 @@ export default function Landing() {
             </p>
           </div>
 
-          <div className="space-y-32">
+          <div className="space-y-16 sm:space-y-32">
             {[
               {
                 title: "AI-Powered Triage",
@@ -325,7 +325,7 @@ export default function Landing() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.7 }}
-                className={`flex flex-col ${step.align === 'left' ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-12 md:gap-24`}
+                className={`flex flex-col ${step.align === 'left' ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-8 sm:gap-12 md:gap-24`}
               >
                 <div className="flex-1 text-center md:text-left">
                   <div className={`inline-flex items-center justify-center w-16 h-16 bg-transparent border border-black/20 dark:border-white/20 mb-6 ${step.align === 'left' ? 'mx-auto md:mx-0' : 'mx-auto md:ml-auto md:mr-0'}`}>
@@ -521,7 +521,7 @@ export default function Landing() {
           transition={{ duration: 0.7 }}
           className="container mx-auto px-4 max-w-4xl text-center relative z-10"
         >
-          <h2 className="text-4xl md:text-7xl font-black mb-8 tracking-[0.2em] uppercase text-black dark:text-white drop-shadow-[0_0_20px_rgba(0,0,0,0.1)] dark:drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">INITIATE SEQUENCE</h2>
+          <h2 className="text-3xl sm:text-4xl md:text-7xl font-black mb-8 tracking-[0.1em] sm:tracking-[0.2em] uppercase text-black dark:text-white drop-shadow-[0_0_20px_rgba(0,0,0,0.1)] dark:drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">INITIATE SEQUENCE</h2>
           <p className="text-xs md:text-sm text-black/50 dark:text-white/50 uppercase tracking-[0.3em] mb-12 font-bold">
             System ready for immediate deployment. Access granted in under 2 minutes.
           </p>

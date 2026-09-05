@@ -63,7 +63,7 @@ export function Navbar() {
   return (
     <>
       <header className={navClass}>
-        <div className="container mx-auto flex h-20 items-center justify-between px-8">
+        <div className="container mx-auto flex h-16 sm:h-20 items-center justify-between px-4 sm:px-8">
           <div className="flex items-center gap-8">
             <Link to={user ? `/${role}` : "/"} className="flex items-center space-x-2 group">
               <div className="flex items-center gap-3">
@@ -73,7 +73,7 @@ export function Navbar() {
                   <path d="M60 35 H65 C73.284 35 80 41.716 80 50 C80 58.284 73.284 65 65 65 H60 V35 Z" stroke="currentColor" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round"/>
                   <circle cx="80" cy="50" r="3" fill="currentColor"/>
                 </svg>
-                <span className="font-bold text-xl tracking-[0.2em] text-black/90 dark:text-white/90">
+                <span className="font-bold text-base sm:text-xl tracking-[0.2em] text-black/90 dark:text-white/90 hidden xs:inline">
                   HELPDESK
                 </span>
               </div>
@@ -188,7 +188,7 @@ export function Navbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="md:hidden fixed top-16 left-0 right-0 z-40 bg-white/95 dark:bg-black/95 backdrop-blur-xl border-b border-black/10 dark:border-white/10 shadow-xl overflow-hidden"
+            className="md:hidden fixed top-[64px] sm:top-[80px] left-0 right-0 z-40 bg-white/95 dark:bg-black/95 backdrop-blur-xl border-b border-black/10 dark:border-white/10 shadow-xl overflow-hidden"
           >
             <div className="container mx-auto px-4 py-6 space-y-3">
               {visibleLinks.map((link) => (
@@ -287,7 +287,7 @@ export function Navbar() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="md:hidden fixed inset-0 top-16 z-30 bg-black/20 dark:bg-black/80 backdrop-blur-sm"
+            className="md:hidden fixed inset-0 top-[64px] sm:top-[80px] z-30 bg-black/20 dark:bg-black/80 backdrop-blur-sm"
             onClick={() => setMobileOpen(false)}
           />
         )}

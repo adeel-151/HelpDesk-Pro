@@ -35,7 +35,7 @@ export default function Features() {
           <div className="inline-flex items-center border border-black/20 dark:border-white/20 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-black/50 dark:text-white/50 mb-8 bg-black/5 dark:bg-white/5">
             // SYSTEM.FEATURES_MATRIX
           </div>
-          <h1 className="text-4xl md:text-7xl font-black tracking-[0.2em] uppercase mb-8 drop-shadow-[0_0_20px_rgba(0,0,0,0.1)] dark:drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+          <h1 className="text-3xl sm:text-4xl md:text-7xl font-black tracking-[0.1em] sm:tracking-[0.2em] uppercase mb-8 drop-shadow-[0_0_20px_rgba(0,0,0,0.1)] dark:drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">
             EVERYTHING YOU NEED.<br/>
             <span className="text-black/30 dark:text-white/30">NOTHING YOU DON'T.</span>
           </h1>
@@ -240,9 +240,9 @@ export default function Features() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="grid md:grid-cols-2 gap-0 border border-black/10 dark:border-white/10 overflow-hidden"
+            className="grid grid-cols-1 md:grid-cols-2 gap-0 border border-black/10 dark:border-white/10 overflow-hidden"
           >
-            <div className="p-10 bg-black/5 dark:bg-white/5">
+            <div className="p-6 sm:p-10 bg-black/5 dark:bg-white/5">
               <h3 className="text-lg font-bold text-black/50 dark:text-white/50 uppercase tracking-widest mb-8">LEGACY SYSTEMS</h3>
               <ul className="space-y-6">
                 {["Cluttered interfaces", "Requires page reloads", "Weeks of training", "Plain text only"].map((item) => (
@@ -253,7 +253,7 @@ export default function Features() {
                 ))}
               </ul>
             </div>
-            <div className="p-10 bg-primary/10 border-l border-black/10 dark:border-white/10 relative">
+            <div className="p-6 sm:p-10 bg-primary/10 md:border-l border-t md:border-t-0 border-black/10 dark:border-white/10 relative">
               <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-br from-primary/20 to-transparent pointer-events-none" />
               <h3 className="text-lg font-bold text-black dark:text-white uppercase tracking-widest mb-8 relative z-10">HELPDESK PRO</h3>
               <ul className="space-y-6 relative z-10">
@@ -278,7 +278,7 @@ export default function Features() {
           transition={{ duration: 0.7 }}
           className="container mx-auto px-4 max-w-4xl text-center relative z-10"
         >
-          <h2 className="text-4xl md:text-7xl font-black mb-8 tracking-[0.2em] uppercase text-black dark:text-white drop-shadow-[0_0_20px_rgba(0,0,0,0.1)] dark:drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">INITIATE SEQUENCE</h2>
+          <h2 className="text-3xl sm:text-4xl md:text-7xl font-black mb-8 tracking-[0.1em] sm:tracking-[0.2em] uppercase text-black dark:text-white drop-shadow-[0_0_20px_rgba(0,0,0,0.1)] dark:drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">INITIATE SEQUENCE</h2>
           <p className="text-xs md:text-sm text-black/50 dark:text-white/50 uppercase tracking-[0.3em] mb-12 font-bold">
             System ready for immediate deployment. Access granted in under 2 minutes.
           </p>

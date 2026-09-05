@@ -27,7 +27,7 @@ export default function Register() {
           </Link>
         </div>
 
-        <div className="w-full max-w-md mx-auto pt-20 pb-12">
+        <div className="w-full max-w-md mx-auto pt-24 sm:pt-20 pb-12 px-2 sm:px-0">
           <RegisterForm />
         </div>
         
@@ -60,7 +60,7 @@ export default function Register() {
             Join thousands of active operatives who have switched to HelpDesk Pro for faster resolutions and encrypted data storage.
           </p>
           
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div className="bg-white/5 border border-white/10 p-6 hover:border-primary/50 transition-colors">
               <div className="w-8 h-8 border border-primary text-primary flex items-center justify-center mb-4 shadow-[0_0_15px_rgba(79,70,229,0.3)]">
                 <Zap className="h-4 w-4" />

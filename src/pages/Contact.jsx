@@ -45,7 +45,7 @@ export default function Contact() {
           <div className="inline-flex items-center border border-black/20 dark:border-white/20 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-black/50 dark:text-white/50 mb-8 bg-black/5 dark:bg-white/5">
             // SYSTEM.COMMUNICATIONS
           </div>
-          <h1 className="text-4xl md:text-7xl font-black tracking-[0.2em] uppercase mb-6 drop-shadow-[0_0_20px_rgba(0,0,0,0.1)] dark:drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+          <h1 className="text-3xl sm:text-4xl md:text-7xl font-black tracking-[0.1em] sm:tracking-[0.2em] uppercase mb-6 drop-shadow-[0_0_20px_rgba(0,0,0,0.1)] dark:drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">
             INITIATE CONTACT
           </h1>
           <p className="text-xs md:text-sm text-black/50 dark:text-white/50 uppercase tracking-[0.2em] max-w-2xl mx-auto font-bold leading-relaxed">
@@ -62,7 +62,7 @@ export default function Contact() {
             initial="initial"
             whileInView="animate"
             viewport={{ once: true }}
-            className="grid md:grid-cols-3 gap-6 items-stretch"
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 items-stretch"
           >
             {[
               { icon: <MessageSquare className="h-6 w-6" />, color: "border-primary text-primary shadow-[0_0_15px_rgba(79,70,229,0.3)]", title: "SALES CHANNEL", desc: "Speak to our team about custom plans or enterprise deals.", link: "sales@helpdeskpro.com", linkColor: "text-primary" },

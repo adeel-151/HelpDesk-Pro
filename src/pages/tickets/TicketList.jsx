@@ -206,7 +206,7 @@ export default function TicketList() {
           </div>
           <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
             <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-[160px] rounded-none border-black/20 dark:border-white/20 h-11 uppercase tracking-widest text-[10px] font-bold">
+              <SelectTrigger className="w-full sm:w-[160px] rounded-none border-black/20 dark:border-white/20 h-11 uppercase tracking-widest text-[10px] font-bold">
                 <SelectValue placeholder="STATUS" />
               </SelectTrigger>
               <SelectContent className="rounded-none border-black/20 dark:border-white/20">
@@ -220,7 +220,7 @@ export default function TicketList() {
             </Select>
 
             <Select value={priorityFilter} onValueChange={setPriorityFilter}>
-              <SelectTrigger className="w-[160px] rounded-none border-black/20 dark:border-white/20 h-11 uppercase tracking-widest text-[10px] font-bold">
+              <SelectTrigger className="w-full sm:w-[160px] rounded-none border-black/20 dark:border-white/20 h-11 uppercase tracking-widest text-[10px] font-bold">
                 <SelectValue placeholder="PRIORITY" />
               </SelectTrigger>
               <SelectContent className="rounded-none border-black/20 dark:border-white/20">
