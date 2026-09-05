@@ -51,42 +51,39 @@ function CinematicHero() {
   return (
     <section 
       ref={container}
-      className="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden bg-white dark:bg-black"
+      className="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden bg-black"
     >
       {/* Background Image */}
       <div 
-        className="hero-bg-img absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat opacity-80 dark:opacity-100 transition-opacity duration-500"
+        className="hero-bg-img absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat opacity-100 transition-opacity duration-500"
         style={{ backgroundImage: `url(${heroImg})` }}
       />
       
       {/* Subtle overlay for text readability */}
-      <div className="absolute inset-0 bg-white/40 dark:bg-black/40 transition-colors duration-500" />
-      
-      {/* Radial gradient to ensure center text is readable on dark image in light mode */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.7)_0%,transparent_60%)] dark:hidden pointer-events-none" />
+      <div className="absolute inset-0 bg-black/40 transition-colors duration-500" />
 
       {/* Massive Center Typography */}
       <div className="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center z-10 flex flex-col items-center justify-center pointer-events-none px-4">
-        <h1 className="hero-huge-text font-black text-4xl md:text-[7vw] text-black dark:text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.8)] dark:drop-shadow-[0_0_30px_rgba(255,255,255,0.4)] uppercase w-full flex justify-center whitespace-nowrap">
+        <h1 className="hero-huge-text font-black text-4xl md:text-[7vw] text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.4)] uppercase w-full flex justify-center whitespace-nowrap">
           H E L P D E S K
         </h1>
-        <p className="hero-subtext text-black/80 dark:text-white/80 mt-4 tracking-[0.2em] uppercase font-bold text-[10px] md:text-sm drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] dark:drop-shadow-md">
+        <p className="hero-subtext text-white/80 mt-4 tracking-[0.2em] uppercase font-bold text-[10px] md:text-sm drop-shadow-md">
           Customer support, beautifully organized.
         </p>
       </div>
 
       {/* Bottom Left Glassmorphic Box */}
       <div className="hero-glass-box absolute bottom-6 md:bottom-12 left-4 md:left-12 z-20 max-w-sm md:max-w-md w-[calc(100%-2rem)] md:w-auto">
-        <div className="bg-white/40 dark:bg-white/10 backdrop-blur-md border border-black/10 dark:border-white/20 p-6 md:p-8 relative overflow-hidden group hover:bg-white/60 dark:hover:bg-white/15 transition-colors duration-500 shadow-[0_0_30px_rgba(0,0,0,0.1)] dark:shadow-none">
+        <div className="bg-white/10 backdrop-blur-md border border-white/20 p-6 md:p-8 relative overflow-hidden group hover:bg-white/15 transition-colors duration-500 shadow-none">
           <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-primary to-accent" />
           
           <div className="flex items-start gap-4 mb-4">
-            <div className="w-12 h-12 rounded-full border border-black/20 dark:border-white/30 flex items-center justify-center flex-shrink-0 group-hover:border-black dark:group-hover:border-white transition-colors cursor-pointer bg-white/50 dark:bg-transparent">
-              <div className="w-0 h-0 border-t-4 border-t-transparent border-l-6 border-l-black dark:border-l-white border-b-4 border-b-transparent ml-1" />
+            <div className="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center flex-shrink-0 group-hover:border-white transition-colors cursor-pointer bg-transparent">
+              <div className="w-0 h-0 border-t-4 border-t-transparent border-l-6 border-l-white border-b-4 border-b-transparent ml-1" />
             </div>
             <div>
-              <h3 className="text-black dark:text-white font-bold text-xs uppercase tracking-widest mb-2">SMART RESOLUTION</h3>
-              <p className="text-black/80 dark:text-white/70 text-xs leading-relaxed font-medium dark:font-normal">
+              <h3 className="text-white font-bold text-xs uppercase tracking-widest mb-2">SMART RESOLUTION</h3>
+              <p className="text-white/70 text-xs leading-relaxed font-normal">
                 Resolve faster. Serve better. A modern, AI-ready workspace for your entire support team. Stop managing tickets and start building relationships.
               </p>
             </div>
@@ -94,7 +91,7 @@ function CinematicHero() {
           
           <div className="flex gap-4 mt-6">
             <Link to="/register" className="w-full">
-              <Button className="w-full bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90 font-bold uppercase tracking-widest text-xs h-10 rounded-none">
+              <Button className="w-full bg-white text-black hover:bg-white/90 font-bold uppercase tracking-widest text-xs h-10 rounded-none">
                 Start for free
               </Button>
             </Link>
@@ -105,7 +102,7 @@ function CinematicHero() {
       {/* Bottom Right Social Links */}
       <div className="hero-side-elements absolute bottom-12 md:bottom-24 right-6 md:right-12 flex gap-6 z-20">
         {["IN", "TW", "YT"].map((social) => (
-          <a key={social} href="#" className="text-black/80 hover:text-black dark:text-white/60 dark:hover:text-white font-bold text-xs tracking-widest transition-colors drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] dark:drop-shadow-none">
+          <a key={social} href="#" className="text-white/60 hover:text-white font-bold text-xs tracking-widest transition-colors drop-shadow-none">
             {social}
           </a>
         ))}
