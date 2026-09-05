@@ -11,15 +11,14 @@ import { useAuth } from "@/features/auth/AuthProvider";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const ticketSchema = z.object({
-  subject: z.string().min(5, { message: "Subject must be at least 5 characters" }),
-  categoryId: z.string({ required_error: "Please select a category" }),
-  priority: z.string({ required_error: "Please select a priority" }),
-  description: z.string().min(15, { message: "Description must be at least 15 characters" }),
+  subject: z.string().min(5, { message: "SUBJECT MUST BE AT LEAST 5 CHARACTERS" }),
+  categoryId: z.string({ required_error: "PLEASE SELECT A CATEGORY" }),
+  priority: z.string({ required_error: "PLEASE SELECT A PRIORITY" }),
+  description: z.string().min(15, { message: "DESCRIPTION MUST BE AT LEAST 15 CHARACTERS" }),
 });
 
 export function CreateTicketForm() {
@@ -43,33 +42,34 @@ export function CreateTicketForm() {
     try {
       let attachments = [];
       
-      // Temporary ID or we can just pass a temp ID to storage since the ticket isn't created yet,
-      // Or better, we upload first with user ID and timestamp to guarantee uniqueness.
       if (file) {
         const attachmentData = await uploadAttachment(`temp_${user.uid}`, file);
         if (attachmentData) attachments.push(attachmentData);
       }
 
       await createTicket(values, user.uid, attachments);
-      toast.success("Ticket created successfully!");
-      navigate("/tickets");
+      toast.success("TICKET_CREATED_SUCCESSFULLY");
+      navigate("/customer/tickets");
     } catch (error) {
       console.error(error);
-      toast.error("Failed to create ticket.");
+      toast.error("FAILED_TO_CREATE_TICKET");
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <Card className="max-w-2xl mx-auto mt-8 border-border/50 shadow-sm overflow-hidden bg-card/40 backdrop-blur-md">
-      <CardHeader className="bg-card/50 border-b">
-        <CardTitle className="text-2xl">Submit a Support Ticket</CardTitle>
-        <CardDescription>
-          Please provide as much detail as possible so we can best assist you.
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
+    <div className="max-w-2xl mx-auto mt-8 border-2 border-black dark:border-white bg-background">
+      <div className="bg-black/5 dark:bg-white/5 border-b-2 border-black dark:border-white p-6 relative">
+        <div className="absolute top-0 right-0 p-2 text-[10px] uppercase tracking-[0.2em] text-muted-foreground font-bold">
+          // INTAKE_FORM
+        </div>
+        <h2 className="text-2xl font-black uppercase tracking-[0.2em]">SUBMIT_REQUEST</h2>
+        <p className="text-[10px] text-muted-foreground uppercase tracking-widest mt-1 font-bold">
+          PLEASE_PROVIDE_DETAILS_FOR_ASSISTANCE
+        </p>
+      </div>
+      <div className="p-6">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
@@ -77,11 +77,11 @@ export function CreateTicketForm() {
               name="subject"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Subject</FormLabel>
+                  <FormLabel className="text-[10px] uppercase tracking-widest font-bold">SUBJECT</FormLabel>
                   <FormControl>
-                    <Input placeholder="Brief description of the issue" {...field} />
+                    <Input placeholder="BRIEF DESCRIPTION OF THE ISSUE" className="rounded-none border-black/20 dark:border-white/20 uppercase tracking-widest text-[10px] font-bold h-11" {...field} />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-[10px] uppercase tracking-widest font-bold" />
                 </FormItem>
               )}
             />
@@ -92,21 +92,21 @@ export function CreateTicketForm() {
                 name="categoryId"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Category</FormLabel>
+                    <FormLabel className="text-[10px] uppercase tracking-widest font-bold">CATEGORY</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a category" />
+                        <SelectTrigger className="rounded-none border-black/20 dark:border-white/20 h-11 text-[10px] font-bold uppercase tracking-widest">
+                          <SelectValue placeholder="SELECT CATEGORY" />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent>
-                        <SelectItem value="technical">Technical Support</SelectItem>
-                        <SelectItem value="billing">Billing & Subscriptions</SelectItem>
-                        <SelectItem value="general">General Inquiry</SelectItem>
-                        <SelectItem value="feature">Feature Request</SelectItem>
+                      <SelectContent className="rounded-none border-black/20 dark:border-white/20">
+                        <SelectItem value="technical" className="text-[10px] font-bold uppercase tracking-widest rounded-none">TECHNICAL SUPPORT</SelectItem>
+                        <SelectItem value="billing" className="text-[10px] font-bold uppercase tracking-widest rounded-none">BILLING & SUBSCRIPTIONS</SelectItem>
+                        <SelectItem value="general" className="text-[10px] font-bold uppercase tracking-widest rounded-none">GENERAL INQUIRY</SelectItem>
+                        <SelectItem value="feature" className="text-[10px] font-bold uppercase tracking-widest rounded-none">FEATURE REQUEST</SelectItem>
                       </SelectContent>
                     </Select>
-                    <FormMessage />
+                    <FormMessage className="text-[10px] uppercase tracking-widest font-bold" />
                   </FormItem>
                 )}
               />
@@ -116,21 +116,21 @@ export function CreateTicketForm() {
                 name="priority"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Priority</FormLabel>
+                    <FormLabel className="text-[10px] uppercase tracking-widest font-bold">PRIORITY</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select priority" />
+                        <SelectTrigger className="rounded-none border-black/20 dark:border-white/20 h-11 text-[10px] font-bold uppercase tracking-widest">
+                          <SelectValue placeholder="SELECT PRIORITY" />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent>
-                        <SelectItem value="low">Low</SelectItem>
-                        <SelectItem value="normal">Normal</SelectItem>
-                        <SelectItem value="high">High</SelectItem>
-                        <SelectItem value="urgent">Urgent</SelectItem>
+                      <SelectContent className="rounded-none border-black/20 dark:border-white/20">
+                        <SelectItem value="low" className="text-[10px] font-bold uppercase tracking-widest rounded-none">LOW</SelectItem>
+                        <SelectItem value="normal" className="text-[10px] font-bold uppercase tracking-widest rounded-none">NORMAL</SelectItem>
+                        <SelectItem value="high" className="text-[10px] font-bold uppercase tracking-widest rounded-none">HIGH</SelectItem>
+                        <SelectItem value="urgent" className="text-[10px] font-bold uppercase tracking-widest rounded-none">URGENT</SelectItem>
                       </SelectContent>
                     </Select>
-                    <FormMessage />
+                    <FormMessage className="text-[10px] uppercase tracking-widest font-bold" />
                   </FormItem>
                 )}
               />
@@ -141,46 +141,44 @@ export function CreateTicketForm() {
               name="description"
               render={({ field }) => (
                 <FormItem>
-                <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel className="text-[10px] uppercase tracking-widest font-bold">DESCRIPTION</FormLabel>
                   <FormControl>
                     <Textarea 
-                      placeholder="Please describe your issue in detail..." 
-                      className="min-h-[150px] font-mono text-sm"
+                      placeholder="PLEASE DESCRIBE YOUR ISSUE IN DETAIL..." 
+                      className="min-h-[150px] rounded-none border-black/20 dark:border-white/20 uppercase tracking-widest text-[10px] font-bold"
                       {...field} 
                     />
                   </FormControl>
-                  <p className="text-xs text-muted-foreground mt-1">Markdown formatting is supported (e.g. **bold**, *italics*, - lists)</p>
-                  <FormMessage />
-                </FormItem>
+                  <p className="text-[10px] text-muted-foreground mt-1 uppercase tracking-widest font-bold">// MARKDOWN_FORMATTING_SUPPORTED</p>
+                  <FormMessage className="text-[10px] uppercase tracking-widest font-bold" />
                 </FormItem>
               )}
             />
 
             <FormItem>
-              <FormLabel>Attachment (Optional)</FormLabel>
+              <FormLabel className="text-[10px] uppercase tracking-widest font-bold">ATTACHMENT_OPTIONAL</FormLabel>
               <FormControl>
                 <Input 
                   type="file" 
                   onChange={(e) => setFile(e.target.files?.[0] || null)}
                   disabled={isLoading}
-                  className="cursor-pointer"
+                  className="cursor-pointer rounded-none border-black/20 dark:border-white/20 h-11 text-[10px] font-bold uppercase tracking-widest pt-2.5"
                 />
               </FormControl>
-              <p className="text-xs text-muted-foreground mt-1">Upload a screenshot or document (Max 1 file)</p>
+              <p className="text-[10px] text-muted-foreground mt-1 uppercase tracking-widest font-bold">// MAX_1_FILE</p>
             </FormItem>
             
-            <div className="flex justify-end space-x-4">
-              <Button type="button" variant="outline" onClick={() => navigate(-1)}>
-                Cancel
+            <div className="flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-4 pt-4 border-t border-black/10 dark:border-white/10">
+              <Button type="button" variant="outline" onClick={() => navigate(-1)} className="rounded-none border-black/20 dark:border-white/20 uppercase tracking-widest text-xs font-bold h-12 px-8">
+                CANCEL
               </Button>
-              <Button type="submit" disabled={isLoading}>
-                {isLoading ? "Submitting..." : "Submit Ticket"}
+              <Button type="submit" disabled={isLoading} className="rounded-none bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90 uppercase tracking-widest text-xs font-bold h-12 px-8">
+                {isLoading ? "SUBMITTING..." : "SUBMIT_TICKET"}
               </Button>
             </div>
           </form>
         </Form>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

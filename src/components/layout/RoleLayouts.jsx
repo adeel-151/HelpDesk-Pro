@@ -31,9 +31,9 @@ export const RoleLayout = ({ allowedRole }) => {
         <AdminSidebar />
         <main className="flex-1 flex flex-col h-screen overflow-y-auto w-full">
           {/* Mobile Header */}
-          <div className="md:hidden h-16 border-b bg-card flex items-center px-4 shrink-0 sticky top-0 z-40">
-            <span className="font-bold text-lg text-foreground">
-              HelpDesk
+          <div className="md:hidden h-16 border-b border-black/10 dark:border-white/10 bg-background flex items-center px-4 shrink-0 sticky top-0 z-40">
+            <span className="font-black text-sm tracking-[0.2em] uppercase">
+              HELPDESK //
             </span>
           </div>
           <Outlet />

@@ -5,11 +5,8 @@ import { getTickets } from "@/features/tickets/services/ticketService";
 import { format } from "date-fns";
 
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { PlusCircle, Search, FilterX } from "lucide-react";
@@ -46,15 +43,15 @@ export default function TicketList() {
   const getStatusBadge = (status) => {
     switch (status) {
       case "new":
-        return <Badge variant="default" className="bg-blue-500 hover:bg-blue-600">New</Badge>;
+        return <span className="px-2 py-1 text-[10px] font-bold rounded-none bg-blue-500 text-white uppercase tracking-widest border border-blue-500">[{status}]</span>;
       case "open":
-        return <Badge variant="default" className="bg-emerald-500 hover:bg-emerald-600">Open</Badge>;
+        return <span className="px-2 py-1 text-[10px] font-bold rounded-none bg-amber-500 text-white uppercase tracking-widest border border-amber-500">[{status}]</span>;
       case "resolved":
-        return <Badge variant="secondary">Resolved</Badge>;
+        return <span className="px-2 py-1 text-[10px] font-bold rounded-none bg-emerald-500 text-white uppercase tracking-widest border border-emerald-500">[{status}]</span>;
       case "closed":
-        return <Badge variant="outline">Closed</Badge>;
+        return <span className="px-2 py-1 text-[10px] font-bold rounded-none bg-transparent text-foreground uppercase tracking-widest border border-black/20 dark:border-white/20">[{status}]</span>;
       default:
-        return <Badge variant="outline" className="capitalize">{status}</Badge>;
+        return <span className="px-2 py-1 text-[10px] font-bold rounded-none bg-transparent text-foreground uppercase tracking-widest border border-black/20 dark:border-white/20">[{status}]</span>;
     }
   };
 
@@ -62,9 +59,9 @@ export default function TicketList() {
     switch (priority) {
       case "urgent":
       case "high":
-        return <Badge variant="destructive" className="capitalize">{priority}</Badge>;
+        return <span className="px-2 py-1 text-[10px] font-bold rounded-none bg-red-500 text-white uppercase tracking-widest border border-red-500">[{priority}]</span>;
       default:
-        return <Badge variant="secondary" className="capitalize">{priority}</Badge>;
+        return <span className="px-2 py-1 text-[10px] font-bold rounded-none bg-transparent text-foreground uppercase tracking-widest border border-black/20 dark:border-white/20">[{priority}]</span>;
     }
   };
 
@@ -75,12 +72,12 @@ export default function TicketList() {
     const diffHours = (date - now) / (1000 * 60 * 60);
     
     if (diffHours < 0) {
-      return <span className="text-red-500 font-bold flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span> Breached</span>;
+      return <span className="text-red-500 font-bold flex items-center gap-1"><span className="w-1.5 h-1.5 bg-red-500 animate-pulse"></span> BREACHED</span>;
     }
     if (diffHours < 24) {
-      return <span className="text-amber-500 font-medium">Due in {Math.floor(diffHours)}h</span>;
+      return <span className="text-amber-500 font-bold">DUE_{Math.floor(diffHours)}H</span>;
     }
-    return <span className="text-emerald-500">{Math.floor(diffHours/24)}d left</span>;
+    return <span className="text-emerald-500 font-bold">{Math.floor(diffHours/24)}D_LEFT</span>;
   };
 
   const filteredTickets = tickets.filter(t => {
@@ -103,137 +100,140 @@ export default function TicketList() {
   };
 
   const TicketTable = () => (
-    <Card className="border-border/50 shadow-sm overflow-hidden bg-card/40 backdrop-blur-md">
-      <CardHeader className="bg-card/50 border-b">
-        <CardTitle>{role === "customer" ? "All Tickets" : `Tickets (${activeTab})`}</CardTitle>
-        <CardDescription>
-          {role === "customer" ? "A list of all your submitted tickets." : "Manage support requests."}
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="p-0">
+    <div className="border border-black/20 dark:border-white/20 bg-card">
+      <div className="bg-black/5 dark:bg-white/5 border-b border-black/20 dark:border-white/20 p-6">
+        <h3 className="text-sm font-bold uppercase tracking-[0.2em]">
+          {role === "customer" ? "ALL_TICKETS" : `TICKETS_(${activeTab.toUpperCase()})`}
+        </h3>
+        <p className="text-[10px] text-muted-foreground uppercase tracking-widest mt-1">
+          {role === "customer" ? "LIST_OF_SUBMITTED_REQUESTS" : "MANAGE_SUPPORT_REQUESTS"}
+        </p>
+      </div>
+      <div className="p-0">
         {isLoading ? (
-          <div className="space-y-2">
-            <Skeleton className="h-10 w-full" />
-            <Skeleton className="h-12 w-full" />
-            <Skeleton className="h-12 w-full" />
+          <div className="space-y-2 p-6">
+            <Skeleton className="h-10 w-full rounded-none" />
+            <Skeleton className="h-12 w-full rounded-none" />
+            <Skeleton className="h-12 w-full rounded-none" />
           </div>
         ) : filteredTickets.length === 0 ? (
-          <div className="text-center py-12 text-muted-foreground border border-dashed rounded-lg">
+          <div className="text-center py-12 text-muted-foreground border-t border-dashed border-black/20 dark:border-white/20">
             <div className="flex justify-center mb-4">
               <Search className="h-10 w-10 text-muted-foreground/30" />
             </div>
             {tickets.length === 0 ? (
               <>
-                <p>No tickets found in this view.</p>
+                <p className="text-[10px] uppercase font-bold tracking-widest">NO_TICKETS_FOUND_IN_VIEW</p>
                 {role === "customer" && (
-                  <Link to="/tickets/new" className="text-primary hover:underline mt-2 inline-block">
-                    Create your first ticket
+                  <Link to={`/${role}/tickets/new`} className="text-primary hover:underline mt-2 inline-block text-[10px] font-bold uppercase tracking-widest">
+                    CREATE_FIRST_TICKET
                   </Link>
                 )}
               </>
             ) : (
               <>
-                <p>No tickets match your search criteria.</p>
-                <Button variant="link" onClick={clearFilters} className="mt-2">
-                  Clear Filters
+                <p className="text-[10px] uppercase font-bold tracking-widest">NO_TICKETS_MATCH_CRITERIA</p>
+                <Button variant="link" onClick={clearFilters} className="mt-2 rounded-none uppercase tracking-widest text-[10px] font-bold">
+                  CLEAR_FILTERS
                 </Button>
               </>
             )}
           </div>
         ) : (
           <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Ticket ID</TableHead>
-                <TableHead>Subject</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Priority</TableHead>
-                <TableHead>SLA</TableHead>
-                <TableHead className="text-right">Created</TableHead>
+            <TableHeader className="bg-background">
+              <TableRow className="border-b border-black/20 dark:border-white/20">
+                <TableHead className="text-[10px] font-bold uppercase tracking-[0.2em]">Ticket_ID</TableHead>
+                <TableHead className="text-[10px] font-bold uppercase tracking-[0.2em]">Subject</TableHead>
+                <TableHead className="text-[10px] font-bold uppercase tracking-[0.2em]">Status</TableHead>
+                <TableHead className="text-[10px] font-bold uppercase tracking-[0.2em]">Priority</TableHead>
+                <TableHead className="text-[10px] font-bold uppercase tracking-[0.2em]">SLA</TableHead>
+                <TableHead className="text-right text-[10px] font-bold uppercase tracking-[0.2em]">Created</TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody>
+            <TableBody className="divide-y divide-black/10 dark:divide-white/10">
               {filteredTickets.map((ticket) => (
-                <TableRow key={ticket.id}>
-                  <TableCell className="font-medium">
-                    <Link to={`/tickets/${ticket.id}`} className="text-primary hover:underline">
+                <TableRow key={ticket.id} className="hover:bg-black/5 dark:hover:bg-white/5 transition-colors border-none">
+                  <TableCell className="font-bold text-xs uppercase tracking-wider">
+                    <Link to={`/${role}/tickets/${ticket.id}`} className="text-primary hover:underline">
                       {ticket.ticketNumber}
                     </Link>
                   </TableCell>
-                  <TableCell>{ticket.subject}</TableCell>
+                  <TableCell className="text-xs uppercase tracking-wider">{ticket.subject}</TableCell>
                   <TableCell>{getStatusBadge(ticket.status)}</TableCell>
                   <TableCell>{getPriorityBadge(ticket.priority)}</TableCell>
-                  <TableCell className="text-xs">{getSLAIndicator(ticket.slaDueDate)}</TableCell>
-                  <TableCell className="text-right text-muted-foreground">
-                    {ticket.createdAt?.toDate() ? format(ticket.createdAt.toDate(), 'MMM d, yyyy') : "Just now"}
+                  <TableCell className="text-[10px] uppercase tracking-widest">{getSLAIndicator(ticket.slaDueDate)}</TableCell>
+                  <TableCell className="text-right text-[10px] uppercase tracking-widest font-bold text-muted-foreground">
+                    {ticket.createdAt?.toDate() ? format(ticket.createdAt.toDate(), 'MMM d, yyyy') : "JUST_NOW"}
                   </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 
   return (
-    <div className="w-full h-full p-4 sm:p-8 animate-in fade-in duration-500">
+    <div className="w-full h-full p-4 sm:p-8 bg-background">
       <div className="max-w-6xl mx-auto space-y-6">
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center border-b-2 border-black dark:border-white pb-6">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Tickets</h1>
-            <p className="text-muted-foreground">Manage and track support requests.</p>
+            <h1 className="text-3xl md:text-4xl font-black tracking-[0.2em] uppercase">TICKET_QUEUE</h1>
+            <p className="text-[10px] text-muted-foreground uppercase tracking-widest mt-2 font-bold">
+              // MANAGE_AND_TRACK_SUPPORT_REQUESTS
+            </p>
           </div>
           {role === "customer" && (
-            <Link to="/tickets/new">
-              <Button>
-                <PlusCircle className="mr-2 h-4 w-4" />
-                New Ticket
+            <Link to="/customer/tickets/new">
+              <Button className="rounded-none bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90 font-bold uppercase tracking-widest text-xs">
+                <PlusCircle className="mr-2 h-4 w-4" /> NEW_TICKET
               </Button>
             </Link>
           )}
         </div>
 
-        <div className="flex flex-col md:flex-row gap-4 bg-card/40 backdrop-blur-md p-4 rounded-xl shadow-sm border border-border/50">
+        <div className="flex flex-col md:flex-row gap-4 bg-white/5 dark:bg-black/5 p-4 border border-black/20 dark:border-white/20">
           <div className="relative flex-1">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute left-3 top-3.5 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Search by ticket number, subject, or description..."
-              className="pl-9"
+              placeholder="SEARCH BY TICKET NUMBER, SUBJECT, OR DESCRIPTION..."
+              className="pl-9 rounded-none border-black/20 dark:border-white/20 bg-background uppercase tracking-widest text-xs h-11"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
           <div className="flex items-center gap-2">
             <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-[140px]">
-                <SelectValue placeholder="Status" />
+              <SelectTrigger className="w-[160px] rounded-none border-black/20 dark:border-white/20 h-11 uppercase tracking-widest text-[10px] font-bold">
+                <SelectValue placeholder="STATUS" />
               </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Statuses</SelectItem>
-                <SelectItem value="new">New</SelectItem>
-                <SelectItem value="open">Open</SelectItem>
-                <SelectItem value="pending customer">Pending Customer</SelectItem>
-                <SelectItem value="resolved">Resolved</SelectItem>
-                <SelectItem value="closed">Closed</SelectItem>
+              <SelectContent className="rounded-none border-black/20 dark:border-white/20">
+                <SelectItem value="all" className="uppercase tracking-widest text-[10px] font-bold rounded-none">ALL_STATUSES</SelectItem>
+                <SelectItem value="new" className="uppercase tracking-widest text-[10px] font-bold rounded-none">NEW</SelectItem>
+                <SelectItem value="open" className="uppercase tracking-widest text-[10px] font-bold rounded-none">OPEN</SelectItem>
+                <SelectItem value="pending customer" className="uppercase tracking-widest text-[10px] font-bold rounded-none">PENDING_CUSTOMER</SelectItem>
+                <SelectItem value="resolved" className="uppercase tracking-widest text-[10px] font-bold rounded-none">RESOLVED</SelectItem>
+                <SelectItem value="closed" className="uppercase tracking-widest text-[10px] font-bold rounded-none">CLOSED</SelectItem>
               </SelectContent>
             </Select>
 
             <Select value={priorityFilter} onValueChange={setPriorityFilter}>
-              <SelectTrigger className="w-[140px]">
-                <SelectValue placeholder="Priority" />
+              <SelectTrigger className="w-[160px] rounded-none border-black/20 dark:border-white/20 h-11 uppercase tracking-widest text-[10px] font-bold">
+                <SelectValue placeholder="PRIORITY" />
               </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Priorities</SelectItem>
-                <SelectItem value="low">Low</SelectItem>
-                <SelectItem value="medium">Medium</SelectItem>
-                <SelectItem value="high">High</SelectItem>
-                <SelectItem value="urgent">Urgent</SelectItem>
+              <SelectContent className="rounded-none border-black/20 dark:border-white/20">
+                <SelectItem value="all" className="uppercase tracking-widest text-[10px] font-bold rounded-none">ALL_PRIORITIES</SelectItem>
+                <SelectItem value="low" className="uppercase tracking-widest text-[10px] font-bold rounded-none">LOW</SelectItem>
+                <SelectItem value="medium" className="uppercase tracking-widest text-[10px] font-bold rounded-none">MEDIUM</SelectItem>
+                <SelectItem value="high" className="uppercase tracking-widest text-[10px] font-bold rounded-none">HIGH</SelectItem>
+                <SelectItem value="urgent" className="uppercase tracking-widest text-[10px] font-bold rounded-none">URGENT</SelectItem>
               </SelectContent>
             </Select>
             
             {(searchQuery || statusFilter !== "all" || priorityFilter !== "all") && (
-              <Button variant="ghost" size="icon" onClick={clearFilters} title="Clear Filters">
+              <Button variant="ghost" size="icon" onClick={clearFilters} title="Clear Filters" className="rounded-none h-11 w-11 hover:bg-black/5 dark:hover:bg-white/5">
                 <FilterX className="h-4 w-4 text-muted-foreground" />
               </Button>
             )}
@@ -243,16 +243,29 @@ export default function TicketList() {
         {role === "customer" ? (
           <TicketTable />
         ) : (
-          <Tabs defaultValue="all" onValueChange={setActiveTab} value={activeTab}>
-            <TabsList className="mb-4">
-              <TabsTrigger value="all">All Tickets</TabsTrigger>
-              <TabsTrigger value="unassigned">Unassigned</TabsTrigger>
-              <TabsTrigger value="mine">Assigned to Me</TabsTrigger>
-            </TabsList>
-            <TabsContent value={activeTab}>
-              <TicketTable />
-            </TabsContent>
-          </Tabs>
+          <div className="space-y-4">
+            <div className="flex space-x-1 p-1 bg-black/5 dark:bg-white/5 border border-black/20 dark:border-white/20 w-fit">
+              <button 
+                onClick={() => setActiveTab("all")}
+                className={`px-4 py-2 text-[10px] font-bold uppercase tracking-widest transition-colors ${activeTab === "all" ? "bg-black text-white dark:bg-white dark:text-black" : "text-muted-foreground hover:bg-black/10 dark:hover:bg-white/10"}`}
+              >
+                ALL_TICKETS
+              </button>
+              <button 
+                onClick={() => setActiveTab("unassigned")}
+                className={`px-4 py-2 text-[10px] font-bold uppercase tracking-widest transition-colors ${activeTab === "unassigned" ? "bg-black text-white dark:bg-white dark:text-black" : "text-muted-foreground hover:bg-black/10 dark:hover:bg-white/10"}`}
+              >
+                UNASSIGNED
+              </button>
+              <button 
+                onClick={() => setActiveTab("mine")}
+                className={`px-4 py-2 text-[10px] font-bold uppercase tracking-widest transition-colors ${activeTab === "mine" ? "bg-black text-white dark:bg-white dark:text-black" : "text-muted-foreground hover:bg-black/10 dark:hover:bg-white/10"}`}
+              >
+                ASSIGNED_TO_ME
+              </button>
+            </div>
+            <TicketTable />
+          </div>
         )}
       </div>
     </div>

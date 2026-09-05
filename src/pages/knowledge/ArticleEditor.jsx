@@ -4,7 +4,6 @@ import { useAuth } from "@/features/auth/AuthProvider";
 import { getArticleById, createArticle, updateArticle } from "@/features/knowledge/services/kbService";
 import { toast } from "sonner";
 
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -16,7 +15,7 @@ export default function ArticleEditor() {
   const { articleId } = useParams();
   const isEditing = !!articleId;
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, role } = useAuth();
 
   const [isLoading, setIsLoading] = useState(isEditing);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -40,15 +39,15 @@ export default function ArticleEditor() {
             content: data.content
           });
         } catch (error) {
-          toast.error("Article not found");
-          navigate("/kb");
+          toast.error("ARTICLE_NOT_FOUND");
+          navigate(`/${role}/kb`);
         } finally {
           setIsLoading(false);
         }
       };
       fetchArticle();
     }
-  }, [articleId, isEditing, navigate]);
+  }, [articleId, isEditing, navigate, role]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -65,107 +64,115 @@ export default function ArticleEditor() {
     try {
       if (isEditing) {
         await updateArticle(articleId, formData);
-        toast.success("Article updated");
-        navigate(`/kb/${articleId}`);
+        toast.success("ARTICLE_UPDATED");
+        navigate(`/${role}/kb/${articleId}`);
       } else {
         const newArticle = await createArticle(formData, user.uid);
-        toast.success("Article created");
-        navigate(`/kb/${newArticle.id}`);
+        toast.success("ARTICLE_PUBLISHED");
+        navigate(`/${role}/kb/${newArticle.id}`);
       }
     } catch (error) {
-      toast.error(isEditing ? "Failed to update article" : "Failed to create article");
+      toast.error(isEditing ? "UPDATE_FAILED" : "PUBLISHING_FAILED");
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  if (isLoading) return <div className="p-8">Loading...</div>;
+  if (isLoading) return (
+    <div className="w-full h-full p-4 sm:p-8 flex justify-center items-center bg-background">
+      <div className="text-[10px] uppercase font-bold tracking-widest animate-pulse">DECRYPTING_ARTICLE_DATA...</div>
+    </div>
+  );
 
   return (
-    <div className="w-full h-full p-4 sm:p-8 animate-in fade-in duration-500">
+    <div className="w-full h-full p-4 sm:p-8 bg-background">
       <div className="max-w-4xl mx-auto space-y-6">
         
-        <Button variant="ghost" onClick={() => navigate(-1)} className="-ml-4 mb-4">
-          <ArrowLeft className="mr-2 h-4 w-4" /> Back
+        <Button variant="ghost" onClick={() => navigate(-1)} className="-ml-4 mb-4 rounded-none hover:bg-black/5 dark:hover:bg-white/5 uppercase tracking-widest text-[10px] font-bold">
+          <ArrowLeft className="mr-2 h-4 w-4" /> ABORT_OPERATION
         </Button>
 
-        <Card className="border-border/50 shadow-sm overflow-hidden bg-card/40 backdrop-blur-md">
-          <CardHeader className="bg-card/50 border-b">
-            <CardTitle>{isEditing ? "Edit Article" : "Create New Article"}</CardTitle>
-            <CardDescription>
-              Write helpful content for your users using Markdown format.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
+        <div className="border-2 border-black dark:border-white bg-background overflow-hidden relative">
+          <div className="absolute top-0 right-0 p-2 text-[10px] uppercase tracking-[0.2em] text-muted-foreground font-bold">
+            // AUTHORING_MODE
+          </div>
+          <div className="bg-black/5 dark:bg-white/5 border-b-2 border-black dark:border-white p-6">
+            <h2 className="text-2xl font-black uppercase tracking-[0.2em]">{isEditing ? "EDIT_ARTICLE" : "CREATE_NEW_ARTICLE"}</h2>
+            <p className="text-[10px] text-muted-foreground uppercase tracking-widest mt-1 font-bold">
+              // FORMAT: MARKDOWN_STRICT
+            </p>
+          </div>
+          <div className="p-6">
             <form onSubmit={handleSubmit} className="space-y-6">
               
               <div className="space-y-2">
-                <Label htmlFor="title">Article Title</Label>
+                <Label htmlFor="title" className="text-[10px] uppercase tracking-widest font-bold">ARTICLE_TITLE</Label>
                 <Input 
                   id="title" 
                   name="title" 
                   required 
                   value={formData.title} 
                   onChange={handleChange} 
-                  placeholder="e.g., How to reset your password" 
+                  placeholder="E.G., HOW TO RESET YOUR PASSWORD" 
+                  className="rounded-none border-black/20 dark:border-white/20 uppercase tracking-widest text-[10px] font-bold h-11"
                 />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <Label>Category</Label>
+                  <Label className="text-[10px] uppercase tracking-widest font-bold">CATEGORY</Label>
                   <Select onValueChange={handleCategoryChange} value={formData.category} required>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select category" />
+                    <SelectTrigger className="rounded-none border-black/20 dark:border-white/20 h-11 text-[10px] font-bold uppercase tracking-widest">
+                      <SelectValue placeholder="SELECT CATEGORY" />
                     </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="getting-started">Getting Started</SelectItem>
-                      <SelectItem value="account">Account & Billing</SelectItem>
-                      <SelectItem value="troubleshooting">Troubleshooting</SelectItem>
-                      <SelectItem value="features">Features</SelectItem>
+                    <SelectContent className="rounded-none border-black/20 dark:border-white/20">
+                      <SelectItem value="getting-started" className="text-[10px] font-bold uppercase tracking-widest rounded-none">GETTING STARTED</SelectItem>
+                      <SelectItem value="account" className="text-[10px] font-bold uppercase tracking-widest rounded-none">ACCOUNT & BILLING</SelectItem>
+                      <SelectItem value="troubleshooting" className="text-[10px] font-bold uppercase tracking-widest rounded-none">TROUBLESHOOTING</SelectItem>
+                      <SelectItem value="features" className="text-[10px] font-bold uppercase tracking-widest rounded-none">FEATURES</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="summary">Brief Summary</Label>
+                <Label htmlFor="summary" className="text-[10px] uppercase tracking-widest font-bold">BRIEF_SUMMARY</Label>
                 <Textarea 
                   id="summary" 
                   name="summary" 
                   required 
                   value={formData.summary} 
                   onChange={handleChange} 
-                  placeholder="A short description of this article..." 
-                  className="h-20"
+                  placeholder="A SHORT DESCRIPTION OF THIS ARTICLE..." 
+                  className="h-20 rounded-none border-black/20 dark:border-white/20 uppercase tracking-widest text-[10px] font-bold"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="content">Content (Markdown Supported)</Label>
+                <Label htmlFor="content" className="text-[10px] uppercase tracking-widest font-bold">CONTENT (MARKDOWN_SUPPORTED)</Label>
                 <Textarea 
                   id="content" 
                   name="content" 
                   required 
                   value={formData.content} 
                   onChange={handleChange} 
-                  placeholder="# Heading 1&#10;&#10;Write your content here..." 
-                  className="min-h-[400px] font-mono text-sm"
+                  placeholder="# HEADING 1&#10;&#10;WRITE YOUR CONTENT HERE..." 
+                  className="min-h-[400px] font-mono text-sm rounded-none border-black/20 dark:border-white/20"
                 />
-                <p className="text-xs text-muted-foreground mt-2">
-                  You can use standard Markdown like **bold**, *italics*, [links](), and code blocks.
+                <p className="text-[10px] text-muted-foreground mt-2 uppercase tracking-widest font-bold">
+                  // USE STANDARD MARKDOWN: **BOLD**, *ITALICS*, [LINKS](), AND CODE BLOCKS.
                 </p>
               </div>
 
-              <div className="flex justify-end gap-4 pt-4 border-t">
-                <Button type="button" variant="outline" onClick={() => navigate(-1)}>Cancel</Button>
-                <Button type="submit" disabled={isSubmitting}>
-                  {isSubmitting ? "Saving..." : (isEditing ? "Save Changes" : "Publish Article")}
+              <div className="flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-4 pt-4 border-t border-black/10 dark:border-white/10">
+                <Button type="button" variant="outline" onClick={() => navigate(-1)} className="rounded-none border-black/20 dark:border-white/20 uppercase tracking-widest text-xs font-bold h-12 px-8">ABORT</Button>
+                <Button type="submit" disabled={isSubmitting} className="rounded-none bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90 uppercase tracking-widest text-xs font-bold h-12 px-8">
+                  {isSubmitting ? "PROCESSING..." : (isEditing ? "COMMIT_CHANGES" : "PUBLISH_ARTICLE")}
                 </Button>
               </div>
             </form>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
       </div>
     </div>

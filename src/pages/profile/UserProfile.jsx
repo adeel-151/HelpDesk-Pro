@@ -4,7 +4,6 @@ import { updateUserProfile } from "@/features/auth/services/authService";
 import { uploadAvatar } from "@/features/tickets/services/storageService";
 import { toast } from "sonner";
 
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -39,12 +38,9 @@ export default function UserProfile() {
 
       await updateUserProfile(displayName, newPhotoURL);
       
-      toast.success("Profile updated successfully!");
-      // The browser/auth state might need a refresh to fully propagate,
-      // but standard firebase re-evaluates the token if forced.
-      // For now, the visual feedback is enough.
+      toast.success("PROFILE_DATA_UPDATED");
     } catch (error) {
-      toast.error("Failed to update profile");
+      toast.error("UPDATE_FAILED");
     } finally {
       setIsSubmitting(false);
     }
@@ -53,36 +49,41 @@ export default function UserProfile() {
   if (!user) return null;
 
   return (
-    <div className="w-full h-full p-4 sm:p-8 animate-in fade-in duration-500">
+    <div className="w-full h-full p-4 sm:p-8 bg-background">
       <div className="max-w-2xl mx-auto space-y-6">
         
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">My Profile</h1>
-          <p className="text-muted-foreground">Manage your account settings and preferences.</p>
+        <div className="border-b-2 border-black dark:border-white pb-6">
+          <h1 className="text-3xl font-black uppercase tracking-[0.2em]">MY_PROFILE</h1>
+          <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mt-1">// MANAGE_ACCOUNT_SETTINGS</p>
         </div>
 
-        <Card className="border-border/50 shadow-sm overflow-hidden bg-card/40 backdrop-blur-md">
-          <CardHeader className="bg-card/50 border-b">
-            <CardTitle>Personal Information</CardTitle>
-            <CardDescription>Update your display name and profile picture.</CardDescription>
-          </CardHeader>
-          <CardContent>
+        <div className="border-2 border-black dark:border-white bg-background flex flex-col relative overflow-hidden">
+          <div className="absolute top-0 right-0 p-2 text-[10px] uppercase tracking-[0.2em] text-muted-foreground font-bold">
+            // ID_{user.uid.slice(0,8)}
+          </div>
+          <div className="bg-black/5 dark:bg-white/5 border-b-2 border-black dark:border-white p-6">
+            <h2 className="text-lg font-black uppercase tracking-[0.2em]">PERSONAL_INFORMATION</h2>
+            <p className="text-[10px] text-muted-foreground uppercase tracking-widest mt-1 font-bold">
+              UPDATE_DISPLAY_NAME_AND_AVATAR
+            </p>
+          </div>
+          <div className="p-6">
             <form onSubmit={handleSave} className="space-y-6">
               
               {/* Avatar Section */}
-              <div className="flex flex-col sm:flex-row items-center gap-6 pb-6 border-b">
-                <Avatar className="h-24 w-24 border">
-                  <AvatarImage src={previewUrl} />
-                  <AvatarFallback className="text-2xl">
+              <div className="flex flex-col sm:flex-row items-center gap-6 pb-6 border-b border-black/10 dark:border-white/10">
+                <Avatar className="h-24 w-24 rounded-none border border-black/20 dark:border-white/20">
+                  <AvatarImage src={previewUrl} className="rounded-none object-cover" />
+                  <AvatarFallback className="text-2xl rounded-none bg-black/5 dark:bg-white/5 font-bold uppercase">
                     {displayName ? displayName.charAt(0).toUpperCase() : user.email.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="avatar-upload" className="cursor-pointer">
-                    <div className="flex items-center gap-2 bg-secondary text-secondary-foreground hover:bg-secondary/80 px-4 py-2 rounded-md transition-colors">
-                      <Camera className="h-4 w-4" />
-                      <span>Change Picture</span>
+                  <Label htmlFor="avatar-upload" className="cursor-pointer inline-block">
+                    <div className="flex items-center gap-2 border border-black/20 dark:border-white/20 hover:border-black/50 dark:hover:border-white/50 bg-transparent px-4 py-2 transition-colors">
+                      <Camera className="h-4 w-4 text-foreground" />
+                      <span className="text-[10px] font-bold uppercase tracking-widest">CHANGE_PICTURE</span>
                     </div>
                   </Label>
                   <Input 
@@ -92,8 +93,8 @@ export default function UserProfile() {
                     className="hidden" 
                     onChange={handleFileChange}
                   />
-                  <p className="text-xs text-muted-foreground">
-                    Recommended size: 256x256px. Max 2MB.
+                  <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">
+                    // REC_SIZE: 256x256PX. MAX_SIZE: 2MB.
                   </p>
                 </div>
               </div>
@@ -101,52 +102,53 @@ export default function UserProfile() {
               {/* Form Fields */}
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="displayName" className="flex items-center gap-2">
-                    <User className="h-4 w-4" /> Display Name
+                  <Label htmlFor="displayName" className="flex items-center gap-2 text-[10px] uppercase tracking-widest font-bold">
+                    <User className="h-4 w-4" /> DISPLAY_NAME
                   </Label>
                   <Input 
                     id="displayName"
                     value={displayName}
                     onChange={(e) => setDisplayName(e.target.value)}
-                    placeholder="Enter your full name"
+                    placeholder="ENTER FULL NAME"
+                    className="rounded-none border-black/20 dark:border-white/20 uppercase tracking-widest text-xs font-bold h-11"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="flex items-center gap-2">
-                    <Mail className="h-4 w-4" /> Email Address
+                  <Label htmlFor="email" className="flex items-center gap-2 text-[10px] uppercase tracking-widest font-bold">
+                    <Mail className="h-4 w-4" /> EMAIL_ADDRESS
                   </Label>
                   <Input 
                     id="email"
                     value={user.email}
                     disabled
-                    className="bg-muted"
+                    className="rounded-none border-black/20 dark:border-white/20 uppercase tracking-widest text-xs font-bold h-11 bg-black/5 dark:bg-white/5 opacity-70"
                   />
-                  <p className="text-xs text-muted-foreground">Email addresses cannot be changed directly.</p>
+                  <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest">// EMAIL_ADDRESSES_LOCKED</p>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="role" className="flex items-center gap-2">
-                    <Shield className="h-4 w-4" /> Current Role
+                  <Label htmlFor="role" className="flex items-center gap-2 text-[10px] uppercase tracking-widest font-bold">
+                    <Shield className="h-4 w-4" /> CURRENT_AUTHORIZATION_ROLE
                   </Label>
                   <Input 
                     id="role"
-                    value={role.charAt(0).toUpperCase() + role.slice(1)}
+                    value={role.toUpperCase()}
                     disabled
-                    className="bg-muted font-medium"
+                    className="rounded-none border-black/20 dark:border-white/20 uppercase tracking-widest text-xs font-bold h-11 bg-black/5 dark:bg-white/5 opacity-70"
                   />
                 </div>
               </div>
 
-              <div className="flex justify-end pt-4">
-                <Button type="submit" disabled={isSubmitting}>
-                  {isSubmitting ? "Saving Changes..." : "Save Changes"}
+              <div className="flex justify-end pt-4 border-t border-black/10 dark:border-white/10 mt-6">
+                <Button type="submit" disabled={isSubmitting} className="rounded-none bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90 uppercase tracking-widest text-[10px] font-bold h-12 px-8 w-full sm:w-auto">
+                  {isSubmitting ? "UPDATING..." : "COMMIT_CHANGES"}
                 </Button>
               </div>
 
             </form>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
       </div>
     </div>

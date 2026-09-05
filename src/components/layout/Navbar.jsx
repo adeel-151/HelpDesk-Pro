@@ -65,7 +65,7 @@ export function Navbar() {
       <header className={navClass}>
         <div className="container mx-auto flex h-20 items-center justify-between px-8">
           <div className="flex items-center gap-8">
-            <Link to={user ? "/dashboard" : "/"} className="flex items-center space-x-2 group">
+            <Link to={user ? `/${role}` : "/"} className="flex items-center space-x-2 group">
               <div className="flex items-center gap-3">
                 <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-black dark:text-white transition-transform group-hover:scale-105 duration-300">
                   <path d="M50 5 L93 25 V75 L50 95 L7 75 V25 L50 5 Z" stroke="currentColor" strokeWidth="3" strokeOpacity="0.3"/>
@@ -146,7 +146,7 @@ export function Navbar() {
                         </div>
                       </DropdownMenuLabel>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem onClick={() => navigate("/dashboard")} className="cursor-pointer">
+                      <DropdownMenuItem onClick={() => navigate(`/${role}`)} className="cursor-pointer rounded-none">
                         <LayoutDashboard className="mr-2 h-4 w-4" />
                         <span>Dashboard</span>
                       </DropdownMenuItem>
@@ -172,7 +172,7 @@ export function Navbar() {
             {/* Mobile Menu Toggle */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="md:hidden p-2 rounded-lg hover:bg-muted transition-colors text-black dark:text-white"
+              className="md:hidden p-2 rounded-none border border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/5 transition-colors text-black dark:text-white"
             >
               {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
@@ -254,8 +254,8 @@ export function Navbar() {
                   )}
                   
                   <div className="grid grid-cols-2 gap-3">
-                    <Link to="/dashboard" onClick={() => setMobileOpen(false)}>
-                      <Button variant="outline" className="w-full h-11 justify-start px-4 rounded-none border-black/20 dark:border-white/20 text-black dark:text-white">
+                    <Link to={`/${role}`} onClick={() => setMobileOpen(false)}>
+                      <Button variant="outline" className="w-full h-11 justify-start px-4 rounded-none border-black/20 dark:border-white/20 text-black dark:text-white font-bold uppercase tracking-widest text-xs">
                         <LayoutDashboard className="mr-2 h-4 w-4" /> Dashboard
                       </Button>
                     </Link>
