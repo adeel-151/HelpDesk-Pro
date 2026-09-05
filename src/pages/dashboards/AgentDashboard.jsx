@@ -1,15 +1,13 @@
 import { useAuth } from "@/features/auth/AuthProvider";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Users, Ticket, CheckCircle2, Clock, Activity, FileText } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { collection, query, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase/config";
-import { motion } from "framer-motion";
 import {
-  LineChart,
-  Line,
+  BarChart,
+  Bar,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -17,21 +15,10 @@ import {
   ResponsiveContainer,
   PieChart,
   Pie,
-  Cell
+  Cell,
+  Legend
 } from "recharts";
-
-const fadeUp = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
-};
-
-const stagger = {
-  animate: {
-    transition: {
-      staggerChildren: 0.08,
-    },
-  },
-};
+import { useTheme } from "next-themes";
 
 const fetchAgentStats = async () => {
   const q = query(collection(db, "tickets"));
@@ -39,222 +26,268 @@ const fetchAgentStats = async () => {
   
   let total = 0, open = 0, inProgress = 0, resolved = 0, unassigned = 0;
   
+  const tickets = [];
   snapshot.forEach((doc) => {
     total++;
     const data = doc.data();
-    if (data.status === 'open') open++;
-    if (data.status === 'in_progress') inProgress++;
+    tickets.push(data);
+    if (data.status === 'open' || data.status === 'new') open++;
+    if (data.status === 'in_progress' || data.status === 'pending customer') inProgress++;
     if (data.status === 'resolved' || data.status === 'closed') resolved++;
-    if (!data.assignedTo) unassigned++;
+    if (!data.assignedAgentId) unassigned++;
   });
 
-  return { total, open, inProgress, resolved, unassigned };
+  // Time Series logic (last 7 days)
+  const last7Days = Array.from({length: 7}, (_, i) => {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    return {
+      date: d.toISOString().split('T')[0],
+      shortDate: d.toLocaleDateString('en-US', { weekday: 'short', month: 'numeric', day: 'numeric' }),
+      count: 0
+    };
+  }).reverse();
+
+  tickets.forEach(ticket => {
+    if (ticket.createdAt && ticket.createdAt.toDate) {
+      const ticketDate = ticket.createdAt.toDate().toISOString().split('T')[0];
+      const dayMatch = last7Days.find(d => d.date === ticketDate);
+      if (dayMatch) {
+        dayMatch.count++;
+      }
+    }
+  });
+
+  return { total, open, inProgress, resolved, unassigned, timeSeriesData: last7Days };
 };
 
+const PIE_COLORS = ['#4f46e5', '#3b82f6', '#10b981']; 
+
 export default function AgentDashboard() {
-  const { user, profile, role } = useAuth();
+  const { profile, role } = useAuth();
+  const { theme } = useTheme();
 
   const { data: stats, isLoading: loading } = useQuery({
     queryKey: ["agentDashboard"],
     queryFn: fetchAgentStats,
-    initialData: { total: 0, open: 0, inProgress: 0, resolved: 0, unassigned: 0 },
+    initialData: { total: 0, open: 0, inProgress: 0, resolved: 0, unassigned: 0, timeSeriesData: [] },
   });
 
   const getGreeting = () => {
     const hour = new Date().getHours();
-    if (hour < 12) return "Good morning";
-    if (hour < 17) return "Good afternoon";
-    return "Good evening";
+    if (hour < 12) return "MORNING";
+    if (hour < 17) return "AFTERNOON";
+    return "EVENING";
   };
 
-  // Chart data
-  const activityData = [
-    { name: 'Mon', tickets: 12 },
-    { name: 'Tue', tickets: 19 },
-    { name: 'Wed', tickets: 15 },
-    { name: 'Thu', tickets: 22 },
-    { name: 'Fri', tickets: 28 },
-    { name: 'Sat', tickets: 10 },
-    { name: 'Sun', tickets: 5 },
-  ];
-
   const statusData = [
-    { name: 'Open', value: stats.open, color: '#f59e0b' },
-    { name: 'In Progress', value: stats.inProgress, color: '#3b82f6' },
-    { name: 'Resolved', value: stats.resolved, color: '#10b981' },
-  ];
+    { name: 'Open', value: stats.open },
+    { name: 'In Progress', value: stats.inProgress },
+    { name: 'Resolved', value: stats.resolved },
+  ].filter(item => item.value > 0);
 
-  const kpiCards = [
-    { label: "Total Tickets", value: stats.total, icon: <Ticket className="h-5 w-5" />, color: "text-foreground", bgColor: "bg-muted/50", subtitle: "+20% from last month" },
-    { label: "Unassigned", value: stats.unassigned, icon: <Clock className="h-5 w-5" />, color: "text-amber-500", bgColor: "bg-amber-500/10", subtitle: "Requires immediate triage" },
-    { label: "In Progress", value: stats.inProgress, icon: <Activity className="h-5 w-5" />, color: "text-blue-500", bgColor: "bg-blue-500/10", subtitle: "Currently being handled" },
-    { label: "Resolved", value: stats.resolved, icon: <CheckCircle2 className="h-5 w-5" />, color: "text-emerald-500", bgColor: "bg-emerald-500/10", subtitle: "Successfully closed" },
-  ];
+  const tooltipStyle = {
+    backgroundColor: theme === 'dark' ? '#000' : '#fff',
+    borderColor: theme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
+    color: theme === 'dark' ? '#fff' : '#000',
+    borderRadius: '0px',
+    padding: '12px',
+    boxShadow: '0 0 20px rgba(0,0,0,0.2)'
+  };
+
+  if (loading) {
+    return (
+      <div className="w-full h-full p-4 sm:p-8 flex items-center justify-center bg-white dark:bg-black">
+        <div className="w-16 h-16 border-4 border-black/10 dark:border-white/10 border-t-primary rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   return (
-    <motion.div
-      variants={stagger}
-      initial="initial"
-      animate="animate"
-      className="space-y-8 pb-12"
-    >
-      {/* Welcome & Context */}
-      <motion.div variants={fadeUp} className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-        <div>
-          <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold mb-3 bg-primary/10 text-primary border-primary/20 uppercase tracking-wider">
-            {role} Workspace
+    <div className="w-full min-h-screen p-4 sm:p-8 bg-white dark:bg-black text-black dark:text-white transition-colors duration-500 animate-in fade-in">
+      <div className="max-w-7xl mx-auto space-y-8 pb-12">
+        
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-black/10 dark:border-white/10 pb-6">
+          <div>
+            <div className="inline-flex items-center px-3 py-1 text-[10px] font-bold transition-colors mb-4 bg-primary/10 text-primary uppercase tracking-[0.2em] border border-primary/20">
+              // OPERATIVE.WORKSPACE
+            </div>
+            <h1 className="text-3xl md:text-5xl font-black tracking-[0.2em] uppercase">
+              {getGreeting()}, {profile?.name?.split(' ')[0] || 'AGENT'}
+            </h1>
+            <p className="text-black/50 dark:text-white/50 mt-2 text-xs font-bold tracking-widest uppercase">
+              Queue health, assignments, and resolution metrics.
+            </p>
           </div>
-          <h2 className="text-3xl font-bold tracking-tight">
-            {getGreeting()}, {profile?.name?.split(' ')[0] || 'Agent'}
-          </h2>
-          <p className="text-muted-foreground mt-1">
-            Monitor queue health, assign tickets, and analyze support metrics.
-          </p>
-        </div>
-        <div className="flex gap-3">
-          {role === 'admin' && (
-            <Link to="/admin">
-              <Button variant="outline"><Users className="mr-2 h-4 w-4" /> Manage Users</Button>
+          <div className="flex gap-3">
+            {role === 'admin' && (
+              <Link to="/admin">
+                <Button variant="outline" className="h-10 rounded-none bg-transparent border-black/20 dark:border-white/20 text-xs font-bold uppercase tracking-widest hover:bg-black/10 dark:hover:bg-white/10 text-black dark:text-white">
+                  <Users className="mr-2 h-4 w-4" /> USER MANAGEMENT
+                </Button>
+              </Link>
+            )}
+            <Link to="/tickets">
+              <Button className="h-10 rounded-none bg-primary text-white hover:bg-primary/90 text-xs font-bold uppercase tracking-widest shadow-[0_0_15px_rgba(79,70,229,0.4)]">
+                <Ticket className="mr-2 h-4 w-4" /> TICKET QUEUE
+              </Button>
             </Link>
-          )}
-          <Link to="/tickets">
-            <Button><Ticket className="mr-2 h-4 w-4" /> Open Ticket Queue</Button>
-          </Link>
+          </div>
         </div>
-      </motion.div>
 
-      {/* KPI Cards */}
-      <motion.div variants={fadeUp} className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-        {kpiCards.map((kpi, i) => (
-          <motion.div
-            key={kpi.label}
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ delay: i * 0.1, type: "spring", stiffness: 200 }}
-          >
-            <Card className="bg-card hover:shadow-md transition-shadow">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between space-y-0 pb-2">
-                  <p className="text-sm font-medium text-muted-foreground">{kpi.label}</p>
-                  <div className={`p-2 rounded-lg ${kpi.bgColor}`}>
-                    <div className={kpi.color}>{kpi.icon}</div>
-                  </div>
-                </div>
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.3 + i * 0.1, type: "spring", stiffness: 200 }}
-                  className={`text-3xl font-black ${kpi.color}`}
-                >
-                  {loading ? "-" : kpi.value}
-                </motion.div>
-                <p className="text-xs text-muted-foreground mt-1">{kpi.subtitle}</p>
-              </CardContent>
-            </Card>
-          </motion.div>
-        ))}
-      </motion.div>
+        {/* Metrics Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* Total Tickets */}
+          <div className="bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 p-6 flex flex-col relative overflow-hidden group hover:border-black/30 dark:hover:border-white/30 transition-colors">
+            <div className="absolute -right-6 -top-6 w-24 h-24 bg-black/5 dark:bg-white/5 rounded-full blur-2xl group-hover:bg-primary/20 transition-colors" />
+            <div className="flex items-center justify-between mb-4 relative z-10">
+              <h3 className="text-[10px] font-bold uppercase tracking-widest text-black/60 dark:text-white/60">TOTAL INCIDENTS</h3>
+              <Ticket className="h-4 w-4 text-black/40 dark:text-white/40" />
+            </div>
+            <div className="text-4xl font-black tracking-widest relative z-10">{stats.total}</div>
+          </div>
+          
+          {/* Unassigned Tickets */}
+          <div className="bg-amber-500/10 border border-amber-500/20 p-6 flex flex-col relative overflow-hidden group hover:border-amber-500/40 transition-colors">
+            <div className="absolute -right-6 -top-6 w-24 h-24 bg-amber-500/10 rounded-full blur-2xl group-hover:bg-amber-500/30 transition-colors" />
+            <div className="flex items-center justify-between mb-4 relative z-10">
+              <h3 className="text-[10px] font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400">UNASSIGNED / TRIAGE</h3>
+              <Clock className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+            </div>
+            <div className="text-4xl font-black tracking-widest text-amber-600 dark:text-amber-400 relative z-10">{stats.unassigned}</div>
+          </div>
+          
+          {/* In Progress Tickets */}
+          <div className="bg-blue-500/10 border border-blue-500/20 p-6 flex flex-col relative overflow-hidden group hover:border-blue-500/40 transition-colors">
+            <div className="absolute -right-6 -top-6 w-24 h-24 bg-blue-500/10 rounded-full blur-2xl group-hover:bg-blue-500/30 transition-colors" />
+            <div className="flex items-center justify-between mb-4 relative z-10">
+              <h3 className="text-[10px] font-bold uppercase tracking-widest text-blue-600 dark:text-blue-400">IN PROGRESS</h3>
+              <Activity className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+            </div>
+            <div className="text-4xl font-black tracking-widest text-blue-600 dark:text-blue-400 relative z-10">{stats.inProgress}</div>
+          </div>
+          
+          {/* Resolved Tickets */}
+          <div className="bg-emerald-500/10 border border-emerald-500/20 p-6 flex flex-col relative overflow-hidden group hover:border-emerald-500/40 transition-colors">
+            <div className="absolute -right-6 -top-6 w-24 h-24 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/30 transition-colors" />
+            <div className="flex items-center justify-between mb-4 relative z-10">
+              <h3 className="text-[10px] font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400">RESOLVED</h3>
+              <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+            </div>
+            <div className="text-4xl font-black tracking-widest text-emerald-600 dark:text-emerald-400 relative z-10">{stats.resolved}</div>
+          </div>
+        </div>
 
-      {/* Charts Section */}
-      <motion.div variants={fadeUp} className="grid lg:grid-cols-3 gap-6">
-        {/* Main Chart */}
-        <Card className="lg:col-span-2 hover:shadow-md transition-shadow">
-          <CardHeader>
-            <CardTitle>Ticket Volume (Last 7 Days)</CardTitle>
-            <CardDescription>Number of new tickets created per day.</CardDescription>
-          </CardHeader>
-          <CardContent>
+        {/* Charts Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Volume Over Time (Bar Chart) */}
+          <div className="lg:col-span-2 bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 p-6 flex flex-col">
+            <div className="flex items-center gap-3 mb-8">
+              <Activity className="h-5 w-5 text-primary" />
+              <h2 className="text-sm font-bold uppercase tracking-widest">SYSTEM INCIDENTS (LAST 7 DAYS)</h2>
+            </div>
             <div className="h-[300px] w-full">
               <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={activityData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-                  <defs>
-                    <linearGradient id="lineGradient" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="hsl(238, 76%, 60%)" stopOpacity={0.3} />
-                      <stop offset="100%" stopColor="hsl(238, 76%, 60%)" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border)" opacity={0.5} />
-                  <XAxis dataKey="name" stroke="var(--muted-foreground)" fontSize={12} tickLine={false} axisLine={false} />
-                  <YAxis stroke="var(--muted-foreground)" fontSize={12} tickLine={false} axisLine={false} />
-                  <Tooltip 
-                    contentStyle={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
-                    itemStyle={{ color: 'var(--foreground)' }}
+                <BarChart data={stats.timeSeriesData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke={theme === 'dark' ? '#333' : '#e5e7eb'} vertical={false} />
+                  <XAxis 
+                    dataKey="shortDate" 
+                    stroke={theme === 'dark' ? '#888' : '#666'} 
+                    fontSize={10}
+                    tickLine={false}
+                    axisLine={false}
                   />
-                  <Line type="monotone" dataKey="tickets" stroke="var(--primary)" strokeWidth={3} dot={{ r: 5, fill: 'var(--primary)', strokeWidth: 0 }} activeDot={{ r: 7 }} />
-                </LineChart>
+                  <YAxis 
+                    stroke={theme === 'dark' ? '#888' : '#666'} 
+                    fontSize={10}
+                    tickLine={false}
+                    axisLine={false}
+                  />
+                  <Tooltip 
+                    contentStyle={tooltipStyle}
+                    cursor={{fill: theme === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'}}
+                  />
+                  <Bar 
+                    dataKey="count" 
+                    fill="#4f46e5" 
+                    radius={[4, 4, 0, 0]} 
+                    name="Tickets"
+                  />
+                </BarChart>
               </ResponsiveContainer>
             </div>
-          </CardContent>
-        </Card>
+          </div>
 
-        {/* Pie Chart */}
-        <Card className="hover:shadow-md transition-shadow">
-          <CardHeader>
-            <CardTitle>Status Distribution</CardTitle>
-            <CardDescription>Current state of all tickets</CardDescription>
-          </CardHeader>
-          <CardContent className="flex flex-col items-center justify-center">
-            <div className="h-[220px] w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={statusData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={60}
-                    outerRadius={80}
-                    paddingAngle={5}
-                    dataKey="value"
-                    stroke="none"
-                  >
-                    {statusData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip 
-                    contentStyle={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)', borderRadius: '12px' }}
-                    itemStyle={{ color: 'var(--foreground)' }}
-                  />
-                </PieChart>
-              </ResponsiveContainer>
+          {/* Status Breakdown (Donut Chart) */}
+          <div className="bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 p-6 flex flex-col">
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-2 h-2 bg-accent" />
+              <h2 className="text-sm font-bold uppercase tracking-widest">STATUS DISTRIBUTION</h2>
             </div>
-            
-            <div className="flex flex-wrap justify-center gap-4 mt-4 w-full">
-              {statusData.map((entry, index) => (
-                <div key={index} className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: entry.color }} />
-                  <span className="text-sm font-medium">{entry.name}</span>
+            <div className="h-[300px] w-full flex items-center justify-center">
+              {statusData.length > 0 ? (
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={statusData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={60}
+                      outerRadius={90}
+                      paddingAngle={5}
+                      dataKey="value"
+                      stroke="none"
+                    >
+                      {statusData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={PIE_COLORS[index % PIE_COLORS.length]} />
+                      ))}
+                    </Pie>
+                    <Tooltip contentStyle={tooltipStyle} />
+                    <Legend 
+                      verticalAlign="bottom" 
+                      height={36} 
+                      iconType="circle"
+                      wrapperStyle={{ fontSize: '10px', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '0.1em' }}
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
+              ) : (
+                <div className="text-xs text-black/40 dark:text-white/40 uppercase tracking-widest font-bold">
+                  NO DATA AVAILABLE
                 </div>
-              ))}
+              )}
             </div>
-          </CardContent>
-        </Card>
-      </motion.div>
+          </div>
+        </div>
 
-      {/* Quick Tools */}
-      <motion.div variants={fadeUp} className="grid md:grid-cols-2 gap-6">
-        <Card className="bg-gradient-to-br from-card to-card border-l-4 border-l-emerald-500 hover:shadow-md transition-shadow">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <FileText className="h-5 w-5 text-emerald-500" />
-              Knowledge Base Management
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-muted-foreground text-sm mb-6">
-              Keep the self-service portal updated to reduce ticket volume. Add new articles or update existing ones based on recent trends.
+        {/* Quick Tools */}
+        <div className="grid md:grid-cols-2 gap-6">
+          <div className="bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 border-l-4 border-l-emerald-500 p-6 flex flex-col relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none" />
+            <h2 className="flex items-center gap-3 text-sm font-bold uppercase tracking-widest mb-4 text-black dark:text-white">
+              <FileText className="h-4 w-4 text-emerald-500" />
+              KNOWLEDGE BASE MANAGEMENT
+            </h2>
+            <p className="text-black/50 dark:text-white/50 text-xs tracking-widest uppercase leading-relaxed mb-6 font-bold">
+              Keep the self-service portal updated to reduce ticket volume. Add new articles based on recent trends.
             </p>
-            <div className="flex gap-3">
+            <div className="flex gap-4 mt-auto">
               <Link to="/kb/new">
-                <Button variant="outline" className="border-emerald-500/20 text-emerald-600 hover:bg-emerald-500/10">Write Article</Button>
+                <Button className="h-10 rounded-none bg-emerald-500 text-white hover:bg-emerald-600 text-[10px] font-bold uppercase tracking-widest shadow-[0_0_15px_rgba(16,185,129,0.3)] border border-emerald-500">
+                  WRITE ARTICLE
+                </Button>
               </Link>
               <Link to="/kb">
-                <Button variant="ghost">Browse KB</Button>
+                <Button variant="outline" className="h-10 rounded-none bg-transparent border-black/20 dark:border-white/20 hover:bg-black/10 dark:hover:bg-white/10 text-[10px] font-bold uppercase tracking-widest text-black dark:text-white">
+                  BROWSE KB
+                </Button>
               </Link>
             </div>
-          </CardContent>
-        </Card>
-      </motion.div>
-    </motion.div>
+          </div>
+        </div>
+
+      </div>
+    </div>
   );
 }

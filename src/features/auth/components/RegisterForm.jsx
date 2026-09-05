@@ -5,14 +5,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "sonner";
-import { registerUser } from "../services/authService";
+import { registerUser, loginWithGoogle } from "../services/authService";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 
 const registerSchema = z.object({
-  role: z.enum(["customer", "agent"]),
   name: z.string().min(2, { message: "Name must be at least 2 characters" }),
   email: z.string().email({ message: "Invalid email address" }),
   password: z.string().min(6, { message: "Password must be at least 6 characters" }),
@@ -29,7 +28,6 @@ export function RegisterForm() {
   const form = useForm({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      role: "customer",
       name: "",
       email: "",
       password: "",
@@ -40,7 +38,7 @@ export function RegisterForm() {
   const onSubmit = async (values) => {
     setIsLoading(true);
     try {
-      await registerUser(values.email, values.password, values.name, values.role);
+      await registerUser(values.email, values.password, values.name, "customer");
       toast.success("Account created successfully!");
       navigate("/dashboard");
     } catch (error) {
@@ -60,36 +58,6 @@ export function RegisterForm() {
       <CardContent className="px-0">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            
-            {/* Role Selection UI */}
-            <FormField
-              control={form.control}
-              name="role"
-              render={({ field }) => (
-                <FormItem className="space-y-3 mb-6">
-                  <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-black/70 dark:text-white/70">SELECT OPERATIONAL ROLE</FormLabel>
-                  <FormControl>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div 
-                        className={`cursor-pointer rounded-none border p-4 flex flex-col items-center justify-center gap-2 transition-all ${field.value === 'customer' ? 'border-primary bg-primary/20 text-primary shadow-[0_0_20px_rgba(79,70,229,0.3)]' : 'border-black/10 dark:border-white/10 bg-white dark:bg-black text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
-                        onClick={() => field.onChange('customer')}
-                      >
-                        <User className="h-6 w-6" />
-                        <span className="font-bold text-[10px] uppercase tracking-widest">CUSTOMER</span>
-                      </div>
-                      <div 
-                        className={`cursor-pointer rounded-none border p-4 flex flex-col items-center justify-center gap-2 transition-all ${field.value === 'agent' ? 'border-emerald-500 bg-emerald-500/20 text-emerald-500 dark:text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.3)]' : 'border-black/10 dark:border-white/10 bg-white dark:bg-black text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
-                        onClick={() => field.onChange('agent')}
-                      >
-                        <Headset className="h-6 w-6" />
-                        <span className="font-bold text-[10px] uppercase tracking-widest">SUPPORT AGENT</span>
-                      </div>
-                    </div>
-                  </FormControl>
-                  <FormMessage className="text-red-500 dark:text-red-400 text-[10px] uppercase tracking-widest" />
-                </FormItem>
-              )}
-            />
 
             <FormField
               control={form.control}
@@ -148,6 +116,37 @@ export function RegisterForm() {
             </Button>
           </form>
         </Form>
+
+        {/* Google OAuth Section */}
+        <div className="mt-6">
+          <Button 
+            variant="outline"
+            type="button"
+            className="w-full h-14 rounded-none text-xs font-bold uppercase tracking-widest bg-transparent text-black dark:text-white border-black/20 dark:border-white/20 hover:bg-black/5 dark:hover:bg-white/5 transition-all flex items-center justify-center gap-2"
+            onClick={async () => {
+              setIsLoading(true);
+              try {
+                await loginWithGoogle();
+                toast.success("Successfully logged in with Google");
+                navigate("/dashboard");
+              } catch (error) {
+                console.error(error);
+                toast.error("Failed to login with Google.");
+              } finally {
+                setIsLoading(false);
+              }
+            }}
+            disabled={isLoading}
+          >
+            <svg viewBox="0 0 24 24" className="w-5 h-5 mr-2" aria-hidden="true">
+              <path d="M12.0003 4.75C13.7703 4.75 15.3553 5.36002 16.6053 6.54998L20.0303 3.125C17.9502 1.19 15.2353 0 12.0003 0C7.31028 0 3.25527 2.69 1.28027 6.60998L5.27028 9.70498C6.21525 6.86002 8.87028 4.75 12.0003 4.75Z" fill="#EA4335"></path>
+              <path d="M23.49 12.275C23.49 11.49 23.415 10.73 23.3 10H12V14.51H18.47C18.18 15.99 17.34 17.25 16.08 18.1L19.945 21.1C22.2 19.01 23.49 15.92 23.49 12.275Z" fill="#4285F4"></path>
+              <path d="M5.26498 14.2949C5.02498 13.5699 4.88501 12.7999 4.88501 11.9999C4.88501 11.1999 5.01998 10.4299 5.26498 9.7049L1.275 6.60986C0.46 8.22986 0 10.0599 0 11.9999C0 13.9399 0.46 15.7699 1.28 17.3899L5.26498 14.2949Z" fill="#FBBC05"></path>
+              <path d="M12.0004 24.0001C15.2404 24.0001 17.9654 22.935 19.9454 21.095L16.0804 18.095C15.0054 18.82 13.6204 19.245 12.0004 19.245C8.8704 19.245 6.21537 17.135 5.26538 14.29L1.27539 17.385C3.25539 21.31 7.3104 24.0001 12.0004 24.0001Z" fill="#34A853"></path>
+            </svg>
+            AUTHORIZE VIA GOOGLE
+          </Button>
+        </div>
       </CardContent>
       <CardFooter className="flex flex-col space-y-4 text-[10px] uppercase tracking-widest text-center px-0 font-bold mt-4">
         <div className="text-black/50 dark:text-white/50">

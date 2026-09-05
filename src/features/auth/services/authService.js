@@ -3,7 +3,9 @@ import {
   signInWithEmailAndPassword, 
   signOut, 
   sendPasswordResetEmail,
-  updateProfile
+  updateProfile,
+  GoogleAuthProvider,
+  signInWithPopup
 } from "firebase/auth";
 import { doc, setDoc, getDoc, updateDoc, serverTimestamp } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase/config";
@@ -59,6 +61,39 @@ export const logoutUser = async () => {
     await signOut(auth);
   } catch (error) {
     console.error("Error logging out:", error);
+    throw error;
+  }
+};
+
+/**
+ * Log in or Register with Google OAuth.
+ */
+export const loginWithGoogle = async () => {
+  try {
+    const provider = new GoogleAuthProvider();
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+
+    // Check if user exists in Firestore
+    const userRef = doc(db, "users", user.uid);
+    const userSnap = await getDoc(userRef);
+
+    if (!userSnap.exists()) {
+      // First time login, create customer profile
+      await setDoc(userRef, {
+        uid: user.uid,
+        name: user.displayName || "Google User",
+        email: user.email,
+        role: "customer",
+        active: true,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      });
+    }
+
+    return user;
+  } catch (error) {
+    console.error("Error with Google login:", error);
     throw error;
   }
 };
