@@ -4,10 +4,12 @@ import { toast } from "sonner";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 import { useTheme } from "next-themes";
+import { motion } from "framer-motion";
 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, Users, Ticket, CheckCircle2, AlertCircle, Activity } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { ChevronDown, Users, Ticket, CheckCircle2, AlertCircle, Activity, MoreVertical } from "lucide-react";
 
 const fetchAdminData = async () => {
   const [usersData, metricsData, chartData] = await Promise.all([
@@ -19,6 +21,19 @@ const fetchAdminData = async () => {
 };
 
 const PIE_COLORS = ['#4f46e5', '#10b981', '#3b82f6']; // Indigo, Emerald, Blue
+
+const fadeUp = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+};
+
+const stagger = {
+  animate: {
+    transition: {
+      staggerChildren: 0.08,
+    },
+  },
+};
 
 export default function AdminDashboard() {
   const queryClient = useQueryClient();
@@ -37,108 +52,134 @@ export default function AdminDashboard() {
     try {
       await updateUserRole(userId, newRole);
       queryClient.invalidateQueries({ queryKey: ["adminDashboard"] });
-      toast.success("ROLE UPDATED SUCCESSFULLY");
+      toast.success("Role updated successfully");
     } catch (error) {
-      toast.error("FAILED TO UPDATE ROLE");
+      toast.error("Failed to update role");
     }
   };
 
   const getRoleBadge = (role) => {
     switch (role) {
       case "admin": 
-        return <span className="inline-flex items-center px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-widest bg-red-500/10 text-red-500 border border-red-500/20">{role}</span>;
+        return <span className="inline-flex items-center px-2.5 py-0.5 text-xs font-semibold rounded-full bg-red-500/10 text-red-500 capitalize">{role}</span>;
       case "agent": 
-        return <span className="inline-flex items-center px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-widest bg-primary/10 text-primary border border-primary/20">{role}</span>;
+        return <span className="inline-flex items-center px-2.5 py-0.5 text-xs font-semibold rounded-full bg-primary/10 text-primary capitalize">{role}</span>;
       default: 
-        return <span className="inline-flex items-center px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-widest bg-black/10 dark:bg-white/10 text-black dark:text-white border border-black/20 dark:border-white/20">{role}</span>;
+        return <span className="inline-flex items-center px-2.5 py-0.5 text-xs font-semibold rounded-full bg-muted text-muted-foreground capitalize">{role}</span>;
     }
   };
 
   if (isLoading) {
     return (
-      <div className="w-full h-full p-4 sm:p-8 flex items-center justify-center bg-white dark:bg-black">
-        <div className="w-16 h-16 border-4 border-black/10 dark:border-white/10 border-t-primary rounded-full animate-spin" />
+      <div className="w-full h-[80vh] flex items-center justify-center">
+        <div className="w-10 h-10 border-4 border-muted border-t-primary rounded-full animate-spin" />
       </div>
     );
   }
 
   const tooltipStyle = {
-    backgroundColor: theme === 'dark' ? '#000' : '#fff',
+    backgroundColor: theme === 'dark' ? '#1e1e1e' : '#fff',
     borderColor: theme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
     color: theme === 'dark' ? '#fff' : '#000',
-    borderRadius: '0px',
+    borderRadius: '8px',
     padding: '12px',
-    boxShadow: '0 0 20px rgba(0,0,0,0.2)'
+    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
   };
 
   return (
-    <div className="w-full min-h-screen p-4 sm:p-8 bg-white dark:bg-black text-black dark:text-white transition-colors duration-500 animate-in fade-in">
-      <div className="max-w-7xl mx-auto space-y-8 pb-12">
+    <motion.div
+      variants={stagger}
+      initial="initial"
+      animate="animate"
+      className="space-y-8 max-w-7xl mx-auto pb-12 pt-8 px-4 sm:px-8"
+    >
+      {/* Welcome Banner */}
+      <motion.div
+        variants={fadeUp}
+        className="bg-gradient-to-r from-primary/10 via-primary/5 to-transparent rounded-2xl p-8 border border-primary/20 relative overflow-hidden"
+      >
+        <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 blur-[80px] rounded-full pointer-events-none" />
+        <div className="relative z-10">
+          <h2 className="text-3xl font-bold tracking-tight mb-2">
+            Welcome to the Command Center
+          </h2>
+          <p className="text-muted-foreground text-lg max-w-2xl">
+            Monitor system health, manage incidents, and control authorization protocols globally.
+          </p>
+        </div>
+      </motion.div>
+
+      {/* Metrics Grid */}
+      <motion.div variants={fadeUp} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Total Users */}
+        <Card className="hover:shadow-md transition-shadow group relative overflow-hidden border-border">
+          <div className="absolute -right-6 -top-6 w-24 h-24 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/10 transition-colors" />
+          <CardHeader className="pb-2 flex flex-row items-center justify-between relative z-10">
+            <CardTitle className="text-sm font-medium text-muted-foreground">Active Users</CardTitle>
+            <div className="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+              <Users className="h-4 w-4" />
+            </div>
+          </CardHeader>
+          <CardContent className="relative z-10">
+            <div className="text-3xl font-bold">{metrics?.totalUsers || 0}</div>
+          </CardContent>
+        </Card>
         
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-black/10 dark:border-white/10 pb-6">
-          <div>
-            <div className="inline-flex items-center px-3 py-1 text-[10px] font-bold transition-colors mb-4 bg-red-500 text-white uppercase tracking-[0.2em] shadow-[0_0_15px_rgba(239,68,68,0.5)]">
-              // SYSTEM.ADMIN
+        {/* Total Tickets */}
+        <Card className="hover:shadow-md transition-shadow group relative overflow-hidden border-border">
+          <div className="absolute -right-6 -top-6 w-24 h-24 bg-accent/5 rounded-full blur-2xl group-hover:bg-accent/10 transition-colors" />
+          <CardHeader className="pb-2 flex flex-row items-center justify-between relative z-10">
+            <CardTitle className="text-sm font-medium text-muted-foreground">Total Incidents</CardTitle>
+            <div className="w-8 h-8 rounded-lg bg-accent/10 text-accent flex items-center justify-center">
+              <Ticket className="h-4 w-4" />
             </div>
-            <h1 className="text-3xl md:text-5xl font-black tracking-[0.2em] uppercase">COMMAND CENTER</h1>
-            <p className="text-black/50 dark:text-white/50 mt-2 text-xs font-bold tracking-widest uppercase">
-              Global system monitoring and user authorization protocols.
-            </p>
-          </div>
-        </div>
+          </CardHeader>
+          <CardContent className="relative z-10">
+            <div className="text-3xl font-bold">{metrics?.totalTickets || 0}</div>
+          </CardContent>
+        </Card>
+        
+        {/* Open Tickets */}
+        <Card className="hover:shadow-md transition-shadow group relative overflow-hidden border-border">
+          <div className="absolute -right-6 -top-6 w-24 h-24 bg-amber-500/5 rounded-full blur-2xl group-hover:bg-amber-500/10 transition-colors" />
+          <CardHeader className="pb-2 flex flex-row items-center justify-between relative z-10">
+            <CardTitle className="text-sm font-medium text-amber-600 dark:text-amber-500">Unresolved</CardTitle>
+            <div className="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-500 flex items-center justify-center">
+              <AlertCircle className="h-4 w-4" />
+            </div>
+          </CardHeader>
+          <CardContent className="relative z-10">
+            <div className="text-3xl font-bold text-amber-600 dark:text-amber-500">{metrics?.openTickets || 0}</div>
+          </CardContent>
+        </Card>
+        
+        {/* Resolved Tickets */}
+        <Card className="hover:shadow-md transition-shadow group relative overflow-hidden border-border">
+          <div className="absolute -right-6 -top-6 w-24 h-24 bg-emerald-500/5 rounded-full blur-2xl group-hover:bg-emerald-500/10 transition-colors" />
+          <CardHeader className="pb-2 flex flex-row items-center justify-between relative z-10">
+            <CardTitle className="text-sm font-medium text-emerald-600 dark:text-emerald-500">Resolved</CardTitle>
+            <div className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-500 flex items-center justify-center">
+              <CheckCircle2 className="h-4 w-4" />
+            </div>
+          </CardHeader>
+          <CardContent className="relative z-10">
+            <div className="text-3xl font-bold text-emerald-600 dark:text-emerald-500">{metrics?.resolvedTickets || 0}</div>
+          </CardContent>
+        </Card>
+      </motion.div>
 
-        {/* Metrics Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {/* Total Users */}
-          <div className="bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 p-6 flex flex-col relative overflow-hidden group hover:border-black/30 dark:hover:border-white/30 transition-colors">
-            <div className="absolute -right-6 -top-6 w-24 h-24 bg-black/5 dark:bg-white/5 rounded-full blur-2xl group-hover:bg-primary/20 transition-colors" />
-            <div className="flex items-center justify-between mb-4 relative z-10">
-              <h3 className="text-[10px] font-bold uppercase tracking-widest text-black/60 dark:text-white/60">ACTIVE USERS</h3>
-              <Users className="h-4 w-4 text-black/40 dark:text-white/40" />
-            </div>
-            <div className="text-4xl font-black tracking-widest relative z-10">{metrics?.totalUsers || 0}</div>
-          </div>
-          
-          {/* Total Tickets */}
-          <div className="bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 p-6 flex flex-col relative overflow-hidden group hover:border-black/30 dark:hover:border-white/30 transition-colors">
-            <div className="absolute -right-6 -top-6 w-24 h-24 bg-black/5 dark:bg-white/5 rounded-full blur-2xl group-hover:bg-accent/20 transition-colors" />
-            <div className="flex items-center justify-between mb-4 relative z-10">
-              <h3 className="text-[10px] font-bold uppercase tracking-widest text-black/60 dark:text-white/60">TOTAL INCIDENTS</h3>
-              <Ticket className="h-4 w-4 text-black/40 dark:text-white/40" />
-            </div>
-            <div className="text-4xl font-black tracking-widest relative z-10">{metrics?.totalTickets || 0}</div>
-          </div>
-          
-          {/* Open Tickets */}
-          <div className="bg-amber-500/10 border border-amber-500/20 p-6 flex flex-col relative overflow-hidden group hover:border-amber-500/40 transition-colors">
-            <div className="absolute -right-6 -top-6 w-24 h-24 bg-amber-500/10 rounded-full blur-2xl group-hover:bg-amber-500/30 transition-colors" />
-            <div className="flex items-center justify-between mb-4 relative z-10">
-              <h3 className="text-[10px] font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400">UNRESOLVED</h3>
-              <AlertCircle className="h-4 w-4 text-amber-600 dark:text-amber-400" />
-            </div>
-            <div className="text-4xl font-black tracking-widest text-amber-600 dark:text-amber-400 relative z-10">{metrics?.openTickets || 0}</div>
-          </div>
-          
-          {/* Resolved Tickets */}
-          <div className="bg-emerald-500/10 border border-emerald-500/20 p-6 flex flex-col relative overflow-hidden group hover:border-emerald-500/40 transition-colors">
-            <div className="absolute -right-6 -top-6 w-24 h-24 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/30 transition-colors" />
-            <div className="flex items-center justify-between mb-4 relative z-10">
-              <h3 className="text-[10px] font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400">RESOLVED</h3>
-              <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
-            </div>
-            <div className="text-4xl font-black tracking-widest text-emerald-600 dark:text-emerald-400 relative z-10">{metrics?.resolvedTickets || 0}</div>
-          </div>
-        </div>
-
-        {/* Charts Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Volume Over Time (Bar Chart) */}
-          <div className="lg:col-span-2 bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 p-6 flex flex-col">
-            <div className="flex items-center gap-3 mb-8">
+      {/* Charts Section */}
+      <motion.div variants={fadeUp} className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Volume Over Time (Bar Chart) */}
+        <Card className="lg:col-span-2 flex flex-col h-full hover:shadow-md transition-shadow border-border">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-lg">
               <Activity className="h-5 w-5 text-primary" />
-              <h2 className="text-sm font-bold uppercase tracking-widest">INCIDENT VOLUME (LAST 7 DAYS)</h2>
-            </div>
+              Incident Volume
+            </CardTitle>
+            <CardDescription>Tickets created over the last 7 days</CardDescription>
+          </CardHeader>
+          <CardContent className="flex-1">
             <div className="h-[300px] w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData.timeSeriesData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
@@ -146,13 +187,13 @@ export default function AdminDashboard() {
                   <XAxis 
                     dataKey="shortDate" 
                     stroke={theme === 'dark' ? '#888' : '#666'} 
-                    fontSize={10}
+                    fontSize={12}
                     tickLine={false}
                     axisLine={false}
                   />
                   <YAxis 
                     stroke={theme === 'dark' ? '#888' : '#666'} 
-                    fontSize={10}
+                    fontSize={12}
                     tickLine={false}
                     axisLine={false}
                   />
@@ -162,22 +203,24 @@ export default function AdminDashboard() {
                   />
                   <Bar 
                     dataKey="count" 
-                    fill="#4f46e5" 
+                    fill="hsl(var(--primary))" 
                     radius={[4, 4, 0, 0]} 
                     name="Tickets"
                   />
                 </BarChart>
               </ResponsiveContainer>
             </div>
-          </div>
+          </CardContent>
+        </Card>
 
-          {/* Status Breakdown (Donut Chart) */}
-          <div className="bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 p-6 flex flex-col">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-2 h-2 bg-accent" />
-              <h2 className="text-sm font-bold uppercase tracking-widest">STATUS DISTRIBUTION</h2>
-            </div>
-            <div className="h-[300px] w-full flex items-center justify-center">
+        {/* Status Breakdown (Donut Chart) */}
+        <Card className="flex flex-col h-full hover:shadow-md transition-shadow border-border">
+          <CardHeader>
+            <CardTitle className="text-lg">Status Distribution</CardTitle>
+            <CardDescription>Current state of all tickets</CardDescription>
+          </CardHeader>
+          <CardContent className="flex-1 flex flex-col items-center justify-center">
+            <div className="h-[250px] w-full">
               {chartData.statusData.length > 0 ? (
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
@@ -200,69 +243,73 @@ export default function AdminDashboard() {
                       verticalAlign="bottom" 
                       height={36} 
                       iconType="circle"
-                      wrapperStyle={{ fontSize: '10px', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '0.1em' }}
+                      wrapperStyle={{ fontSize: '12px', fontWeight: '500' }}
                     />
                   </PieChart>
                 </ResponsiveContainer>
               ) : (
-                <div className="text-xs text-black/40 dark:text-white/40 uppercase tracking-widest font-bold">
-                  NO DATA AVAILABLE
+                <div className="text-sm text-muted-foreground flex items-center justify-center h-full">
+                  No data available
                 </div>
               )}
             </div>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
+      </motion.div>
 
-        {/* User Management Table */}
-        <div className="bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 flex flex-col">
-          <div className="p-6 border-b border-black/10 dark:border-white/10">
-            <h2 className="text-sm font-bold uppercase tracking-widest">OPERATIVE DIRECTORY</h2>
-            <p className="text-xs text-black/50 dark:text-white/50 mt-1 uppercase tracking-widest">Complete list of registered personnel</p>
-          </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="border-b border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5">
-                  <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-black/50 dark:text-white/50">EMAIL</th>
-                  <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-black/50 dark:text-white/50">NAME</th>
-                  <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-black/50 dark:text-white/50">AUTHORIZATION</th>
-                  <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-black/50 dark:text-white/50 text-right">ACTIONS</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-black/10 dark:divide-white/10">
-                {users.map((u) => (
-                  <tr key={u.uid} className="hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
-                    <td className="px-6 py-4 text-sm font-bold">{u.email}</td>
-                    <td className="px-6 py-4 text-sm text-black/70 dark:text-white/70">{u.displayName || "N/A"}</td>
-                    <td className="px-6 py-4">{getRoleBadge(u.role)}</td>
-                    <td className="px-6 py-4 text-right">
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="outline" size="sm" className="h-8 rounded-none bg-transparent border-black/20 dark:border-white/20 text-xs font-bold uppercase tracking-widest hover:bg-black/10 dark:hover:bg-white/10 hover:text-black dark:hover:text-white">
-                            MODIFY <ChevronDown className="ml-2 h-4 w-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="rounded-none border-black/20 dark:border-white/20 bg-white dark:bg-black">
-                          <DropdownMenuItem className="text-xs font-bold uppercase tracking-widest focus:bg-black/10 dark:focus:bg-white/10 cursor-pointer" onClick={() => handleRoleChange(u.uid, "customer")}>
-                            ASSIGN CUSTOMER
-                          </DropdownMenuItem>
-                          <DropdownMenuItem className="text-xs font-bold uppercase tracking-widest focus:bg-black/10 dark:focus:bg-white/10 cursor-pointer" onClick={() => handleRoleChange(u.uid, "agent")}>
-                            ASSIGN AGENT
-                          </DropdownMenuItem>
-                          <DropdownMenuItem className="text-xs font-bold uppercase tracking-widest focus:bg-red-500/20 text-red-600 dark:text-red-400 cursor-pointer" onClick={() => handleRoleChange(u.uid, "admin")}>
-                            ASSIGN ADMIN
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </td>
+      {/* User Management Table */}
+      <motion.div variants={fadeUp}>
+        <Card className="hover:shadow-md transition-shadow border-border">
+          <CardHeader>
+            <CardTitle className="text-lg">Operative Directory</CardTitle>
+            <CardDescription>Complete list of registered personnel</CardDescription>
+          </CardHeader>
+          <CardContent className="p-0">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="border-y bg-muted/50">
+                    <th className="px-6 py-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Email</th>
+                    <th className="px-6 py-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Name</th>
+                    <th className="px-6 py-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Role</th>
+                    <th className="px-6 py-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider text-right">Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-        
-      </div>
-    </div>
+                </thead>
+                <tbody className="divide-y divide-border">
+                  {users.map((u) => (
+                    <tr key={u.uid} className="hover:bg-muted/30 transition-colors">
+                      <td className="px-6 py-4 text-sm font-medium">{u.email}</td>
+                      <td className="px-6 py-4 text-sm text-muted-foreground">{u.displayName || "N/A"}</td>
+                      <td className="px-6 py-4">{getRoleBadge(u.role)}</td>
+                      <td className="px-6 py-4 text-right">
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg hover:bg-muted">
+                              <MoreVertical className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end" className="rounded-xl shadow-lg border-border">
+                            <DropdownMenuItem className="cursor-pointer rounded-lg text-sm" onClick={() => handleRoleChange(u.uid, "customer")}>
+                              Make Customer
+                            </DropdownMenuItem>
+                            <DropdownMenuItem className="cursor-pointer rounded-lg text-sm" onClick={() => handleRoleChange(u.uid, "agent")}>
+                              Make Agent
+                            </DropdownMenuItem>
+                            <DropdownMenuItem className="cursor-pointer rounded-lg text-sm text-red-600 focus:bg-red-50 focus:text-red-600 dark:focus:bg-red-950/50" onClick={() => handleRoleChange(u.uid, "admin")}>
+                              Make Admin
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </CardContent>
+        </Card>
+      </motion.div>
+      
+    </motion.div>
   );
 }

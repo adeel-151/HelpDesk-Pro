@@ -4,10 +4,10 @@ import { LifeBuoy, CheckCircle } from "lucide-react";
 import { useAuth } from "@/features/auth/AuthProvider";
 
 export default function Login() {
-  const { user, loading } = useAuth();
+  const { user, loading, role } = useAuth();
 
-  if (!loading && user) {
-    return <Navigate to="/dashboard" replace />;
+  if (!loading && user && role) {
+    return <Navigate to={`/${role}`} replace />;
   }
 
   return (

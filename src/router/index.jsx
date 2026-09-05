@@ -1,20 +1,23 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import App from "@/App";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
-import Dashboard from "@/pages/Dashboard";
 import TicketList from "@/pages/tickets/TicketList";
 import CreateTicket from "@/pages/tickets/CreateTicket";
 import TicketDetail from "@/pages/tickets/TicketDetail";
 import AdminDashboard from "@/pages/admin/AdminDashboard";
+import AgentDashboard from "@/pages/dashboards/AgentDashboard";
+import CustomerDashboard from "@/pages/dashboards/CustomerDashboard";
 import KnowledgeBaseHome from "@/pages/knowledge/KnowledgeBaseHome";
 import ArticleDetail from "@/pages/knowledge/ArticleDetail";
 import ArticleEditor from "@/pages/knowledge/ArticleEditor";
 import UserProfile from "@/pages/profile/UserProfile";
-import { ProtectedRoute } from "./ProtectedRoute";
 
-// Public pages wrapped in shared layout
+// Layouts
 import { PublicLayout } from "@/components/layout/PublicLayout";
+import { RoleLayout } from "@/components/layout/RoleLayouts";
+
+// Public pages
 import Landing from "@/pages/Landing";
 import Features from "@/pages/Features";
 import Pricing from "@/pages/Pricing";
@@ -22,121 +25,74 @@ import Contact from "@/pages/Contact";
 import NotFound from "@/pages/NotFound";
 
 export const router = createBrowserRouter([
-  // Public pages with shared header/footer layout
+  // Public pages
   {
     element: <PublicLayout />,
     children: [
-      {
-        path: "/",
-        element: <Landing />,
-      },
-      {
-        path: "/features",
-        element: <Features />,
-      },
-      {
-        path: "/pricing",
-        element: <Pricing />,
-      },
-      {
-        path: "/contact",
-        element: <Contact />,
-      },
+      { path: "/", element: <Landing /> },
+      { path: "/features", element: <Features /> },
+      { path: "/pricing", element: <Pricing /> },
+      { path: "/contact", element: <Contact /> },
     ],
   },
-  // Auth pages (no shared layout)
-  {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/register",
-    element: <Register />,
-  },
-  // Protected pages
-  {
-    path: "/dashboard",
-    element: (
-      <ProtectedRoute>
-        <Dashboard />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/tickets",
-    element: (
-      <ProtectedRoute>
-        <TicketList />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/tickets/new",
-    element: (
-      <ProtectedRoute allowedRoles={["customer"]}>
-        <CreateTicket />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/tickets/:ticketId",
-    element: (
-      <ProtectedRoute>
-        <TicketDetail />
-      </ProtectedRoute>
-    ),
-  },
+  
+  // Auth pages
+  { path: "/login", element: <Login /> },
+  { path: "/register", element: <Register /> },
+  
+  // Admin Routes
   {
     path: "/admin",
-    element: (
-      <ProtectedRoute allowedRoles={["admin"]} layout="sidebar">
-        <AdminDashboard />
-      </ProtectedRoute>
-    ),
+    element: <RoleLayout allowedRole="admin" />,
+    children: [
+      { index: true, element: <AdminDashboard /> },
+      { path: "dashboard", element: <Navigate to="/admin" replace /> },
+      { path: "tickets", element: <TicketList /> },
+      { path: "tickets/:ticketId", element: <TicketDetail /> },
+      { path: "kb", element: <KnowledgeBaseHome /> },
+      { path: "kb/new", element: <ArticleEditor /> },
+      { path: "kb/:articleId", element: <ArticleDetail /> },
+      { path: "kb/:articleId/edit", element: <ArticleEditor /> },
+      { path: "profile", element: <UserProfile /> },
+    ]
   },
+  
+  // Agent Routes
   {
-    path: "/kb",
-    element: (
-      <ProtectedRoute>
-        <KnowledgeBaseHome />
-      </ProtectedRoute>
-    ),
+    path: "/agent",
+    element: <RoleLayout allowedRole="agent" />,
+    children: [
+      { index: true, element: <AgentDashboard /> },
+      { path: "dashboard", element: <Navigate to="/agent" replace /> },
+      { path: "tickets", element: <TicketList /> },
+      { path: "tickets/:ticketId", element: <TicketDetail /> },
+      { path: "kb", element: <KnowledgeBaseHome /> },
+      { path: "kb/new", element: <ArticleEditor /> },
+      { path: "kb/:articleId", element: <ArticleDetail /> },
+      { path: "kb/:articleId/edit", element: <ArticleEditor /> },
+      { path: "profile", element: <UserProfile /> },
+    ]
   },
+  
+  // Customer Routes
   {
-    path: "/kb/new",
-    element: (
-      <ProtectedRoute allowedRoles={["admin", "agent"]}>
-        <ArticleEditor />
-      </ProtectedRoute>
-    ),
+    path: "/customer",
+    element: <RoleLayout allowedRole="customer" />,
+    children: [
+      { index: true, element: <CustomerDashboard /> },
+      { path: "dashboard", element: <Navigate to="/customer" replace /> },
+      { path: "tickets", element: <TicketList /> },
+      { path: "tickets/new", element: <CreateTicket /> },
+      { path: "tickets/:ticketId", element: <TicketDetail /> },
+      { path: "kb", element: <KnowledgeBaseHome /> },
+      { path: "kb/:articleId", element: <ArticleDetail /> },
+      { path: "profile", element: <UserProfile /> },
+    ]
   },
-  {
-    path: "/kb/:articleId",
-    element: (
-      <ProtectedRoute>
-        <ArticleDetail />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/kb/:articleId/edit",
-    element: (
-      <ProtectedRoute allowedRoles={["admin", "agent"]}>
-        <ArticleEditor />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/profile",
-    element: (
-      <ProtectedRoute>
-        <UserProfile />
-      </ProtectedRoute>
-    ),
-  },
+
+  // Legacy redirects
+  { path: "/dashboard", element: <Navigate to="/login" replace /> },
+  
   // 404 catch-all
-  {
-    path: "*",
-    element: <NotFound />,
-  },
+  { path: "*", element: <NotFound /> },
 ]);

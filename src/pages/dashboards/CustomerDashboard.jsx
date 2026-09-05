@@ -92,7 +92,7 @@ export default function CustomerDashboard() {
 
       {/* Quick Actions */}
       <motion.div variants={fadeUp} className="grid md:grid-cols-2 gap-6">
-        <Link to="/tickets/new" className="group">
+        <Link to="/customer/tickets/new" className="group">
           <div className="bg-card hover:bg-muted/50 border-2 border-transparent hover:border-primary/20 rounded-2xl p-6 transition-all duration-300 h-full flex flex-col items-center justify-center text-center space-y-4 shadow-sm hover:shadow-lg cursor-pointer">
             <div className="w-16 h-16 bg-primary/10 text-primary rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
               <PlusCircle className="h-8 w-8" />
@@ -103,7 +103,7 @@ export default function CustomerDashboard() {
             </div>
           </div>
         </Link>
-        <Link to="/kb" className="group">
+        <Link to="/customer/kb" className="group">
           <div className="bg-card hover:bg-muted/50 border-2 border-transparent hover:border-emerald-500/20 rounded-2xl p-6 transition-all duration-300 h-full flex flex-col items-center justify-center text-center space-y-4 shadow-sm hover:shadow-lg cursor-pointer">
             <div className="w-16 h-16 bg-emerald-500/10 text-emerald-500 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
               <Search className="h-8 w-8" />
@@ -172,7 +172,7 @@ export default function CustomerDashboard() {
                 <CardTitle>Recent Tickets</CardTitle>
                 <CardDescription>Your latest support requests</CardDescription>
               </div>
-              <Link to="/tickets">
+              <Link to="/customer/tickets">
                 <Button variant="outline" size="sm" className="gap-1">
                   View All <ArrowUpRight className="h-3.5 w-3.5" />
                 </Button>
@@ -189,7 +189,7 @@ export default function CustomerDashboard() {
                     <Ticket className="h-7 w-7 text-muted-foreground opacity-50" />
                   </div>
                   <p className="text-muted-foreground">You don't have any tickets yet.</p>
-                  <Link to="/tickets/new">
+                  <Link to="/customer/tickets/new">
                     <Button size="sm" variant="outline">Create your first ticket</Button>
                   </Link>
                 </div>
@@ -202,7 +202,7 @@ export default function CustomerDashboard() {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: i * 0.08 }}
                     >
-                      <Link to={`/tickets/${ticket.id}`} className="block">
+                      <Link to={`/customer/tickets/${ticket.id}`} className="block">
                         <div className="flex items-center justify-between p-4 rounded-xl border bg-card hover:bg-muted/50 transition-all duration-200 hover:shadow-sm">
                           <div className="space-y-1 min-w-0">
                             <h4 className="font-semibold line-clamp-1">{ticket.title}</h4>
