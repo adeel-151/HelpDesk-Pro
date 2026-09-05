@@ -178,7 +178,7 @@ export default function TicketList() {
   return (
     <div className="w-full h-full p-4 sm:p-8 bg-background">
       <div className="max-w-6xl mx-auto space-y-6">
-        <div className="flex justify-between items-center border-b-2 border-black dark:border-white pb-6">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b-2 border-black dark:border-white pb-6">
           <div>
             <h1 className="text-3xl md:text-4xl font-black tracking-[0.2em] uppercase">TICKET_QUEUE</h1>
             <p className="text-[10px] text-muted-foreground uppercase tracking-widest mt-2 font-bold">
@@ -186,8 +186,8 @@ export default function TicketList() {
             </p>
           </div>
           {role === "customer" && (
-            <Link to="/customer/tickets/new">
-              <Button className="rounded-none bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90 font-bold uppercase tracking-widest text-xs">
+            <Link to="/customer/tickets/new" className="w-full sm:w-auto">
+              <Button className="w-full sm:w-auto rounded-none bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90 font-bold uppercase tracking-widest text-xs">
                 <PlusCircle className="mr-2 h-4 w-4" /> NEW_TICKET
               </Button>
             </Link>
@@ -204,7 +204,7 @@ export default function TicketList() {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
             <Select value={statusFilter} onValueChange={setStatusFilter}>
               <SelectTrigger className="w-[160px] rounded-none border-black/20 dark:border-white/20 h-11 uppercase tracking-widest text-[10px] font-bold">
                 <SelectValue placeholder="STATUS" />
@@ -244,7 +244,7 @@ export default function TicketList() {
           <TicketTable />
         ) : (
           <div className="space-y-4">
-            <div className="flex space-x-1 p-1 bg-black/5 dark:bg-white/5 border border-black/20 dark:border-white/20 w-fit">
+            <div className="flex flex-wrap gap-1 p-1 bg-black/5 dark:bg-white/5 border border-black/20 dark:border-white/20 w-fit">
               <button 
                 onClick={() => setActiveTab("all")}
                 className={`px-4 py-2 text-[10px] font-bold uppercase tracking-widest transition-colors ${activeTab === "all" ? "bg-black text-white dark:bg-white dark:text-black" : "text-muted-foreground hover:bg-black/10 dark:hover:bg-white/10"}`}

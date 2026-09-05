@@ -115,9 +115,9 @@ export default function AgentDashboard() {
             Queue health, assignments, and resolution metrics. ALL COMMUNIQUÉS ARE LOGGED.
           </p>
         </div>
-        <div className="relative z-10">
-          <Link to="/agent/tickets">
-            <Button className="rounded-none bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90 font-bold uppercase tracking-widest text-xs h-12 px-6">
+        <div className="relative z-10 w-full md:w-auto">
+          <Link to="/agent/tickets" className="block w-full">
+            <Button className="w-full md:w-auto rounded-none bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90 font-bold uppercase tracking-widest text-xs h-12 px-6">
               <Ticket className="mr-2 h-4 w-4" /> ACCESS_QUEUE
             </Button>
           </Link>
@@ -263,7 +263,7 @@ export default function AgentDashboard() {
               Keep the self-service portal updated to reduce ticket volume. Add new articles based on recent trends.
             </p>
           </div>
-          <div className="flex gap-4 mt-auto pt-4">
+          <div className="flex flex-col sm:flex-row gap-4 mt-auto pt-4">
             <Link to="/agent/kb/new">
               <Button className="rounded-none bg-emerald-500 text-white hover:bg-emerald-600 font-bold uppercase tracking-widest text-xs h-10 px-4 border border-emerald-500">
                 WRITE_ARTICLE

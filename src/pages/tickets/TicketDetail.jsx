@@ -131,11 +131,11 @@ export default function TicketDetail() {
             // TICKET_{ticket.ticketNumber}
           </div>
           <div className="p-6 border-b-2 border-black dark:border-white bg-black/5 dark:bg-white/5">
-            <div className="flex justify-between items-start">
-              <div className="pr-12 mt-4">
-                <h2 className="text-2xl font-black uppercase tracking-[0.2em]">{ticket.subject}</h2>
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+              <div className="pr-0 md:pr-12 mt-4 w-full">
+                <h2 className="text-2xl font-black uppercase tracking-[0.2em] break-words">{ticket.subject}</h2>
               </div>
-              <div className="flex flex-col gap-2 items-end mt-4">
+              <div className="flex flex-wrap gap-2 items-center mt-0 md:mt-4 w-full md:w-auto">
                 {role !== "customer" && (
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -168,8 +168,8 @@ export default function TicketDetail() {
               </div>
             </div>
           </div>
-          <div className="text-sm p-6">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 p-4 border border-black/20 dark:border-white/20">
+          <div className="text-sm p-4 sm:p-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6 p-4 border border-black/20 dark:border-white/20 break-words">
               <div>
                 <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold mb-1">CATEGORY</p>
                 <p className="font-bold text-xs uppercase">{ticket.categoryId}</p>
