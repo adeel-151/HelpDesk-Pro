@@ -108,7 +108,7 @@ export default function AgentDashboard() {
           // OPERATIVE_WORKSPACE
         </div>
         <div className="relative z-10">
-          <h2 className="text-2xl sm:text-3xl md:text-5xl font-black tracking-[0.1em] sm:tracking-[0.2em] uppercase mb-4 text-foreground">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-black tracking-[0.1em] sm:tracking-[0.2em] uppercase mb-4 text-foreground break-words">
             WELCOME, {profile?.name?.split(' ')[0] || 'AGENT'}
           </h2>
           <p className="text-muted-foreground text-xs font-bold uppercase tracking-widest max-w-2xl leading-loose">
@@ -125,9 +125,9 @@ export default function AgentDashboard() {
       </div>
 
       {/* Metrics Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         {/* Total Tickets */}
-        <div className="border border-black/20 dark:border-white/20 bg-card p-6 flex flex-col relative group hover:border-primary transition-colors">
+        <div className="border border-black/20 dark:border-white/20 bg-card p-4 sm:p-6 flex flex-col relative group hover:border-primary transition-colors">
           <div className="flex justify-between items-start mb-4">
             <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">TOTAL_INCIDENTS</h3>
             <Ticket className="h-4 w-4 text-primary" />
@@ -136,7 +136,7 @@ export default function AgentDashboard() {
         </div>
         
         {/* Unassigned Tickets */}
-        <div className="border border-black/20 dark:border-white/20 bg-card p-6 flex flex-col relative group hover:border-amber-500 transition-colors">
+        <div className="border border-black/20 dark:border-white/20 bg-card p-4 sm:p-6 flex flex-col relative group hover:border-amber-500 transition-colors">
           <div className="flex justify-between items-start mb-4">
             <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-amber-500">UNASSIGNED_TRIAGE</h3>
             <Clock className="h-4 w-4 text-amber-500" />
@@ -145,7 +145,7 @@ export default function AgentDashboard() {
         </div>
         
         {/* In Progress Tickets */}
-        <div className="border border-black/20 dark:border-white/20 bg-card p-6 flex flex-col relative group hover:border-blue-500 transition-colors">
+        <div className="border border-black/20 dark:border-white/20 bg-card p-4 sm:p-6 flex flex-col relative group hover:border-blue-500 transition-colors">
           <div className="flex justify-between items-start mb-4">
             <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-blue-500">IN_PROGRESS</h3>
             <Activity className="h-4 w-4 text-blue-500" />
@@ -154,7 +154,7 @@ export default function AgentDashboard() {
         </div>
         
         {/* Resolved Tickets */}
-        <div className="border border-black/20 dark:border-white/20 bg-card p-6 flex flex-col relative group hover:border-emerald-500 transition-colors">
+        <div className="border border-black/20 dark:border-white/20 bg-card p-4 sm:p-6 flex flex-col relative group hover:border-emerald-500 transition-colors">
           <div className="flex justify-between items-start mb-4">
             <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-500">RESOLVED</h3>
             <CheckCircle2 className="h-4 w-4 text-emerald-500" />
@@ -254,7 +254,7 @@ export default function AgentDashboard() {
 
       {/* Quick Tools */}
       <div className="grid md:grid-cols-2 gap-6">
-        <div className="border border-black/20 dark:border-white/20 p-6 flex flex-col group hover:border-emerald-500 transition-colors">
+        <div className="border border-black/20 dark:border-white/20 p-4 sm:p-6 flex flex-col group hover:border-emerald-500 transition-colors">
           <div className="mb-4">
             <h3 className="text-xs font-bold uppercase tracking-[0.2em] flex items-center gap-2">
               <FileText className="h-4 w-4 text-emerald-500" /> KB_MANAGEMENT
@@ -263,14 +263,14 @@ export default function AgentDashboard() {
               Keep the self-service portal updated to reduce ticket volume. Add new articles based on recent trends.
             </p>
           </div>
-          <div className="flex flex-col sm:flex-row gap-4 mt-auto pt-4">
-            <Link to="/agent/kb/new">
-              <Button className="rounded-none bg-emerald-500 text-white hover:bg-emerald-600 font-bold uppercase tracking-widest text-xs h-10 px-4 border border-emerald-500">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-auto pt-4">
+            <Link to="/agent/kb/new" className="w-full sm:w-auto">
+              <Button className="w-full rounded-none bg-emerald-500 text-white hover:bg-emerald-600 font-bold uppercase tracking-widest text-xs h-10 px-4 border border-emerald-500">
                 WRITE_ARTICLE
               </Button>
             </Link>
-            <Link to="/agent/kb">
-              <Button variant="outline" className="rounded-none border-black/20 dark:border-white/20 hover:border-black/50 dark:hover:border-white/50 font-bold uppercase tracking-widest text-xs h-10 px-4">
+            <Link to="/agent/kb" className="w-full sm:w-auto">
+              <Button variant="outline" className="w-full rounded-none border-black/20 dark:border-white/20 hover:border-black/50 dark:hover:border-white/50 font-bold uppercase tracking-widest text-xs h-10 px-4">
                 BROWSE_KB
               </Button>
             </Link>
