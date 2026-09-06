@@ -166,7 +166,7 @@ export default function AgentDashboard() {
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Volume Over Time (Bar Chart) */}
-        <div className="lg:col-span-2 border border-black/20 dark:border-white/20 p-6 flex flex-col">
+        <div className="lg:col-span-2 border border-black/20 dark:border-white/20 p-4 sm:p-6 flex flex-col min-w-0">
           <div className="mb-6 flex justify-between items-center border-b border-black/10 dark:border-white/10 pb-4">
             <div>
               <h3 className="text-xs font-bold uppercase tracking-[0.2em] flex items-center gap-2">
@@ -208,7 +208,7 @@ export default function AgentDashboard() {
         </div>
 
         {/* Status Breakdown (Donut Chart) */}
-        <div className="border border-black/20 dark:border-white/20 p-6 flex flex-col">
+        <div className="border border-black/20 dark:border-white/20 p-4 sm:p-6 flex flex-col min-w-0">
           <div className="mb-6 flex justify-between items-center border-b border-black/10 dark:border-white/10 pb-4">
             <div>
               <h3 className="text-xs font-bold uppercase tracking-[0.2em]">STATUS_DISTRIBUTION</h3>
