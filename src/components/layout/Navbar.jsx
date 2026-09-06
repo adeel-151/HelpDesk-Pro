@@ -111,8 +111,8 @@ export function Navbar() {
             ) : (
               <>
                 {role === "customer" && (
-                  <Button size="sm" onClick={() => navigate("/tickets/new")} className="hidden md:flex shadow-sm">
-                    <PlusCircle className="mr-2 h-4 w-4" /> New Ticket
+                  <Button onClick={() => navigate("/tickets/new")} className="hidden md:flex rounded-none bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90 font-bold uppercase tracking-widest text-[10px] h-9">
+                    <PlusCircle className="mr-2 h-4 w-4" /> NEW_TICKET
                   </Button>
                 )}
                 <div className="hidden md:flex items-center gap-2">
@@ -126,10 +126,12 @@ export function Navbar() {
                 <div className="hidden md:flex items-center">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" className="relative h-9 w-9 p-0 rounded-full ring-2 ring-primary/20 hover:ring-primary/50 transition-all">
-                        <Avatar className="h-9 w-9">
-                          <AvatarImage src={user.photoURL} alt={user.displayName || "User"} />
-                          <AvatarFallback>{(user.displayName || user.email)?.charAt(0).toUpperCase()}</AvatarFallback>
+                      <Button variant="ghost" className="relative h-9 w-9 p-0 rounded-none ring-1 ring-black/20 dark:ring-white/20 hover:ring-primary/50 transition-all bg-black/5 dark:bg-white/5">
+                        <Avatar className="h-full w-full rounded-none">
+                          <AvatarImage src={user.photoURL} alt={user.displayName || "User"} className="rounded-none" />
+                          <AvatarFallback className="bg-transparent text-xs font-bold uppercase tracking-widest">
+                            {user.email?.[0].toUpperCase() || "U"}
+                          </AvatarFallback>
                         </Avatar>
                       </Button>
                     </DropdownMenuTrigger>

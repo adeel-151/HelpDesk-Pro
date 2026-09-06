@@ -54,7 +54,7 @@ export function NotificationCenter() {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="ghost" size="icon" className="relative rounded-full">
+        <Button variant="ghost" size="icon" className="relative rounded-none bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 ring-1 ring-black/20 dark:ring-white/20">
           <Bell className="h-5 w-5" />
           {unreadCount > 0 && (
             <Badge 
