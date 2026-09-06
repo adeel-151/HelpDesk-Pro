@@ -170,7 +170,7 @@ export default function AdminDashboard() {
                 />
                 <Bar 
                   dataKey="count" 
-                  fill={theme === 'dark' ? '#fff' : '#000'} 
+                  fill="#4f46e5" 
                   radius={[0, 0, 0, 0]} 
                   name="INCIDENTS"
                 />
@@ -203,7 +203,7 @@ export default function AdminDashboard() {
                     strokeWidth={2}
                   >
                     {chartData.statusData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={theme === 'dark' ? ['#fff', '#999', '#444'][index % 3] : ['#000', '#666', '#ccc'][index % 3]} />
+                      <Cell key={`cell-${index}`} fill={['#4f46e5', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'][index % 5]} />
                     ))}
                   </Pie>
                   <Tooltip contentStyle={tooltipStyle} />
