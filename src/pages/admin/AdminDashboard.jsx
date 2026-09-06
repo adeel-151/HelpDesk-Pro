@@ -87,7 +87,7 @@ export default function AdminDashboard() {
           // GLOBAL_COMMAND_CENTER
         </div>
         <div className="relative z-10">
-          <h2 className="text-2xl sm:text-3xl md:text-5xl font-black tracking-[0.1em] sm:tracking-[0.2em] uppercase mb-4 text-foreground">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-black tracking-[0.1em] sm:tracking-[0.2em] uppercase mb-4 text-foreground break-words">
             SYSTEM_OVERVIEW
           </h2>
           <p className="text-muted-foreground text-xs font-bold uppercase tracking-widest max-w-2xl leading-loose">
@@ -97,9 +97,9 @@ export default function AdminDashboard() {
       </div>
 
       {/* Metrics Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         {/* Total Users */}
-        <div className="border border-black/20 dark:border-white/20 bg-card p-6 flex flex-col relative group hover:border-primary transition-colors">
+        <div className="border border-black/20 dark:border-white/20 bg-card p-4 sm:p-6 flex flex-col relative group hover:border-primary transition-colors">
           <div className="flex justify-between items-start mb-4">
             <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">Active_Users</h3>
             <Users className="h-4 w-4 text-primary" />
@@ -108,7 +108,7 @@ export default function AdminDashboard() {
         </div>
         
         {/* Total Tickets */}
-        <div className="border border-black/20 dark:border-white/20 bg-card p-6 flex flex-col relative group hover:border-primary transition-colors">
+        <div className="border border-black/20 dark:border-white/20 bg-card p-4 sm:p-6 flex flex-col relative group hover:border-primary transition-colors">
           <div className="flex justify-between items-start mb-4">
             <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">Total_Incidents</h3>
             <Ticket className="h-4 w-4 text-primary" />
@@ -117,7 +117,7 @@ export default function AdminDashboard() {
         </div>
         
         {/* Open Tickets */}
-        <div className="border border-black/20 dark:border-white/20 bg-card p-6 flex flex-col relative group hover:border-amber-500 transition-colors">
+        <div className="border border-black/20 dark:border-white/20 bg-card p-4 sm:p-6 flex flex-col relative group hover:border-amber-500 transition-colors">
           <div className="flex justify-between items-start mb-4">
             <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-amber-500">Unresolved</h3>
             <AlertCircle className="h-4 w-4 text-amber-500" />
@@ -126,7 +126,7 @@ export default function AdminDashboard() {
         </div>
         
         {/* Resolved Tickets */}
-        <div className="border border-black/20 dark:border-white/20 bg-card p-6 flex flex-col relative group hover:border-emerald-500 transition-colors">
+        <div className="border border-black/20 dark:border-white/20 bg-card p-4 sm:p-6 flex flex-col relative group hover:border-emerald-500 transition-colors">
           <div className="flex justify-between items-start mb-4">
             <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-500">Resolved</h3>
             <CheckCircle2 className="h-4 w-4 text-emerald-500" />
@@ -138,7 +138,7 @@ export default function AdminDashboard() {
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Volume Over Time (Bar Chart) */}
-        <div className="lg:col-span-2 border border-black/20 dark:border-white/20 p-6 flex flex-col">
+        <div className="lg:col-span-2 border border-black/20 dark:border-white/20 p-4 sm:p-6 flex flex-col">
           <div className="mb-6 flex justify-between items-center border-b border-black/10 dark:border-white/10 pb-4">
             <div>
               <h3 className="text-xs font-bold uppercase tracking-[0.2em] flex items-center gap-2">
@@ -180,7 +180,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Status Breakdown (Donut Chart) */}
-        <div className="border border-black/20 dark:border-white/20 p-6 flex flex-col">
+        <div className="border border-black/20 dark:border-white/20 p-4 sm:p-6 flex flex-col">
           <div className="mb-6 flex justify-between items-center border-b border-black/10 dark:border-white/10 pb-4">
             <div>
               <h3 className="text-xs font-bold uppercase tracking-[0.2em]">STATUS_DISTRIBUTION</h3>
@@ -226,7 +226,7 @@ export default function AdminDashboard() {
 
       {/* User Management Table */}
       <div className="border border-black/20 dark:border-white/20">
-        <div className="p-6 border-b border-black/20 dark:border-white/20 flex justify-between items-center bg-black/5 dark:bg-white/5">
+        <div className="p-4 sm:p-6 border-b border-black/20 dark:border-white/20 flex justify-between items-center bg-black/5 dark:bg-white/5">
           <div>
             <h3 className="text-xs font-bold uppercase tracking-[0.2em]">OPERATIVE_DIRECTORY</h3>
             <p className="text-[10px] text-muted-foreground uppercase tracking-widest mt-1">PERSONNEL_DATABASE</p>
@@ -236,19 +236,19 @@ export default function AdminDashboard() {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-black/20 dark:border-white/20 bg-background">
-                <th className="px-6 py-4 text-[10px] font-bold text-muted-foreground uppercase tracking-[0.2em]">Email</th>
-                <th className="px-6 py-4 text-[10px] font-bold text-muted-foreground uppercase tracking-[0.2em]">Name</th>
-                <th className="px-6 py-4 text-[10px] font-bold text-muted-foreground uppercase tracking-[0.2em]">Role</th>
-                <th className="px-6 py-4 text-[10px] font-bold text-muted-foreground uppercase tracking-[0.2em] text-right">Actions</th>
+                <th className="px-4 sm:px-6 py-3 sm:py-4 text-[10px] font-bold text-muted-foreground uppercase tracking-[0.2em]">Email</th>
+                <th className="px-4 sm:px-6 py-3 sm:py-4 text-[10px] font-bold text-muted-foreground uppercase tracking-[0.2em]">Name</th>
+                <th className="px-4 sm:px-6 py-3 sm:py-4 text-[10px] font-bold text-muted-foreground uppercase tracking-[0.2em]">Role</th>
+                <th className="px-4 sm:px-6 py-3 sm:py-4 text-[10px] font-bold text-muted-foreground uppercase tracking-[0.2em] text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-black/10 dark:divide-white/10">
               {users.map((u) => (
                 <tr key={u.uid} className="hover:bg-black/5 dark:hover:bg-white/5 transition-colors group">
-                  <td className="px-6 py-4 text-xs font-bold uppercase tracking-wider">{u.email}</td>
-                  <td className="px-6 py-4 text-xs uppercase tracking-wider text-muted-foreground">{u.displayName || "UNKNOWN"}</td>
-                  <td className="px-6 py-4">{getRoleBadge(u.role)}</td>
-                  <td className="px-6 py-4 text-right">
+                  <td className="px-4 sm:px-6 py-3 sm:py-4 text-xs font-bold uppercase tracking-wider">{u.email}</td>
+                  <td className="px-4 sm:px-6 py-3 sm:py-4 text-xs uppercase tracking-wider text-muted-foreground">{u.displayName || "UNKNOWN"}</td>
+                  <td className="px-4 sm:px-6 py-3 sm:py-4">{getRoleBadge(u.role)}</td>
+                  <td className="px-4 sm:px-6 py-3 sm:py-4 text-right">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant="ghost" size="icon" className="h-8 w-8 rounded-none border border-transparent group-hover:border-black/20 dark:group-hover:border-white/20">

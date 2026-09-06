@@ -96,13 +96,13 @@ export default function ArticleEditor() {
           <div className="absolute top-0 right-0 p-2 text-[10px] uppercase tracking-[0.2em] text-muted-foreground font-bold">
             // AUTHORING_MODE
           </div>
-          <div className="bg-black/5 dark:bg-white/5 border-b-2 border-black dark:border-white p-6">
+          <div className="bg-black/5 dark:bg-white/5 border-b-2 border-black dark:border-white p-4 sm:p-6">
             <h2 className="text-2xl font-black uppercase tracking-[0.2em]">{isEditing ? "EDIT_ARTICLE" : "CREATE_NEW_ARTICLE"}</h2>
             <p className="text-[10px] text-muted-foreground uppercase tracking-widest mt-1 font-bold">
               // FORMAT: MARKDOWN_STRICT
             </p>
           </div>
-          <div className="p-6">
+          <div className="p-4 sm:p-6">
             <form onSubmit={handleSubmit} className="space-y-6">
               
               <div className="space-y-2">
@@ -165,8 +165,8 @@ export default function ArticleEditor() {
               </div>
 
               <div className="flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-4 pt-4 border-t border-black/10 dark:border-white/10">
-                <Button type="button" variant="outline" onClick={() => navigate(-1)} className="rounded-none border-black/20 dark:border-white/20 uppercase tracking-widest text-xs font-bold h-12 px-8">ABORT</Button>
-                <Button type="submit" disabled={isSubmitting} className="rounded-none bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90 uppercase tracking-widest text-xs font-bold h-12 px-8">
+                <Button type="button" variant="outline" onClick={() => navigate(-1)} className="w-full sm:w-auto rounded-none border-black/20 dark:border-white/20 uppercase tracking-widest text-xs font-bold h-12 px-8">ABORT</Button>
+                <Button type="submit" disabled={isSubmitting} className="w-full sm:w-auto rounded-none bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90 uppercase tracking-widest text-xs font-bold h-12 px-8">
                   {isSubmitting ? "PROCESSING..." : (isEditing ? "COMMIT_CHANGES" : "PUBLISH_ARTICLE")}
                 </Button>
               </div>

@@ -41,7 +41,7 @@ export default function KnowledgeBaseHome() {
           <div className="absolute top-0 right-0 p-2 text-[10px] uppercase tracking-[0.2em] text-muted-foreground font-bold">
             // DATA_REPOSITORY
           </div>
-          <h1 className="text-2xl sm:text-3xl md:text-5xl font-black tracking-[0.1em] sm:tracking-[0.2em] uppercase mt-4">KNOWLEDGE_BASE</h1>
+          <h1 className="text-2xl sm:text-3xl md:text-5xl font-black tracking-[0.1em] sm:tracking-[0.2em] uppercase mt-4 break-words">KNOWLEDGE_BASE</h1>
           <p className="text-[10px] text-muted-foreground uppercase tracking-widest mt-4 font-bold max-w-xl mx-auto leading-relaxed">
             SEARCH THE REPOSITORY OR BROWSE ARCHIVED CATEGORIES.
           </p>
@@ -85,7 +85,7 @@ export default function KnowledgeBaseHome() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {filteredArticles.map((article) => (
               <Link to={`/${role}/kb/${article.id}`} key={article.id}>
-                <div className="h-full border border-black/20 dark:border-white/20 hover:border-primary transition-colors bg-card group relative p-6">
+                <div className="h-full border border-black/20 dark:border-white/20 hover:border-primary transition-colors bg-card group relative p-4 sm:p-6">
                   <div className="absolute top-0 right-0 p-2 text-[10px] uppercase font-bold text-primary tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">
                     [READ]
                   </div>

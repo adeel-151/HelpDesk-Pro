@@ -101,7 +101,7 @@ export default function TicketList() {
 
   const TicketTable = () => (
     <div className="border border-black/20 dark:border-white/20 bg-card">
-      <div className="bg-black/5 dark:bg-white/5 border-b border-black/20 dark:border-white/20 p-6">
+      <div className="bg-black/5 dark:bg-white/5 border-b border-black/20 dark:border-white/20 p-4 sm:p-6">
         <h3 className="text-sm font-bold uppercase tracking-[0.2em]">
           {role === "customer" ? "ALL_TICKETS" : `TICKETS_(${activeTab.toUpperCase()})`}
         </h3>
@@ -180,13 +180,13 @@ export default function TicketList() {
       <div className="max-w-6xl mx-auto space-y-6">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b-2 border-black dark:border-white pb-6">
           <div>
-            <h1 className="text-3xl md:text-4xl font-black tracking-[0.2em] uppercase">TICKET_QUEUE</h1>
+            <h1 className="text-3xl md:text-4xl font-black tracking-[0.2em] uppercase break-words">TICKET_QUEUE</h1>
             <p className="text-[10px] text-muted-foreground uppercase tracking-widest mt-2 font-bold">
               // MANAGE_AND_TRACK_SUPPORT_REQUESTS
             </p>
           </div>
           {role === "customer" && (
-            <Link to="/customer/tickets/new" className="w-full sm:w-auto">
+            <Link to="/customer/tickets/new" className="block w-full sm:w-auto">
               <Button className="w-full sm:w-auto rounded-none bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90 font-bold uppercase tracking-widest text-xs">
                 <PlusCircle className="mr-2 h-4 w-4" /> NEW_TICKET
               </Button>

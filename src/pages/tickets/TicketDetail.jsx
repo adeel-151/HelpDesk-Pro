@@ -130,7 +130,7 @@ export default function TicketDetail() {
           <div className="absolute top-0 right-0 p-2 text-[10px] uppercase tracking-[0.2em] text-muted-foreground font-bold">
             // TICKET_{ticket.ticketNumber}
           </div>
-          <div className="p-6 border-b-2 border-black dark:border-white bg-black/5 dark:bg-white/5">
+          <div className="p-4 sm:p-6 border-b-2 border-black dark:border-white bg-black/5 dark:bg-white/5">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
               <div className="pr-0 md:pr-12 mt-4 w-full">
                 <h2 className="text-2xl font-black uppercase tracking-[0.2em] break-words">{ticket.subject}</h2>
@@ -285,7 +285,7 @@ export default function TicketDetail() {
               <div className="p-4 bg-black/5 dark:bg-white/5 border-b-2 border-black dark:border-white">
                 <h3 className="text-xs font-black uppercase tracking-[0.2em]">COMPOSE_TRANSMISSION</h3>
               </div>
-              <div className="p-6 space-y-4">
+              <div className="p-4 sm:p-6 space-y-4">
                 <Textarea 
                   placeholder="ENTER MESSAGE HERE..." 
                   className="min-h-[120px] rounded-none border-black/20 dark:border-white/20 font-mono text-sm uppercase"

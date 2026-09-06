@@ -63,7 +63,7 @@ export default function CustomerDashboard() {
           // CLIENT_PORTAL
         </div>
         <div className="relative z-10">
-          <h2 className="text-2xl sm:text-3xl md:text-5xl font-black tracking-[0.1em] sm:tracking-[0.2em] uppercase mb-4 text-foreground">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-black tracking-[0.1em] sm:tracking-[0.2em] uppercase mb-4 text-foreground break-words">
             WELCOME, {profile?.name?.split(' ')[0] || 'CUSTOMER'}
           </h2>
           <p className="text-muted-foreground text-xs font-bold uppercase tracking-widest max-w-2xl leading-loose">
@@ -103,7 +103,7 @@ export default function CustomerDashboard() {
         
         {/* Left Col: Stats */}
         <div className="space-y-6">
-          <div className="border border-black/20 dark:border-white/20 bg-card p-6 flex flex-col relative group hover:border-amber-500 transition-colors">
+          <div className="border border-black/20 dark:border-white/20 bg-card p-4 sm:p-6 flex flex-col relative group hover:border-amber-500 transition-colors">
             <div className="flex justify-between items-start mb-4">
               <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-amber-500">OPEN_REQUESTS</h3>
               <Clock className="h-4 w-4 text-amber-500" />
@@ -111,7 +111,7 @@ export default function CustomerDashboard() {
             <div className="text-2xl sm:text-4xl font-black tracking-tighter mt-auto text-amber-500">{stats.open}</div>
           </div>
           
-          <div className="border border-black/20 dark:border-white/20 bg-card p-6 flex flex-col relative group hover:border-emerald-500 transition-colors">
+          <div className="border border-black/20 dark:border-white/20 bg-card p-4 sm:p-6 flex flex-col relative group hover:border-emerald-500 transition-colors">
             <div className="flex justify-between items-start mb-4">
               <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-500">RESOLVED</h3>
               <CheckCircle2 className="h-4 w-4 text-emerald-500" />
@@ -122,7 +122,7 @@ export default function CustomerDashboard() {
 
         {/* Right Col: Recent Tickets */}
         <div className="lg:col-span-2 border border-black/20 dark:border-white/20 bg-card flex flex-col">
-          <div className="p-6 border-b border-black/20 dark:border-white/20 flex flex-row items-center justify-between bg-black/5 dark:bg-white/5">
+          <div className="p-4 sm:p-6 border-b border-black/20 dark:border-white/20 flex flex-row items-center justify-between bg-black/5 dark:bg-white/5">
             <div>
               <h3 className="text-xs font-bold uppercase tracking-[0.2em]">RECENT_TICKETS</h3>
               <p className="text-[10px] text-muted-foreground uppercase tracking-widest mt-1">LATEST_SUPPORT_REQUESTS</p>
@@ -134,7 +134,7 @@ export default function CustomerDashboard() {
             </Link>
           </div>
           
-          <div className="flex-1 p-6">
+          <div className="flex-1 p-4 sm:p-6">
             {recentTickets.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-40 text-center space-y-3 bg-muted/20 border border-dashed border-black/20 dark:border-white/20">
                 <div className="w-12 h-12 flex items-center justify-center">

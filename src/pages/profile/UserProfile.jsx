@@ -53,7 +53,7 @@ export default function UserProfile() {
       <div className="max-w-2xl mx-auto space-y-6">
         
         <div className="border-b-2 border-black dark:border-white pb-6">
-          <h1 className="text-3xl font-black uppercase tracking-[0.2em]">MY_PROFILE</h1>
+          <h1 className="text-3xl font-black uppercase tracking-[0.2em] break-words">MY_PROFILE</h1>
           <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mt-1">// MANAGE_ACCOUNT_SETTINGS</p>
         </div>
 
@@ -61,13 +61,13 @@ export default function UserProfile() {
           <div className="absolute top-0 right-0 p-2 text-[10px] uppercase tracking-[0.2em] text-muted-foreground font-bold">
             // ID_{user.uid.slice(0,8)}
           </div>
-          <div className="bg-black/5 dark:bg-white/5 border-b-2 border-black dark:border-white p-6">
+          <div className="bg-black/5 dark:bg-white/5 border-b-2 border-black dark:border-white p-4 sm:p-6">
             <h2 className="text-lg font-black uppercase tracking-[0.2em]">PERSONAL_INFORMATION</h2>
             <p className="text-[10px] text-muted-foreground uppercase tracking-widest mt-1 font-bold">
               UPDATE_DISPLAY_NAME_AND_AVATAR
             </p>
           </div>
-          <div className="p-6">
+          <div className="p-4 sm:p-6">
             <form onSubmit={handleSave} className="space-y-6">
               
               {/* Avatar Section */}

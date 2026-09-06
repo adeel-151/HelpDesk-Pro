@@ -60,16 +60,16 @@ export function CreateTicketForm() {
 
   return (
     <div className="max-w-2xl mx-auto mt-8 border-2 border-black dark:border-white bg-background">
-      <div className="bg-black/5 dark:bg-white/5 border-b-2 border-black dark:border-white p-6 relative">
+      <div className="bg-black/5 dark:bg-white/5 border-b-2 border-black dark:border-white p-4 sm:p-6 relative">
         <div className="absolute top-0 right-0 p-2 text-[10px] uppercase tracking-[0.2em] text-muted-foreground font-bold">
           // INTAKE_FORM
         </div>
-        <h2 className="text-2xl font-black uppercase tracking-[0.2em]">SUBMIT_REQUEST</h2>
+        <h2 className="text-2xl font-black uppercase tracking-[0.2em] break-words">SUBMIT_REQUEST</h2>
         <p className="text-[10px] text-muted-foreground uppercase tracking-widest mt-1 font-bold">
           PLEASE_PROVIDE_DETAILS_FOR_ASSISTANCE
         </p>
       </div>
-      <div className="p-6">
+      <div className="p-4 sm:p-6">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
@@ -169,10 +169,10 @@ export function CreateTicketForm() {
             </FormItem>
             
             <div className="flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-4 pt-4 border-t border-black/10 dark:border-white/10">
-              <Button type="button" variant="outline" onClick={() => navigate(-1)} className="rounded-none border-black/20 dark:border-white/20 uppercase tracking-widest text-xs font-bold h-12 px-8">
+              <Button type="button" variant="outline" onClick={() => navigate(-1)} className="w-full sm:w-auto rounded-none border-black/20 dark:border-white/20 uppercase tracking-widest text-xs font-bold h-12 px-8">
                 CANCEL
               </Button>
-              <Button type="submit" disabled={isLoading} className="rounded-none bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90 uppercase tracking-widest text-xs font-bold h-12 px-8">
+              <Button type="submit" disabled={isLoading} className="w-full sm:w-auto rounded-none bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90 uppercase tracking-widest text-xs font-bold h-12 px-8">
                 {isLoading ? "SUBMITTING..." : "SUBMIT_TICKET"}
               </Button>
             </div>

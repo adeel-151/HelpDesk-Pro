@@ -76,15 +76,15 @@ export default function ArticleDetail() {
           )}
         </div>
 
-        <article className="prose prose-slate dark:prose-invert max-w-none lg:prose-lg border-2 border-black dark:border-white bg-card p-8 md:p-12 relative overflow-hidden">
+        <article className="prose prose-slate dark:prose-invert max-w-none lg:prose-lg border-2 border-black dark:border-white bg-card p-4 sm:p-8 md:p-12 relative overflow-hidden">
           <div className="absolute top-0 right-0 p-2 text-[10px] uppercase tracking-[0.2em] text-muted-foreground font-bold">
             // ARTICLE_{articleId.slice(0,6)}
           </div>
-          <div className="mb-8 border-b-2 border-black dark:border-white pb-8 bg-black/5 dark:bg-white/5 -mx-8 md:-mx-12 -mt-8 md:-mt-12 p-8 md:p-12">
+          <div className="mb-8 border-b-2 border-black dark:border-white pb-8 bg-black/5 dark:bg-white/5 -mx-4 sm:-mx-8 md:-mx-12 -mt-4 sm:-mt-8 md:-mt-12 p-4 sm:p-8 md:p-12">
             <div className="text-[10px] font-bold text-primary uppercase tracking-widest mb-3 border border-primary/20 bg-primary/5 px-2 py-1 w-fit">
               [{article.category}]
             </div>
-            <h1 className="text-3xl md:text-5xl font-black tracking-[0.2em] uppercase mb-4 mt-0">
+            <h1 className="text-3xl md:text-5xl font-black tracking-[0.2em] uppercase mb-4 mt-0 break-words">
               {article.title}
             </h1>
             <p className="text-sm text-muted-foreground uppercase tracking-widest font-bold font-mono">
