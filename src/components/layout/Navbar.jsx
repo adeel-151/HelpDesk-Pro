@@ -34,8 +34,8 @@ export function Navbar() {
   // Determine which links to show based on auth state
   // Notice: 'Dashboard' is removed from navLinks as requested, and is only available in the profile dropdown
   const navLinks = user ? [
-    { path: "/tickets", icon: <Ticket className="h-4 w-4 mr-2" />, label: "Tickets", show: true },
-    { path: "/kb", icon: <BookOpen className="h-4 w-4 mr-2" />, label: "Help Center", show: true },
+    { path: `/${role}/tickets`, icon: <Ticket className="h-4 w-4 mr-2" />, label: "Tickets", show: true },
+    { path: `/${role}/kb`, icon: <BookOpen className="h-4 w-4 mr-2" />, label: "Help Center", show: true },
     { path: "/admin", icon: <ShieldCheck className="h-4 w-4 mr-2" />, label: "Admin", show: role === "admin" },
   ] : [
     { path: "/features", icon: null, label: "Features", show: true },
@@ -111,7 +111,7 @@ export function Navbar() {
             ) : (
               <>
                 {role === "customer" && (
-                  <Button onClick={() => navigate("/tickets/new")} className="hidden md:flex rounded-none bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90 font-bold uppercase tracking-widest text-[10px] h-9">
+                  <Button onClick={() => navigate(`/${role}/tickets/new`)} className="hidden md:flex rounded-none bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90 font-bold uppercase tracking-widest text-[10px] h-9">
                     <PlusCircle className="mr-2 h-4 w-4" /> NEW_TICKET
                   </Button>
                 )}
@@ -248,7 +248,7 @@ export function Navbar() {
                   </div>
                   
                   {role === "customer" && (
-                    <Link to="/tickets/new" onClick={() => setMobileOpen(false)}>
+                    <Link to={`/${role}/tickets/new`} onClick={() => setMobileOpen(false)}>
                       <Button className="w-full h-11 mb-2 rounded-none uppercase tracking-widest text-xs font-bold">
                         <PlusCircle className="mr-2 h-4 w-4" /> New Ticket
                       </Button>
