@@ -30,9 +30,7 @@ export function NotificationCenter() {
 
     const q = query(
       collection(db, "notifications"),
-      where("userId", "==", user.uid),
-      orderBy("createdAt", "desc"),
-      limit(20)
+      where("userId", "==", user.uid)
     );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -51,9 +49,15 @@ export function NotificationCenter() {
         initialLoadRef.current = false;
       }
 
-      const notifs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      let notifs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      // Client-side sort and limit to avoid Firebase composite index requirement
+      notifs.sort((a, b) => (b.createdAt?.toMillis?.() || 0) - (a.createdAt?.toMillis?.() || 0));
+      notifs = notifs.slice(0, 20);
+
       setNotifications(notifs);
       setUnreadCount(notifs.filter(n => !n.read).length);
+    }, (error) => {
+      console.error("Firestore Notifications Error:", error);
     });
 
     return () => unsubscribe();

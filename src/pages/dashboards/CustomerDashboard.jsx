@@ -18,14 +18,13 @@ export default function CustomerDashboard() {
 
     const q = query(
       collection(db, "tickets"),
-      where("createdBy", "==", user.uid),
-      orderBy("createdAt", "desc")
+      where("createdBy", "==", user.uid)
     );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
       let openCount = 0;
       let resolvedCount = 0;
-      const tickets = [];
+      let allTickets = [];
 
       snapshot.forEach((doc) => {
         const data = doc.data();
@@ -34,13 +33,18 @@ export default function CustomerDashboard() {
         } else if (data.status === "resolved" || data.status === "closed") {
           resolvedCount++;
         }
-        if (tickets.length < 5) {
-          tickets.push({ id: doc.id, ...data });
-        }
+        allTickets.push({ id: doc.id, ...data });
       });
 
+      // Client-side sort to avoid Firebase composite index requirement
+      allTickets.sort((a, b) => (b.createdAt?.toMillis?.() || 0) - (a.createdAt?.toMillis?.() || 0));
+      const recentTickets = allTickets.slice(0, 5);
+
       setStats({ open: openCount, resolved: resolvedCount });
-      setRecentTickets(tickets);
+      setRecentTickets(recentTickets);
+      setLoading(false);
+    }, (error) => {
+      console.error("Firestore Customer Tickets Error:", error);
       setLoading(false);
     });
 
