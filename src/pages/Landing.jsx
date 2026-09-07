@@ -145,6 +145,33 @@ function CinematicHero() {
   );
 }
 
+function FAQItem({ faq }) {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <div className="bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 overflow-hidden">
+      <button 
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full flex items-center justify-between p-6 text-left hover:bg-black/10 dark:hover:bg-white/10 transition-colors"
+      >
+        <span className="font-bold text-sm uppercase tracking-widest text-black/90 dark:text-white/90">{faq.q}</span>
+        {isOpen ? <Minus className="w-5 h-5 text-black/50 dark:text-white/50 flex-shrink-0" /> : <Plus className="w-5 h-5 text-black/50 dark:text-white/50 flex-shrink-0" />}
+      </button>
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="px-6 pb-6 text-xs text-black/50 dark:text-white/50 uppercase tracking-widest leading-relaxed"
+          >
+            {faq.a}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 export default function Landing() {
   return (
     <>
@@ -514,32 +541,9 @@ export default function Landing() {
               { q: "Is there an evaluation period?", a: "Yes, a 14-day full access trial is available on the Professional tier. No payment data required." },
               { q: "Which external protocols are supported?", a: "Native integrations exist for Slack, Jira, Salesforce, Stripe, and a robust REST API for custom links." },
               { q: "Can we modify the knowledge base UI?", a: "Full CSS and HTML overrides are supported, along with domain mapping for complete brand alignment." }
-            ].map((faq, i) => {
-              const [isOpen, setIsOpen] = useState(false);
-              return (
-                <div key={i} className="bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 overflow-hidden">
-                  <button 
-                    onClick={() => setIsOpen(!isOpen)}
-                    className="w-full flex items-center justify-between p-6 text-left hover:bg-black/10 dark:hover:bg-white/10 transition-colors"
-                  >
-                    <span className="font-bold text-sm uppercase tracking-widest text-black/90 dark:text-white/90">{faq.q}</span>
-                    {isOpen ? <Minus className="w-5 h-5 text-black/50 dark:text-white/50 flex-shrink-0" /> : <Plus className="w-5 h-5 text-black/50 dark:text-white/50 flex-shrink-0" />}
-                  </button>
-                  <AnimatePresence>
-                    {isOpen && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        className="px-6 pb-6 text-xs text-black/50 dark:text-white/50 uppercase tracking-widest leading-relaxed"
-                      >
-                        {faq.a}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              )
-            })}
+            ].map((faq, i) => (
+              <FAQItem key={i} faq={faq} />
+            ))}
           </div>
         </div>
       </section>

@@ -152,11 +152,11 @@ export function Navbar() {
                         <LayoutDashboard className="mr-2 h-4 w-4" />
                         <span>Dashboard</span>
                       </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => navigate("/profile")} className="cursor-pointer">
+                      <DropdownMenuItem onClick={() => navigate(`/${role}/profile`)} className="cursor-pointer">
                         <UserIcon className="mr-2 h-4 w-4" />
                         <span>Profile</span>
                       </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => navigate("/profile")} className="cursor-pointer">
+                      <DropdownMenuItem onClick={() => navigate(`/${role}/profile`)} className="cursor-pointer">
                         <Settings className="mr-2 h-4 w-4" />
                         <span>Settings</span>
                       </DropdownMenuItem>
@@ -261,13 +261,13 @@ export function Navbar() {
                         <LayoutDashboard className="mr-2 h-4 w-4" /> Dashboard
                       </Button>
                     </Link>
-                    <Link to="/profile" onClick={() => setMobileOpen(false)}>
+                    <Link to={`/${role}/profile`} onClick={() => setMobileOpen(false)}>
                       <Button variant="outline" className="w-full h-11 justify-start px-4 rounded-none border-black/20 dark:border-white/20 text-black dark:text-white">
                         <UserIcon className="mr-2 h-4 w-4" /> Profile
                       </Button>
                     </Link>
                   </div>
-                  <Link to="/profile" onClick={() => setMobileOpen(false)}>
+                  <Link to={`/${role}/profile`} onClick={() => setMobileOpen(false)}>
                     <Button variant="outline" className="w-full h-11 justify-start px-4 mb-3 rounded-none border-black/20 dark:border-white/20 text-black dark:text-white">
                       <Settings className="mr-2 h-4 w-4" /> Settings
                     </Button>

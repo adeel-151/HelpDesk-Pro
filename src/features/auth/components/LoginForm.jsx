@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "sonner";
-import { loginUser, registerUser, loginWithGoogle } from "../services/authService";
+import { loginUser, loginWithGoogle } from "../services/authService";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -32,36 +32,10 @@ export function LoginForm() {
     try {
       await loginUser(values.email, values.password);
       toast.success("Successfully logged in");
-      navigate("/dashboard");
+      // Auth state change will trigger redirect via Login page guard
     } catch (error) {
       console.error(error);
       toast.error(error.message || "Failed to login. Please check your credentials.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleDemoLogin = async (role) => {
-    setIsLoading(true);
-    const email = `${role}@demo.com`;
-    const password = "password123";
-    const displayName = `${role.charAt(0).toUpperCase() + role.slice(1)} Demo`;
-
-    try {
-      // First try to login
-      await loginUser(email, password);
-      toast.success(`Logged in as ${role}`);
-      navigate("/dashboard");
-    } catch (error) {
-      // If login fails (likely user not found), try registering
-      try {
-        await registerUser(email, password, displayName, role);
-        toast.success(`Demo ${role} account created and logged in`);
-        navigate("/dashboard");
-      } catch (regError) {
-        console.error("Demo registration failed:", regError);
-        toast.error("Failed to setup demo account.");
-      }
     } finally {
       setIsLoading(false);
     }
@@ -108,42 +82,13 @@ export function LoginForm() {
           </form>
         </Form>
 
-        {/* Demo Accounts Section */}
+        {/* Divider */}
         <div className="mt-8 pt-6 border-t border-black/10 dark:border-white/10">
-          <p className="text-[10px] font-bold text-black/50 dark:text-white/50 uppercase tracking-[0.2em] text-center mb-4">BYPASS AUTH (DEMO)</p>
-          <div className="grid grid-cols-3 gap-2">
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="text-[10px] font-bold uppercase tracking-widest h-10 rounded-none bg-transparent text-black/70 dark:text-white/70 border-black/20 dark:border-white/20 hover:bg-black/10 dark:hover:bg-white/10 hover:text-black dark:hover:text-white hover:border-black/50 dark:hover:border-white/50 transition-all"
-              onClick={() => handleDemoLogin('customer')}
-              disabled={isLoading}
-            >
-              CUSTOMER
-            </Button>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="text-[10px] font-bold uppercase tracking-widest h-10 rounded-none bg-transparent text-black/70 dark:text-white/70 border-black/20 dark:border-white/20 hover:bg-emerald-500/20 hover:text-emerald-500 dark:hover:text-emerald-400 hover:border-emerald-500/50 transition-all"
-              onClick={() => handleDemoLogin('agent')}
-              disabled={isLoading}
-            >
-              AGENT
-            </Button>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="text-[10px] font-bold uppercase tracking-widest h-10 rounded-none bg-transparent text-black/70 dark:text-white/70 border-black/20 dark:border-white/20 hover:bg-accent/20 hover:text-accent hover:border-accent/50 transition-all"
-              onClick={() => handleDemoLogin('admin')}
-              disabled={isLoading}
-            >
-              ADMIN
-            </Button>
-          </div>
+          <p className="text-[10px] font-bold text-black/50 dark:text-white/50 uppercase tracking-[0.2em] text-center mb-4">OR CONTINUE WITH</p>
         </div>
 
         {/* Google OAuth Section */}
-        <div className="mt-6">
+        <div className="mt-2">
           <Button 
             variant="outline"
             type="button"
@@ -153,7 +98,7 @@ export function LoginForm() {
               try {
                 await loginWithGoogle();
                 toast.success("Successfully logged in with Google");
-                navigate("/dashboard");
+                // Auth state change will trigger redirect via Login page guard
               } catch (error) {
                 console.error(error);
                 toast.error("Failed to login with Google.");

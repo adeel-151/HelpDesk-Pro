@@ -40,7 +40,7 @@ export function RegisterForm() {
     try {
       await registerUser(values.email, values.password, values.name, "customer");
       toast.success("Account created successfully!");
-      navigate("/dashboard");
+      // Auth state change will trigger redirect via Register page guard
     } catch (error) {
       console.error(error);
       toast.error(error.message || "Failed to create account.");
@@ -128,7 +128,7 @@ export function RegisterForm() {
               try {
                 await loginWithGoogle();
                 toast.success("Successfully logged in with Google");
-                navigate("/dashboard");
+                // Auth state change will trigger redirect via Register page guard
               } catch (error) {
                 console.error(error);
                 toast.error("Failed to login with Google.");
