@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/features/auth/AuthProvider";
 import { markNotificationRead, markAllNotificationsRead } from "../services/notificationService";
 import { collection, query, where, orderBy, onSnapshot, limit } from "firebase/firestore";
 import { db } from "@/lib/firebase/config";
 import { format } from "date-fns";
+import { toast } from "sonner";
 
 import { Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -22,6 +23,7 @@ export function NotificationCenter() {
   const navigate = useNavigate();
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
+  const initialLoadRef = useRef(true);
 
   useEffect(() => {
     if (!user) return;
@@ -34,6 +36,21 @@ export function NotificationCenter() {
     );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
+      // Show toast for newly added notifications, ignoring the initial load
+      if (!initialLoadRef.current) {
+        snapshot.docChanges().forEach((change) => {
+          if (change.type === "added") {
+            const newNotif = change.doc.data();
+            toast.message(newNotif.title, {
+              description: newNotif.body,
+              duration: 5000,
+            });
+          }
+        });
+      } else {
+        initialLoadRef.current = false;
+      }
+
       const notifs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       setNotifications(notifs);
       setUnreadCount(notifs.filter(n => !n.read).length);

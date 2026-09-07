@@ -1,9 +1,9 @@
+import { useState, useEffect } from "react";
 import { useAuth } from "@/features/auth/AuthProvider";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Ticket, CheckCircle2, Clock, Activity, FileText } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
-import { collection, query, getDocs } from "firebase/firestore";
+import { collection, query, onSnapshot } from "firebase/firestore";
 import { db } from "@/lib/firebase/config";
 import {
   BarChart,
@@ -21,55 +21,55 @@ import {
 import { useTheme } from "next-themes";
 import { motion } from "framer-motion";
 
-const fetchAgentStats = async () => {
-  const q = query(collection(db, "tickets"));
-  const snapshot = await getDocs(q);
-  
-  let total = 0, open = 0, inProgress = 0, resolved = 0, unassigned = 0;
-  
-  const tickets = [];
-  snapshot.forEach((doc) => {
-    total++;
-    const data = doc.data();
-    tickets.push(data);
-    if (data.status === 'open' || data.status === 'new') open++;
-    if (data.status === 'in_progress' || data.status === 'pending customer') inProgress++;
-    if (data.status === 'resolved' || data.status === 'closed') resolved++;
-    if (!data.assignedAgentId) unassigned++;
-  });
-
-  const last7Days = Array.from({length: 7}, (_, i) => {
-    const d = new Date();
-    d.setDate(d.getDate() - i);
-    return {
-      date: d.toISOString().split('T')[0],
-      shortDate: d.toLocaleDateString('en-US', { weekday: 'short', month: 'numeric', day: 'numeric' }),
-      count: 0
-    };
-  }).reverse();
-
-  tickets.forEach(ticket => {
-    if (ticket.createdAt && ticket.createdAt.toDate) {
-      const ticketDate = ticket.createdAt.toDate().toISOString().split('T')[0];
-      const dayMatch = last7Days.find(d => d.date === ticketDate);
-      if (dayMatch) {
-        dayMatch.count++;
-      }
-    }
-  });
-
-  return { total, open, inProgress, resolved, unassigned, timeSeriesData: last7Days };
-};
-
 export default function AgentDashboard() {
   const { profile, role } = useAuth();
   const { theme } = useTheme();
 
-  const { data: stats, isLoading: loading } = useQuery({
-    queryKey: ["agentDashboard"],
-    queryFn: fetchAgentStats,
-    initialData: { total: 0, open: 0, inProgress: 0, resolved: 0, unassigned: 0, timeSeriesData: [] },
-  });
+  const [stats, setStats] = useState({ total: 0, open: 0, inProgress: 0, resolved: 0, unassigned: 0, timeSeriesData: [] });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const q = query(collection(db, "tickets"));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      let total = 0, open = 0, inProgress = 0, resolved = 0, unassigned = 0;
+      const tickets = [];
+      
+      snapshot.forEach((doc) => {
+        total++;
+        const data = doc.data();
+        tickets.push(data);
+        if (data.status === 'open' || data.status === 'new') open++;
+        if (data.status === 'in_progress' || data.status === 'pending customer') inProgress++;
+        if (data.status === 'resolved' || data.status === 'closed') resolved++;
+        if (!data.assignedAgentId) unassigned++;
+      });
+
+      const last7Days = Array.from({length: 7}, (_, i) => {
+        const d = new Date();
+        d.setDate(d.getDate() - i);
+        return {
+          date: d.toISOString().split('T')[0],
+          shortDate: d.toLocaleDateString('en-US', { weekday: 'short', month: 'numeric', day: 'numeric' }),
+          count: 0
+        };
+      }).reverse();
+
+      tickets.forEach(ticket => {
+        if (ticket.createdAt && ticket.createdAt.toDate) {
+          const ticketDate = ticket.createdAt.toDate().toISOString().split('T')[0];
+          const dayMatch = last7Days.find(d => d.date === ticketDate);
+          if (dayMatch) {
+            dayMatch.count++;
+          }
+        }
+      });
+
+      setStats({ total, open, inProgress, resolved, unassigned, timeSeriesData: last7Days });
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   const statusData = [
     { name: 'Open', value: stats.open },

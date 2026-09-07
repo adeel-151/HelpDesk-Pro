@@ -1,49 +1,51 @@
+import { useState, useEffect } from "react";
 import { useAuth } from "@/features/auth/AuthProvider";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { PlusCircle, Search, Clock, CheckCircle2, Ticket, ArrowUpRight } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
-import { collection, query, where, getDocs, orderBy } from "firebase/firestore";
+import { collection, query, where, onSnapshot, orderBy } from "firebase/firestore";
 import { db } from "@/lib/firebase/config";
-
-const fetchCustomerData = async (userId) => {
-  const q = query(
-    collection(db, "tickets"),
-    where("createdBy", "==", userId),
-    orderBy("createdAt", "desc")
-  );
-  const querySnapshot = await getDocs(q);
-  
-  let openCount = 0;
-  let resolvedCount = 0;
-  const tickets = [];
-
-  querySnapshot.forEach((doc) => {
-    const data = doc.data();
-    if (data.status === "open" || data.status === "in_progress") {
-      openCount++;
-    } else if (data.status === "resolved" || data.status === "closed") {
-      resolvedCount++;
-    }
-    if (tickets.length < 5) {
-      tickets.push({ id: doc.id, ...data });
-    }
-  });
-
-  return { stats: { open: openCount, resolved: resolvedCount }, recentTickets: tickets };
-};
 
 export default function CustomerDashboard() {
   const { user, profile } = useAuth();
+  
+  const [stats, setStats] = useState({ open: 0, resolved: 0 });
+  const [recentTickets, setRecentTickets] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const { data, isLoading: loading } = useQuery({
-    queryKey: ["customerDashboard", user?.uid],
-    queryFn: () => fetchCustomerData(user.uid),
-    enabled: !!user,
-  });
+  useEffect(() => {
+    if (!user) return;
 
-  const stats = data?.stats || { open: 0, resolved: 0 };
-  const recentTickets = data?.recentTickets || [];
+    const q = query(
+      collection(db, "tickets"),
+      where("createdBy", "==", user.uid),
+      orderBy("createdAt", "desc")
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      let openCount = 0;
+      let resolvedCount = 0;
+      const tickets = [];
+
+      snapshot.forEach((doc) => {
+        const data = doc.data();
+        if (data.status === "open" || data.status === "in_progress") {
+          openCount++;
+        } else if (data.status === "resolved" || data.status === "closed") {
+          resolvedCount++;
+        }
+        if (tickets.length < 5) {
+          tickets.push({ id: doc.id, ...data });
+        }
+      });
+
+      setStats({ open: openCount, resolved: resolvedCount });
+      setRecentTickets(tickets);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, [user]);
 
   if (loading) {
     return (

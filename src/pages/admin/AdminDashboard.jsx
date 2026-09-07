@@ -1,44 +1,92 @@
-import { useState } from "react";
-import { getAllUsers, updateUserRole, getSystemMetrics, getAdminChartData } from "@/features/admin/services/adminService";
+import { useState, useEffect } from "react";
+import { updateUserRole } from "@/features/admin/services/adminService";
 import { toast } from "sonner";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 import { useTheme } from "next-themes";
-import { motion } from "framer-motion";
+import { collection, query, onSnapshot } from "firebase/firestore";
+import { db } from "@/lib/firebase/config";
 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Users, Ticket, CheckCircle2, AlertCircle, Activity, MoreVertical } from "lucide-react";
 
-const fetchAdminData = async () => {
-  const [usersData, metricsData, chartData] = await Promise.all([
-    getAllUsers(),
-    getSystemMetrics(),
-    getAdminChartData()
-  ]);
-  return { users: usersData, metrics: metricsData, chartData };
-};
-
 const PIE_COLORS = ['#000', '#666', '#ccc']; // Monochrome for cyber theme
 
 export default function AdminDashboard() {
-  const queryClient = useQueryClient();
   const { theme } = useTheme();
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["adminDashboard"],
-    queryFn: fetchAdminData,
-  });
+  const [users, setUsers] = useState([]);
+  const [metrics, setMetrics] = useState({ totalUsers: 0, totalTickets: 0, openTickets: 0, resolvedTickets: 0 });
+  const [chartData, setChartData] = useState({ statusData: [], timeSeriesData: [] });
+  const [isLoading, setIsLoading] = useState(true);
 
-  const users = data?.users || [];
-  const metrics = data?.metrics || null;
-  const chartData = data?.chartData || { statusData: [], timeSeriesData: [] };
+  useEffect(() => {
+    // Users Realtime Listener
+    const usersUnsub = onSnapshot(collection(db, "users"), (snapshot) => {
+      const usersData = snapshot.docs.map(doc => ({ uid: doc.id, ...doc.data() }));
+      setUsers(usersData);
+      setMetrics(prev => ({ ...prev, totalUsers: snapshot.size }));
+    });
+
+    // Tickets Realtime Listener
+    const ticketsUnsub = onSnapshot(collection(db, "tickets"), (snapshot) => {
+      const tickets = snapshot.docs.map(doc => doc.data());
+      
+      let openTickets = 0;
+      let resolvedTickets = 0;
+      const statusCounts = {};
+
+      tickets.forEach(ticket => {
+        const status = ticket.status || 'unknown';
+        statusCounts[status] = (statusCounts[status] || 0) + 1;
+        if (["new", "open", "pending customer"].includes(status)) openTickets++;
+        if (status === "resolved") resolvedTickets++;
+      });
+
+      setMetrics(prev => ({ ...prev, totalTickets: snapshot.size, openTickets, resolvedTickets }));
+
+      // Chart Data
+      const statusData = [
+        { name: 'New/Open', value: (statusCounts['new'] || 0) + (statusCounts['open'] || 0) + (statusCounts['pending customer'] || 0) },
+        { name: 'Resolved', value: statusCounts['resolved'] || 0 },
+        { name: 'Closed', value: statusCounts['closed'] || 0 }
+      ].filter(item => item.value > 0);
+
+      const last7Days = Array.from({length: 7}, (_, i) => {
+        const d = new Date();
+        d.setDate(d.getDate() - i);
+        return {
+          date: d.toISOString().split('T')[0],
+          shortDate: d.toLocaleDateString('en-US', { weekday: 'short', month: 'numeric', day: 'numeric' }),
+          count: 0
+        };
+      }).reverse();
+
+      tickets.forEach(ticket => {
+        if (ticket.createdAt && ticket.createdAt.toDate) {
+          const ticketDate = ticket.createdAt.toDate().toISOString().split('T')[0];
+          const dayMatch = last7Days.find(d => d.date === ticketDate);
+          if (dayMatch) {
+            dayMatch.count++;
+          }
+        }
+      });
+
+      setChartData({ statusData, timeSeriesData: last7Days });
+      setIsLoading(false);
+    });
+
+    return () => {
+      usersUnsub();
+      ticketsUnsub();
+    };
+  }, []);
 
   const handleRoleChange = async (userId, newRole) => {
     try {
       await updateUserRole(userId, newRole);
-      queryClient.invalidateQueries({ queryKey: ["adminDashboard"] });
+      // Removed queryClient.invalidateQueries since we now use realtime onSnapshot
       toast.success("ROLE_UPDATED_SUCCESSFULLY");
     } catch (error) {
       toast.error("FAILED_TO_UPDATE_ROLE");
