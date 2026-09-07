@@ -30,17 +30,16 @@ export const ProtectedRoute = ({ children, allowedRoles, layout = "auto" }) => {
 
   if (showSidebar) {
     return (
-      <div className="min-h-screen flex bg-white dark:bg-black text-black dark:text-white selection:bg-primary/20 selection:text-primary">
-        <AdminSidebar />
-        <main className="flex-1 flex flex-col h-screen overflow-y-auto overflow-x-hidden w-full relative">
-          {/* Mobile Header (since sidebar is hidden on small screens) */}
-          <div className="md:hidden h-16 border-b border-black/10 dark:border-white/10 bg-white dark:bg-black flex items-center px-4 shrink-0 sticky top-0 z-40">
-            <span className="font-black text-xl tracking-[0.2em] uppercase text-black dark:text-white">
-              HELPDESK //
-            </span>
-          </div>
-          {children}
-        </main>
+      <div className="min-h-screen flex flex-col selection:bg-primary/20 selection:text-primary bg-white dark:bg-black text-black dark:text-white">
+        <div className="md:hidden">
+          <Navbar />
+        </div>
+        <div className="flex-1 flex flex-row overflow-hidden">
+          <AdminSidebar />
+          <main className="flex-1 flex flex-col h-full overflow-y-auto overflow-x-hidden relative">
+            {children}
+          </main>
+        </div>
       </div>
     );
   }

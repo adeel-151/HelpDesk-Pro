@@ -1,18 +1,15 @@
-import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/features/auth/AuthProvider";
 import { logoutUser } from "@/features/auth/services/authService";
 import { toast } from "sonner";
-import { LayoutDashboard, Ticket, FileText, LogOut, Settings, X, Menu, ShieldCheck } from "lucide-react";
+import { LayoutDashboard, Ticket, FileText, LogOut, Settings, ShieldCheck } from "lucide-react";
 import { ModeToggle } from "@/components/mode-toggle";
 import { NotificationCenter } from "@/features/notifications/components/NotificationCenter";
-import { motion, AnimatePresence } from "framer-motion";
 
 export function AdminSidebar() {
   const { profile, role } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
-  const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleLogout = async () => {
     try {
@@ -44,12 +41,6 @@ export function AdminSidebar() {
             HELPDESK //
           </span>
         </Link>
-        <button
-          onClick={() => setMobileOpen(false)}
-          className="md:hidden p-1 hover:bg-white/10 dark:hover:bg-black/10 transition-colors"
-        >
-          <X className="h-5 w-5" />
-        </button>
       </div>
 
       {/* User Profile Summary */}
@@ -127,44 +118,8 @@ export function AdminSidebar() {
   );
 
   return (
-    <>
-      {/* Desktop Sidebar */}
-      <div className="w-64 border-r border-black/10 dark:border-white/10 bg-background h-screen flex-col sticky top-0 left-0 hidden md:flex shrink-0">
-        <SidebarContent onNavigate={() => {}} />
-      </div>
-
-      {/* Mobile Toggle Button */}
-      <button
-        onClick={() => setMobileOpen(true)}
-        className="md:hidden fixed bottom-6 right-6 z-50 bg-black dark:bg-white text-white dark:text-black p-4 rounded-none shadow-lg border border-white/20 dark:border-black/20"
-        aria-label="Open sidebar"
-      >
-        <Menu className="h-6 w-6" />
-      </button>
-
-      {/* Mobile Sidebar Overlay + Drawer */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="md:hidden fixed inset-0 z-50 bg-background/90 backdrop-blur-sm"
-              onClick={() => setMobileOpen(false)}
-            />
-            <motion.div
-              initial={{ x: "-100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "-100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 250 }}
-              className="md:hidden fixed top-0 left-0 bottom-0 z-50 w-72 bg-background border-r border-black/10 dark:border-white/10 flex flex-col"
-            >
-              <SidebarContent onNavigate={() => setMobileOpen(false)} />
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
-    </>
+    <div className="w-64 border-r border-black/10 dark:border-white/10 bg-background h-screen flex-col sticky top-0 left-0 hidden md:flex shrink-0">
+      <SidebarContent onNavigate={() => {}} />
+    </div>
   );
 }
