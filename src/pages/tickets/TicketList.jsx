@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/features/auth/AuthProvider";
-import { getTickets } from "@/features/tickets/services/ticketService";
 import { format } from "date-fns";
+import { collection, query, where, onSnapshot } from "firebase/firestore";
+import { db } from "@/lib/firebase/config";
 
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -23,21 +24,36 @@ export default function TicketList() {
   const [priorityFilter, setPriorityFilter] = useState("all");
 
   useEffect(() => {
-    const fetchTickets = async () => {
-      setIsLoading(true);
-      try {
-        const data = await getTickets(role, user.uid, activeTab);
-        setTickets(data);
-      } catch (error) {
-        console.error("Failed to load tickets", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+    if (!user || !role) return;
 
-    if (user && role) {
-      fetchTickets();
+    setIsLoading(true);
+    let q;
+    const ticketsRef = collection(db, "tickets");
+
+    if (role === "customer") {
+      q = query(ticketsRef, where("customerId", "==", user.uid));
+    } else {
+      if (activeTab === "unassigned") {
+        q = query(ticketsRef, where("assignedAgentId", "==", null));
+      } else if (activeTab === "mine") {
+        q = query(ticketsRef, where("assignedAgentId", "==", user.uid));
+      } else {
+        q = query(ticketsRef);
+      }
     }
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      let fetchedTickets = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      // Client-side sort to avoid requiring composite indexes for all these where+orderBy combinations
+      fetchedTickets.sort((a, b) => (b.createdAt?.toMillis?.() || 0) - (a.createdAt?.toMillis?.() || 0));
+      setTickets(fetchedTickets);
+      setIsLoading(false);
+    }, (error) => {
+      console.error("Error fetching real-time tickets:", error);
+      setIsLoading(false);
+    });
+
+    return () => unsubscribe();
   }, [user, role, activeTab]);
 
   const getStatusBadge = (status) => {
@@ -99,7 +115,7 @@ export default function TicketList() {
     setPriorityFilter("all");
   };
 
-  const TicketTable = () => (
+  const renderTicketTable = () => (
     <div className="border border-black/20 dark:border-white/20 bg-card">
       <div className="bg-black/5 dark:bg-white/5 border-b border-black/20 dark:border-white/20 p-4 sm:p-6">
         <h3 className="text-sm font-bold uppercase tracking-[0.2em]">
@@ -241,7 +257,7 @@ export default function TicketList() {
         </div>
 
         {role === "customer" ? (
-          <TicketTable />
+          renderTicketTable()
         ) : (
           <div className="space-y-4">
             <div className="flex flex-wrap gap-1 p-1 bg-black/5 dark:bg-white/5 border border-black/20 dark:border-white/20 w-fit">
@@ -264,7 +280,7 @@ export default function TicketList() {
                 ASSIGNED_TO_ME
               </button>
             </div>
-            <TicketTable />
+            {renderTicketTable()}
           </div>
         )}
       </div>

@@ -5,7 +5,6 @@ import { useAuth } from "@/features/auth/AuthProvider";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Edit, Trash2 } from "lucide-react";
 import { toast } from "sonner";
@@ -23,6 +22,7 @@ export default function ArticleDetail() {
         const data = await getArticleById(articleId);
         setArticle(data);
       } catch (error) {
+        console.error(error);
         toast.error("ARTICLE_NOT_FOUND");
         navigate(`/${role}/kb`);
       } finally {
@@ -39,6 +39,7 @@ export default function ArticleDetail() {
       toast.success("ARTICLE_DELETED");
       navigate(`/${role}/kb`);
     } catch (error) {
+      console.error(error);
       toast.error("DELETION_FAILED");
     }
   };

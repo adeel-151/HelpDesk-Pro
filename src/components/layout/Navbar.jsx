@@ -14,7 +14,7 @@ import {
   DropdownMenuSeparator, 
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
-import { LogOut, Ticket, ShieldCheck, BookOpen, User as UserIcon, LifeBuoy, PlusCircle, Menu, X, LayoutDashboard, Settings } from "lucide-react";
+import { LogOut, Ticket, ShieldCheck, BookOpen, User as UserIcon, PlusCircle, Menu, X, LayoutDashboard, Settings } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { motion, AnimatePresence } from "framer-motion";
 

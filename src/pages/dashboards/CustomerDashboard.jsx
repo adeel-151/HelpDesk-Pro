@@ -18,7 +18,7 @@ export default function CustomerDashboard() {
 
     const q = query(
       collection(db, "tickets"),
-      where("createdBy", "==", user.uid)
+      where("customerId", "==", user.uid)
     );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {

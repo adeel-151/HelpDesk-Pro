@@ -63,10 +63,12 @@ service cloud.firestore {
 
       // ========== TICKET MESSAGES (Sub-collection) ==========
       match /messages/{messageId} {
-        // Anyone involved can read public messages
-        // Only staff can read internal notes
+        // Only staff can read internal notes. Customers can only read public messages.
         allow read: if isAuthenticated() && 
-                     (get(/databases/$(database)/documents/tickets/$(ticketId)).data.customerId == request.auth.uid || isStaff());
+                     (
+                       isStaff() || 
+                       (get(/databases/$(database)/documents/tickets/$(ticketId)).data.customerId == request.auth.uid && resource.data.visibility != 'internal')
+                     );
         
         // Authenticated users can add messages to tickets they have access to
         allow create: if isAuthenticated() && 

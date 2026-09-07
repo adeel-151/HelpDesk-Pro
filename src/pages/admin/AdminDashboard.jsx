@@ -3,15 +3,12 @@ import { updateUserRole } from "@/features/admin/services/adminService";
 import { toast } from "sonner";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 import { useTheme } from "next-themes";
-import { collection, query, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "@/lib/firebase/config";
 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Users, Ticket, CheckCircle2, AlertCircle, Activity, MoreVertical } from "lucide-react";
-
-const PIE_COLORS = ['#000', '#666', '#ccc']; // Monochrome for cyber theme
 
 export default function AdminDashboard() {
   const { theme } = useTheme();
@@ -89,6 +86,7 @@ export default function AdminDashboard() {
       // Removed queryClient.invalidateQueries since we now use realtime onSnapshot
       toast.success("ROLE_UPDATED_SUCCESSFULLY");
     } catch (error) {
+      console.error(error);
       toast.error("FAILED_TO_UPDATE_ROLE");
     }
   };

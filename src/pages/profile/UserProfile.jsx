@@ -40,6 +40,7 @@ export default function UserProfile() {
       
       toast.success("PROFILE_DATA_UPDATED");
     } catch (error) {
+      console.error(error);
       toast.error("UPDATE_FAILED");
     } finally {
       setIsSubmitting(false);

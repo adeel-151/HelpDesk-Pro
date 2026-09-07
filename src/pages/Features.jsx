@@ -1,12 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Zap, Edit3, BookOpen, ShieldCheck, CheckCircle, Search, Clock } from "lucide-react";
+import { Edit3, BookOpen, ShieldCheck, CheckCircle, Clock } from "lucide-react";
 import { motion } from "framer-motion";
-
-const fadeUp = {
-  initial: { opacity: 0, y: 30 },
-  animate: { opacity: 1, y: 0 },
-};
 
 const fadeRight = {
   initial: { opacity: 0, x: -30 },

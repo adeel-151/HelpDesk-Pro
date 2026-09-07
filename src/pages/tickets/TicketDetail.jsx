@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "@/features/auth/AuthProvider";
 import { getTicketById, addTicketMessage, assignTicket, updateTicket } from "@/features/tickets/services/ticketService";
 import { uploadAttachment } from "@/features/tickets/services/storageService";
-import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
+import { collection, query, orderBy, onSnapshot, where } from "firebase/firestore";
 import { db } from "@/lib/firebase/config";
 import { format } from "date-fns";
 
@@ -53,10 +53,16 @@ export default function TicketDetail() {
     fetchTicket();
 
     const messagesRef = collection(db, `tickets/${ticketId}/messages`);
-    const q = query(messagesRef, orderBy("createdAt", "asc"));
+    
+    // Customers can only fetch public messages according to new security rules
+    const q = role === "customer" 
+      ? query(messagesRef, where("visibility", "==", "public"))
+      : query(messagesRef);
     
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const msgs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      let msgs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      // Client-side sort to avoid requiring a composite index for where+orderBy
+      msgs.sort((a, b) => (a.createdAt?.toMillis?.() || 0) - (b.createdAt?.toMillis?.() || 0));
       setMessages(msgs);
     });
 

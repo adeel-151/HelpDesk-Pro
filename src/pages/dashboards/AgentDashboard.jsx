@@ -19,10 +19,9 @@ import {
   Legend
 } from "recharts";
 import { useTheme } from "next-themes";
-import { motion } from "framer-motion";
 
 export default function AgentDashboard() {
-  const { profile, role } = useAuth();
+  const { profile } = useAuth();
   const { theme } = useTheme();
 
   const [stats, setStats] = useState({ total: 0, open: 0, inProgress: 0, resolved: 0, unassigned: 0, timeSeriesData: [] });
